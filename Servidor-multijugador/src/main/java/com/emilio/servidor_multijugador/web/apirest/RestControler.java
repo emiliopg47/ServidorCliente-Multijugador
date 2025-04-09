@@ -3,10 +3,10 @@ package com.emilio.servidor_multijugador.web.apirest;
 import com.emilio.servidor_multijugador.persistencia.modelos.Usuario;
 import com.emilio.servidor_multijugador.persistencia.repository.UsuarioRepository;
 import com.emilio.servidor_multijugador.persistencia.servicios.ServiceUsuario;
-import com.emilio.servidor_multijugador.web.apirest.response.LoginResponse;
-import com.emilio.servidor_multijugador.web.apirest.response.Mensajes;
+import com.emilio.servidor_multijugador.web.apirest.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.resource.ResourceUrlProvider;
 
 @RestController
 @RequestMapping("/api")
@@ -17,14 +17,30 @@ public class RestControler{
     private ServiceUsuario serviceUsuario;
     @Autowired
     UsuarioRepository usuarioRepository;
+    @Autowired
+    private ResourceUrlProvider resourceUrlProvider;
 
-   @PostMapping("/login")
+    @PostMapping("/login")
     public LoginResponse login(@RequestBody Usuario usuario) {
         return comprobarLogin(usuario);
     }
-    @GetMapping("/pruebaget")
-    public String pruebaGet() {
-        return "Hola";
+
+    @PostMapping("/register")
+    public RegistrerResponse registre(@RequestBody Usuario usuario){
+        // Metodo para registrar un usuario
+        return null;
+    }
+
+    @GetMapping("/ranking/{nick,juego}")
+    public RankingResponse ranking(@PathVariable String nick, @PathVariable String juego) {
+        // Metodo para obtener el ranking de un juego
+        return null;
+    }
+
+    @PostMapping("/matchmaking")
+    public MatchMakingResponse matchmaking(@RequestBody Usuario usuario) {
+        // Metodo para hacer matchmaking
+        return null;
     }
 
     private LoginResponse comprobarLogin(Usuario usuario) {

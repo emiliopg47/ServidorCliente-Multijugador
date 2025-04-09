@@ -3,6 +3,8 @@ package com.emilio.servidor_multijugador.web.apirest;
 import com.emilio.servidor_multijugador.persistencia.modelos.Usuario;
 import com.emilio.servidor_multijugador.persistencia.repository.UsuarioRepository;
 import com.emilio.servidor_multijugador.persistencia.servicios.ServiceUsuario;
+import com.emilio.servidor_multijugador.web.apirest.response.LoginResponse;
+import com.emilio.servidor_multijugador.web.apirest.response.Mensajes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,27 +19,38 @@ public class RestControler{
     UsuarioRepository usuarioRepository;
 
    @PostMapping("/login")
-    public Usuario login(@RequestBody Usuario usuario) {
+    public LoginResponse login(@RequestBody Usuario usuario) {
         return comprobarLogin(usuario);
     }
-
-
-
     @GetMapping("/pruebaget")
     public String pruebaGet() {
         return "Hola";
     }
 
-    private Usuario comprobarLogin(Usuario usuario) {
+    private LoginResponse comprobarLogin(Usuario usuario) {
 
-        if(usuario.getCorreo() == null){
-            // Si el correo esta vacio, el user quiere logearse con el nick
-            return serviceUsuario.findByNick(usuario.getNick(), usuario.getPassword());
+        if (usuario.getCorreo() == null) {
+            if (!serviceUsuario.findByNick(usuario.getNick())) {
+                return new LoginResponse(false, Mensajes.USUARIO_NO_ENCONTRADO, null);
+            }
+            Usuario u = usuarioRepository.findByNickAndPassword(usuario.getNick(), usuario.getPassword());
+            if (u == null) {
+                return new LoginResponse(false, Mensajes.CONTRASENA_INCORRECTA, null);
+            }
+            return new LoginResponse(true, Mensajes.CONEXION_EXITOSA, u);
         }
-        if (usuario.getNick() == null){
-            // Si el nick esta vacio, el user quiere logearse con el correo
-            return serviceUsuario.findByNick(usuario.getCorreo(), usuario.getPassword());
+
+
+        if (usuario.getNick() == null) {
+            if (!serviceUsuario.findByCorreo(usuario.getCorreo())) {
+                return new LoginResponse(false, Mensajes.USUARIO_NO_ENCONTRADO, null);
+            }
+            Usuario u = usuarioRepository.findByCorreoAndPassword(usuario.getCorreo(), usuario.getPassword());
+            if (u == null) {
+                return new LoginResponse(false, Mensajes.CONTRASENA_INCORRECTA, null);
+            }
+            return new LoginResponse(true, Mensajes.CONEXION_EXITOSA, u);
         }
-        return null;
+        return new LoginResponse(false, Mensajes.ERROR_INESPERADO + "en comprobarLogin()" + this.getClass() , null);
     }
 }

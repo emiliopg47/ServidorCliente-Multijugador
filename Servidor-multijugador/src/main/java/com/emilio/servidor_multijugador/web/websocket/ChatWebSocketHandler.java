@@ -1,14 +1,20 @@
 package com.emilio.servidor_multijugador.web.websocket;
 
 import com.emilio.servidor_multijugador.web.websocket.data.Player;
+import com.emilio.servidor_multijugador.web.websocket.handler.DataHandler;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class ChatWebSocketHandler  extends TextWebSocketHandler {
 
@@ -20,11 +26,23 @@ public class ChatWebSocketHandler  extends TextWebSocketHandler {
     }
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        //Si es null, no existen salas con un jugador toca crear una nueva.
-        //Si no es null, existe una sala con un jugador, se une a la sala
         super.afterConnectionEstablished(session);
+
+        String nick = Objects.requireNonNull(session.getUri()).getQuery();
+        Map<String, String> params = UriComponentsBuilder
+                .fromUri(session.getUri())
+                .build()
+                .getQueryParams()
+                .toSingleValueMap();
+
+        String nickValue = params.get("nick");
+        String eloValue = params.get("elo");
+
         Player player = new Player();
         player.setSession(session);
+        player.setNick(nickValue);
+        player.setElo(eloValue);
+
         Room room = buscarSalaConJugador();
         if (room == null) {
             room = nuevaSala();
@@ -37,10 +55,14 @@ public class ChatWebSocketHandler  extends TextWebSocketHandler {
         }
     }
     @Override
-    protected void handleTextMessage(WebSocketSession player, TextMessage message) throws IOException {
-        Room room = buscarMiSala(player);
+    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
+        Room room = buscarMiSala(session);
         if (room != null) {
-            room.mandarMensaje(message.getPayload(), player);
+            for (Player p: room.getPlayers()){
+                if (p.getSession().equals(session)){
+                    room.mandarMensaje(message.getPayload(), session);
+                }
+            }
         }
     }
     @Override

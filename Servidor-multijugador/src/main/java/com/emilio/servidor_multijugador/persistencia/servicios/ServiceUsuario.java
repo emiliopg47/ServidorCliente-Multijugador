@@ -2,7 +2,6 @@ package com.emilio.servidor_multijugador.persistencia.servicios;
 
 import com.emilio.servidor_multijugador.persistencia.repository.UsuarioRepository;
 import com.emilio.servidor_multijugador.persistencia.modelos.Usuario;
-import com.emilio.servidor_multijugador.web.apirest.response.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,11 +24,11 @@ public class ServiceUsuario {
         dao.deleteById(id);
     }
     public boolean findByNick(String nick) {
-        return dao.findByNick(nick) ;
+        return dao.existsByNick(nick);
     }
 
     public boolean findByCorreo(String correo) {
-        return dao.findByCorreo(correo);
+        return dao.existsByCorreo(correo);
     }
 
     public Usuario findByCorreoAndPassword(String correo, String password) {
@@ -37,7 +36,10 @@ public class ServiceUsuario {
     }
 
     public Usuario findByNickAndPassword(String correo, String password) {
-        return dao.findByCorreoAndPassword(correo,password);
+        return dao.findByNickAndPassword(correo,password);
     }
 
+    public Long findPuntosByNickAndJuego(String nick, String juego) {
+        return dao.findRankingByNickAndJuego(nick,juego);
+    }
 }

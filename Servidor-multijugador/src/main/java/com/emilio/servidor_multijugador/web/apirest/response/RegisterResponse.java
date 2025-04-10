@@ -1,39 +1,31 @@
 package com.emilio.servidor_multijugador.web.apirest.response;
 
-import com.emilio.servidor_multijugador.persistencia.modelos.Usuario;
-
-public class LoginResponse {
+public class RegisterResponse {
     private boolean success;
     private String message;
-    private Usuario usuario;
 
-    public LoginResponse(boolean success, String message, Usuario usuario) {
+    public RegisterResponse(boolean success, String message) {
         this.success = success;
         this.message = message;
-        this.usuario = usuario;
     }
-
     public boolean isSuccess() {
         return success;
     }
-
     public void setSuccess(boolean success) {
         this.success = success;
     }
-
     public String getMessage() {
         return message;
     }
-
     public void setMessage(String message) {
         this.message = message;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    @Override
+    public String toString() {
+        return "RegisterResponse{" +
+                "success=" + success +
+                ", message='" + message + '\'' +
+                '}';
     }
 }

@@ -4,7 +4,6 @@ import com.emilio.servidor_multijugador.web.websocket.data.Player;
 import com.emilio.servidor_multijugador.web.websocket.handler.DataHandler;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -16,12 +15,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class ChatWebSocketHandler  extends TextWebSocketHandler {
+public class WebSocketHandler extends TextWebSocketHandler {
 
     Map<String, Room> rooms;
     private static int roomCounter = 1;
 
-    public ChatWebSocketHandler() {
+    public WebSocketHandler() {
         this.rooms = new HashMap<>();
     }
     @Override
@@ -56,11 +55,32 @@ public class ChatWebSocketHandler  extends TextWebSocketHandler {
     }
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root = mapper.readTree(message.getPayload());
+        String type = root.get("type").asText();
+        JsonNode data = root.get("data");
+
+        DataHandler dataHandler = new DataHandler();
+        JsonNode mensaje = null;
+        switch (type){
+            case "move":
+                mensaje = dataHandler.move(data);
+                break;
+            case "chat":
+                mensaje = dataHandler.chat(data);
+                break;
+        }
+        mandarMensaje(mensaje.toString() ,session);
+    }
+
+    public void mandarMensaje(String mensaje, WebSocketSession session) {
         Room room = buscarMiSala(session);
         if (room != null) {
             for (Player p: room.getPlayers()){
                 if (p.getSession().equals(session)){
-                    room.mandarMensaje(message.getPayload(), session);
+                    if (mensaje != null) {
+                        room.mandarMensaje(mensaje, session);
+                    }
                 }
             }
         }

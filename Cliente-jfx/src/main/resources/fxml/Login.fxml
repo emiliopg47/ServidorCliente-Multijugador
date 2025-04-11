@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane prefHeight="642.0" prefWidth="648.0" style="-fx-background-color: #1E3A8A;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controler.LoginControler">
+
+    <!-- Cuadro blanco para el login, con padding y tamaño flexible -->
+    <GridPane alignment="CENTER" layoutX="79.0" layoutY="76.0" prefHeight="490.0" prefWidth="491.0" style="-fx-background-color: white; -fx-background-radius: 15px; -fx-padding: 30px; -fx-hgap: 20; -fx-vgap: 20;" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="79.0" AnchorPane.rightAnchor="78.0" AnchorPane.topAnchor="76.0">
+
+        <!-- Login Text -->
+        <Label alignment="CENTER" style="-fx-font-size: 48px; -fx-font-family: 'Segoe UI'; -fx-font-weight: bold; -fx-text-fill: #1E3A8A;" text="Login" GridPane.columnSpan="2" />
+
+        <!-- Nick / Correo -->
+        <ImageView fitHeight="48" fitWidth="48" GridPane.rowIndex="1">
+            <image>
+                <Image url="@/images/login/usuario3.png" />
+            </image>
+        </ImageView>
+        <TextField fx:id="usernameField" alignment="CENTER" prefWidth="300" promptText="Nick/Correo" style="-fx-font-size: 18px; -fx-padding: 10px;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+        <!-- Contraseña -->
+        <ImageView fitHeight="48" fitWidth="48" GridPane.rowIndex="2">
+            <image>
+                <Image url="@/images/login/lock.png" />
+            </image>
+        </ImageView>
+        <PasswordField fx:id="passwordField" alignment="CENTER" prefWidth="300" promptText="Contraseña" style="-fx-font-size: 18px; -fx-padding: 10px;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+        <!-- Botón de Entrar con estilo mejorado -->
+        <Button alignment="CENTER" onAction="#handleLogin" style="-fx-background-color: #3B82F6; -fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold; -fx-padding: 12px 25px; -fx-background-radius: 25px;" text="Entrar" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+
+        <!-- Enlace para la cuenta -->
+        <Hyperlink alignment="CENTER" style="-fx-font-size: 18px; -fx-text-fill: #1E3A8A;" text="¿No tienes cuenta todavía?" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+      <columnConstraints>
+         <ColumnConstraints />
+         <ColumnConstraints />
+         <ColumnConstraints />
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+      </rowConstraints>
+    </GridPane>
+
+</AnchorPane>

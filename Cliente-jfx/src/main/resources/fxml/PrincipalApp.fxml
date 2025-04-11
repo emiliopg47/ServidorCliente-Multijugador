@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controler.PrincipalControler">
+
+    <!-- Cabecera con el título -->
+    <top>
+        <HBox alignment="CENTER" spacing="20" style="-fx-background-color: #3B82F6; -fx-padding: 30px;">
+            <Label style="-fx-font-size: 36px; -fx-font-family: 'Segoe UI'; -fx-font-weight: bold; -fx-text-fill: white;" text="Cliente de Juegos" />
+        </HBox>
+    </top>
+
+    <!-- Centro con los botones principales -->
+    <center>
+        <StackPane style="-fx-background-color: #f0f4f8; -fx-padding: 50px;">
+            <VBox alignment="CENTER" spacing="30" style="-fx-padding: 30px; -fx-background-color: white; -fx-background-radius: 10px;">
+                <Button onAction="#handleSearchGame" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 22px; -fx-padding: 15px 30px; -fx-background-radius: 10px;" text="Buscar Partida" />
+                <Button onAction="#handleViewProfile" style="-fx-background-color: #3B82F6; -fx-text-fill: white; -fx-font-size: 22px; -fx-padding: 15px 30px; -fx-background-radius: 10px;" text="Ver Perfil" />
+                <Button onAction="#handleChat" style="-fx-background-color: #FFD700; -fx-text-fill: white; -fx-font-size: 22px; -fx-padding: 15px 30px; -fx-background-radius: 10px;" text="Chat" />
+                <Button onAction="#handleLogout" style="-fx-background-color: #FF5733; -fx-text-fill: white; -fx-font-size: 22px; -fx-padding: 15px 30px; -fx-background-radius: 10px;" text="Cerrar Sesión" />
+
+            </VBox>
+        </StackPane>
+    </center>
+
+    <!-- Pie de página -->
+    <bottom>
+        <HBox alignment="CENTER" spacing="10" style="-fx-background-color: #3B82F6; -fx-padding: 30px;">
+            <Label style="-fx-font-size: 16px; -fx-text-fill: white;" text="Desarrollado por Emilio" />
+        </HBox>
+    </bottom>
+
+</BorderPane>

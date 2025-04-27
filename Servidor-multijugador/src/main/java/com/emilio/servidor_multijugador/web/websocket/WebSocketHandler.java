@@ -95,6 +95,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
         System.out.println("Cliente desconectado: " + session.getId());
         super.afterConnectionClosed(session, status);
     }
+
     private Room nuevaSala(){
         System.out.println("No existe sala, creando una nueva");
         Room room = new Room("Sala " + roomCounter++);

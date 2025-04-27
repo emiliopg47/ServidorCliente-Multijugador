@@ -19,6 +19,6 @@ application {
 dependencies{
     implementation("org.json:json:20210307")
     implementation ("javax.websocket:javax.websocket-api:1.1")
-    implementation("org.glassfish.tyrus.bundles:tyrus-standalone-client:2.1.3")
+    implementation ("com.fasterxml.jackson.core:jackson-databind:2.15.2")
 
 }

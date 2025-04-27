@@ -1,7 +1,7 @@
-package Controler;
+package Controladores;
 
-import App.ChatWeb;
-import App.WebSocketConnection;
+import Conexion.ChatClient;
+import Util.CONFIG;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -47,16 +47,14 @@ public class PrincipalControler {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Chat.fxml"));
             Parent root = loader.load();
-            ChatControler chatControler = loader.getController();
+            ChatController chatControler = loader.getController();
             chatControler.setNick(nick); // Pasar el nick al controlador del chat
 
-            WebSocketConnection webSocketConnection = new WebSocketConnection();
-            String uri = "ws://localhost:8080/ws/chat?nick=" + nick + "&elo=100";
-            ChatWeb cliente = new ChatWeb();
-            WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-            container.connectToServer(cliente, new URI(uri));
+            ChatClient chatClient = new ChatClient(nick,chatControler);
+            chatControler.setChatClient(chatClient);
+            String uri = "ws://" + CONFIG.direccionServidor +  ":8080/ws/chat?nick=" + nick + "&elo=100";
+            chatClient.conectar(uri); // Establecer la conexión al chat
 
-            chatControler.setChatWeb(cliente); // Pasar la instancia de ChatWeb al controlador del chat
 
             Scene scene = new Scene(root);
 

@@ -1,4 +1,4 @@
-package Controler;
+package Controladores;
 
 import javafx.scene.control.Alert;
 

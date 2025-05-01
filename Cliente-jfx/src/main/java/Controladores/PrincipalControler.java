@@ -8,11 +8,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import javax.websocket.ContainerProvider;
-import javax.websocket.WebSocketContainer;
-import java.net.URI;
-
-
 public class PrincipalControler {
 
     private String nick;
@@ -43,12 +38,11 @@ public class PrincipalControler {
 
     @FXML
     public void handleChat() {
-        // Abrir el chat pasando el nick
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Chat.fxml"));
             Parent root = loader.load();
             ChatController chatControler = loader.getController();
-            chatControler.setNick(nick); // Pasar el nick al controlador del chat
+            chatControler.setNick(nick);
 
             ChatClient chatClient = new ChatClient(nick,chatControler);
             chatControler.setChatClient(chatClient);
@@ -61,9 +55,14 @@ public class PrincipalControler {
             Stage stage = new Stage(); // Crear una nueva ventana para el chat
             stage.setScene(scene);
             stage.setTitle("Chat");
-            stage.setWidth(1000); // Establecer un tamaño máximo de ancho
-            stage.setHeight(800); // Establecer un tamaño máximo de altura
+            stage.setWidth(600); // Establecer un tamaño máximo de ancho
+            stage.setHeight(300); // Establecer un tamaño máximo de altura
             stage.centerOnScreen();
+
+            stage.setOnCloseRequest(event -> {
+                chatControler.cerrarChat();
+            });
+
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();

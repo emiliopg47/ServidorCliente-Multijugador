@@ -1,5 +1,7 @@
 package Modelos.Mensajes;
 
+import Util.JsonUtils;
+
 public class ChatData {
     private String mensaje;
     private String nick;
@@ -9,6 +11,9 @@ public class ChatData {
         this.mensaje = mensaje;
         this.nick = usuario;
         this.fecha = fecha;
+    }
+
+    public ChatData() {
     }
 
     public String getMensaje() {

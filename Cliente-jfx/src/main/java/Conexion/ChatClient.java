@@ -25,6 +25,7 @@ public class ChatClient extends WebSocketClient {
     protected void handleMessage(String mensaje) {
         //super.handleMessage(mensaje);
         ChatHandler chatHandler = new ChatHandler();
+        chatHandler.setChatController(chatController);
         chatHandler.handle(mensaje);
     }
 
@@ -35,6 +36,9 @@ public class ChatClient extends WebSocketClient {
         // Prepara un JSON simple de tipo "chat"
         ChatData chatData = new ChatData(contenido, nick, fechaHoraFormateada);
         MessageDTO message = new MessageDTO("chat", chatData);
+
+        chatController.actualizarChat(chatData);
+
         String json = JsonUtils.toJson(message);
         sendMessage(json);
     }

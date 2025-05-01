@@ -1,25 +1,20 @@
 package Conexion;
 
 import Dispatch.MessageDispatcher;
+import jakarta.websocket.*;
 
-import javax.websocket.*;
 import java.net.URI;
 
-@ClientEndpoint
-public abstract class WebSocketClient {
+public abstract class WebSocketClient extends Endpoint {
 
     protected Session session;
     protected MessageDispatcher dispatcher;
 
-    @OnOpen
-    public void onOpen(Session session) {
+    @Override
+    public void onOpen(Session session, EndpointConfig config) {
         this.session = session;
+        session.addMessageHandler(String.class, this::handleMessage);
         System.out.println("Conexión establecida con el servidor.");
-    }
-
-    @OnMessage
-    public void onMessage(String message) {
-        handleMessage(message);
     }
 
     public void sendMessage(String message) {
@@ -31,14 +26,10 @@ public abstract class WebSocketClient {
     }
 
     public void conectar(String uri) throws Exception {
-        try {
-            WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-            container.connectToServer(this, new URI(uri));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+        ClientEndpointConfig config = ClientEndpointConfig.Builder.create().build();
+        container.connectToServer(this, config, new URI(uri));
     }
-
 
     protected void handleMessage(String mensaje) {
         if (dispatcher != null) {
@@ -48,15 +39,15 @@ public abstract class WebSocketClient {
         }
     }
 
-
-    @OnClose
-    public void onClose(Session session, CloseReason closeReason) {
-        System.out.println("Conexión cerrada: " + closeReason.getReasonPhrase());
-    }
-
-    @OnError
-    public void onError(Session session, Throwable throwable) {
-        System.err.println("Error en la conexión: " + throwable.getMessage());
+    public void close() {
+        if (session != null && session.isOpen()) {
+            try {
+                session.close();
+                System.out.println("Conexión cerrada.");
+            } catch (Exception e) {
+                System.err.println("Error al cerrar la conexión: " + e.getMessage());
+            }
+        }
     }
 
     public void setDispatcher(MessageDispatcher dispatcher) {

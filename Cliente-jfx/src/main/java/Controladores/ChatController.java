@@ -2,6 +2,7 @@ package Controladores;
 
 import Conexion.ChatClient;
 import Modelos.Mensajes.ChatData;
+import com.sun.javafx.tk.FontMetrics;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -29,12 +30,13 @@ public class ChatController extends Controler {
 
     public void setChatClient(ChatClient chatClient) {
         this.chatClient = chatClient;
-    }
 
+    }
 
     public void actualizarChat(ChatData data) {
         chatArea.appendText(data.toString());
     }
+
 
     @FXML
     public void enviarMensaje() {
@@ -45,6 +47,13 @@ public class ChatController extends Controler {
             chatClient.enviarMensajeChat(mensajeField.getText());
         } else {
             showError("Error", "No se ha establecido la conexión con el servidor.");
+        }
+    }
+
+
+    public void cerrarChat() {
+        if (chatClient != null) {
+            chatClient.close();
         }
     }
 

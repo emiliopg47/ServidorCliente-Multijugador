@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.ChatController" style="-fx-background-color: #F5F5F5;">
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Cliente.Controladores.ChatController" style="-fx-background-color: #F5F5F5;">
 
     <!-- Área de mensajes -->
     <TextArea fx:id="chatArea" wrapText="true" editable="false" prefHeight="300"

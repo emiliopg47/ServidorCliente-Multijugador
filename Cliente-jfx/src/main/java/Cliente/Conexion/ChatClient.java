@@ -1,10 +1,10 @@
-package Conexion;
+package Cliente.Conexion;
 
-import Controladores.ChatController;
-import Dispatch.MessageDispatcher;
-import Handlers.ChatHandler;
-import Modelos.Mensajes.ChatData;
-import Modelos.Mensajes.MessageDTO;
+import Cliente.Controladores.ChatController;
+import Cliente.Dispatch.MessageDispatcher;
+import Cliente.Handlers.ChatHandler;
+import Cliente.Modelos.Mensajes.ChatData;
+import Cliente.Modelos.Mensajes.MessageDTO;
 import Util.JsonUtils;
 
 import java.time.LocalDateTime;

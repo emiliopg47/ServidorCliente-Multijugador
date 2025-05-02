@@ -1,6 +1,6 @@
-package Controladores;
+package Cliente.Controladores;
 
-import Conexion.ChatClient;
+import Cliente.Conexion.ChatClient;
 import Util.CONFIG;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +22,19 @@ public class PrincipalControler {
 
     @FXML
     public void handleSearchGame() {
-        System.out.println("Buscando partida...");
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Pong.fxml"));
+        try {
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Pong");
+            stage.centerOnScreen();
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

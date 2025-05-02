@@ -1,4 +1,4 @@
-package Modelos.Mensajes;
+package Cliente.Modelos.Mensajes;
 
 public class MessageDTO {
     private String type;

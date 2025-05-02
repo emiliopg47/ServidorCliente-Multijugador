@@ -1,6 +1,4 @@
-package Modelos.Mensajes;
-
-import Util.JsonUtils;
+package Cliente.Modelos.Mensajes;
 
 public class ChatData {
     private String mensaje;

@@ -1,7 +1,6 @@
 package Util;
 
-import Modelos.Mensajes.MessageDTO;
-import com.fasterxml.jackson.core.type.TypeReference;
+import Cliente.Modelos.Mensajes.MessageDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonUtils {

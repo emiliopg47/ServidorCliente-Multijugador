@@ -1,11 +1,8 @@
-package Dispatch;
+package Cliente.Dispatch;
 
-import Handlers.ChatHandler;
-import Modelos.Mensajes.MessageDTO;
+import Cliente.Handlers.ChatHandler;
+import Cliente.Modelos.Mensajes.MessageDTO;
 import Util.JsonUtils;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class MessageDispatcher {
 

@@ -1,6 +1,6 @@
-package Conexion;
+package Cliente.Conexion;
 
-import Dispatch.MessageDispatcher;
+import Cliente.Dispatch.MessageDispatcher;
 import jakarta.websocket.*;
 
 import java.net.URI;

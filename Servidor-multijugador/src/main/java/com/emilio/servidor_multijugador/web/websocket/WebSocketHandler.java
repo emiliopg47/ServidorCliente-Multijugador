@@ -49,9 +49,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
         } else {
             room.addPlayer(player);
         }
-        if(room.getPlayers().size() == 2){
-            startGame(room);
-        }
     }
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {

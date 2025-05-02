@@ -1,0 +1,123 @@
+package Juegos.Pong.Modelos;
+
+import Util.CONFIG;
+
+import static java.lang.Math.abs;
+
+public class Game {
+
+    private int marcadorIzq;
+    private int marcadorDrch;
+    private Bola bola;
+    private Pala palaIzquierda;
+    private Pala palaDerecha;
+    private int radio = 5;
+
+
+    public Game(double xPalaDrch, double xPalaIzq, double xBola, double yBola) {
+        this.marcadorIzq = 0;
+        this.marcadorDrch = 0;
+        this.bola = new Bola(xBola, yBola);
+        this.palaIzquierda = new Pala(xPalaIzq, 170);
+        this.palaDerecha = new Pala(xPalaDrch, 170);
+    }
+
+    public void actualizar() {
+        bola.mover();
+    }
+
+    public void comprobarColisiones() {
+        // Rebote en la derecha
+        if ((bola.getX() + radio) > CONFIG.anchoVentanaPong) {
+            bola.setX(CONFIG.anchoVentanaPong - radio);
+            bola.setDx(-abs(bola.getDx()));
+            bola.setVelocidad(bola.getVelocidad() + bola.getAceleracion());
+            marcadorIzq++;
+        }
+
+        // Rebote en la izquierda
+        if ((bola.getX() - radio) < 0) {
+            bola.setX(radio);
+            bola.setDx(abs(bola.getDx()));
+            bola.setVelocidad(bola.getVelocidad() + bola.getAceleracion());
+            marcadorDrch++;
+        }
+
+        // Rebote abajo
+        if ((bola.getY() + radio) > CONFIG.altoVentanaPong) {
+            bola.setY(CONFIG.altoVentanaPong - radio);
+            bola.setDy(-abs(bola.getDy()));
+            bola.setVelocidad(bola.getVelocidad() + bola.getAceleracion());
+        }
+
+        // Rebote arriba
+        if ((bola.getY() - radio) < 0) {
+            bola.setY(radio);
+            bola.setDy(abs(bola.getDy()));
+            bola.setVelocidad(bola.getVelocidad() + bola.getAceleracion());
+        }
+
+        // Rebote en la pala izquierda
+        if ((bola.getX() - radio) < palaIzquierda.getX() + CONFIG.anchoPala &&
+                (bola.getY() + radio) > palaIzquierda.getY() &&
+                (bola.getY() - radio) < palaIzquierda.getY() + CONFIG.altoPala) {
+            bola.setX(palaIzquierda.getX() + CONFIG.anchoPala + radio);
+            bola.setDx(abs(bola.getDx()));
+            bola.setVelocidad(bola.getVelocidad() + bola.getAceleracion());
+        }
+
+        // Rebote en la pala derecha
+        if ((bola.getX() + radio) > palaDerecha.getX() &&
+                (bola.getY() + radio) > palaDerecha.getY() &&
+                (bola.getY() - radio) < palaDerecha.getY() + CONFIG.altoPala) {
+            bola.setX(palaDerecha.getX() - radio);
+            bola.setDx(-abs(bola.getDx()));
+            bola.setVelocidad(bola.getVelocidad() + bola.getAceleracion());
+        }
+    }
+
+
+
+    public int getMarcadorIzq() {
+        return marcadorIzq;
+    }
+
+    public void setMarcadorIzq(int marcadorIzq) {
+        this.marcadorIzq = marcadorIzq;
+    }
+
+    public int getMarcadorDrch() {
+        return marcadorDrch;
+    }
+
+    public void setMarcadorDrch(int marcadorDrch) {
+        this.marcadorDrch = marcadorDrch;
+    }
+
+    public Bola getBola() {
+        return bola;
+    }
+
+    public void setBola(Bola bola) {
+        this.bola = bola;
+    }
+
+    public Pala getPalaIzquierda() {
+        return palaIzquierda;
+    }
+
+    public void setPalaIzquierda(Pala palaIzquierda) {
+        this.palaIzquierda = palaIzquierda;
+    }
+
+    public Pala getPalaDerecha() {
+        return palaDerecha;
+    }
+
+    public void setPalaDerecha(Pala palaDerecha) {
+        this.palaDerecha = palaDerecha;
+    }
+
+
+
+}

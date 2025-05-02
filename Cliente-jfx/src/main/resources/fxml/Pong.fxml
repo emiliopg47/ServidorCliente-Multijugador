@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
+
+<?import javafx.scene.shape.Line?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="Juegos.Pong.Controladores.PongController"
+            prefHeight="400.0" prefWidth="600.0" fx:id="anchorPane">
+
+    <!-- Fondo opcional -->
+    <style>
+        -fx-background-color: black;
+    </style>
+
+    <!-- Pala izquierda -->
+    <Rectangle fx:id="palaIzquierda" width="10" height="60" fill="white"
+               layoutX="30" layoutY="170" />
+
+    <!-- Pala derecha -->
+    <Rectangle fx:id="palaDerecha" width="10" height="60" fill="white"
+               layoutX="560" layoutY="170" />
+
+    <!-- Bola -->
+    <Circle fx:id="bola" radius="5" fill="white"
+            layoutX="300" layoutY="200" />
+
+    <!-- Marcador izquierda -->
+    <Label fx:id="marcadorIzq" text="0" textFill="white"
+           layoutX="200" layoutY="20" style="-fx-font-size: 24;" />
+
+    <!-- Marcador derecha -->
+    <Label fx:id="marcadorDrch" text="0" textFill="white"
+           layoutX="380" layoutY="20" style="-fx-font-size: 24;" />
+
+
+
+</AnchorPane>
+

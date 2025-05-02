@@ -1,4 +1,4 @@
-package Controler;
+package Cliente.Controladores;
 
 import javafx.scene.control.Alert;
 

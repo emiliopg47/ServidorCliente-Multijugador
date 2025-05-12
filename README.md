@@ -68,11 +68,11 @@
 ### Json ChatData
 ```json
 {
-  type: "chat",
-  data: {
-    mensaje: "Hola",
-    nick: "Usuario1",
-    fecha: "2023-10-01:12:05"
+  "type": "chat",
+  "data": {
+    "mensaje": "Hola",
+    "nick": "Usuario1",
+    "fecha": "2023-10-01:12:05"
     }
 }
 ```
@@ -88,14 +88,14 @@
 ### Json GameState
 ```json
 {
-  type: "GAME_STATE",
-  data: {
-    bolaX: 0,
-    bolaY: 0,
-    palaIzquierda: 0,
-    palaDerecha: 0,
-    marcaIzquierda: 0,
-    marcaDerecha: 0,
+  "type": "GAME_STATE",
+  "data": {
+    "bolaX": 0,
+    "bolaY": 0,
+    "palaIzquierda": 0,
+    "palaDerecha": 0,
+    "marcaIzquierda": 0,
+    "marcaDerecha": 0
   }
 }
 ```
@@ -103,10 +103,10 @@
 ### Json MovePaddle
 ```json
 {
-  type: "MOVE_PADDLE",
-  data: {
-    direccion: "UP" | "DOWN",
-    paddle: "LEFT" | "RIGHT"
+  "type": "MOVE_PADDLE",
+  "data": {
+    "direccion": "UP",
+    "paddle": "Left"
   }
 }
 ```

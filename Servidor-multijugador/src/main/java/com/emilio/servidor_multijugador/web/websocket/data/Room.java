@@ -1,6 +1,5 @@
-package com.emilio.servidor_multijugador.web.websocket;
+package com.emilio.servidor_multijugador.web.websocket.data;
 
-import com.emilio.servidor_multijugador.web.websocket.data.Player;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 

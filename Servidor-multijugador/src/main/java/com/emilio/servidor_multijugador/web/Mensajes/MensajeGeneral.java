@@ -1,4 +1,4 @@
-package Cliente.Modelos.Mensajes;
+package com.emilio.servidor_multijugador.web.Mensajes;
 
 public class MensajeGeneral {
     private String type;
@@ -23,4 +23,3 @@ public class MensajeGeneral {
     public MensajeGeneral() {
     }
 }
-

@@ -14,7 +14,6 @@ public class ChatHandler implements MessageHandler{
         String mensajeStr = (String) message;
         ChatData data = JsonUtils.fromJson(mensajeStr, ChatData.class);
         Platform.runLater(() -> {
-            // Aquí pasas el mensaje recibido al controlador para que lo muestre
             chatController.actualizarChat(data);
         });
 

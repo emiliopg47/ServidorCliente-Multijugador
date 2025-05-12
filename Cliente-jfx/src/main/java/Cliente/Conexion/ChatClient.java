@@ -4,7 +4,7 @@ import Cliente.Controladores.ChatController;
 import Cliente.Dispatch.MessageDispatcher;
 import Cliente.Handlers.ChatHandler;
 import Cliente.Modelos.Mensajes.ChatData;
-import Cliente.Modelos.Mensajes.MessageDTO;
+import Cliente.Modelos.Mensajes.MensajeGeneral;
 import Util.JsonUtils;
 
 import java.time.LocalDateTime;
@@ -35,7 +35,7 @@ public class ChatClient extends WebSocketClient {
         String fechaHoraFormateada = fechahora.format(formato);
         // Prepara un JSON simple de tipo "chat"
         ChatData chatData = new ChatData(contenido, nick, fechaHoraFormateada);
-        MessageDTO message = new MessageDTO("chat", chatData);
+        MensajeGeneral message = new MensajeGeneral("chat", chatData);
 
         chatController.actualizarChat(chatData);
 

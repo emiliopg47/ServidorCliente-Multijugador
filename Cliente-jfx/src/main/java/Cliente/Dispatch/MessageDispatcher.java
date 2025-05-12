@@ -1,7 +1,7 @@
 package Cliente.Dispatch;
 
 import Cliente.Handlers.ChatHandler;
-import Cliente.Modelos.Mensajes.MessageDTO;
+import Cliente.Modelos.Mensajes.MensajeGeneral;
 import Util.JsonUtils;
 
 public class MessageDispatcher {
@@ -10,7 +10,7 @@ public class MessageDispatcher {
 
 
     public void dispatch(String messageJson) {
-        MessageDTO message = JsonUtils.fromJson(messageJson, MessageDTO.class);
+        MensajeGeneral message = JsonUtils.fromJson(messageJson, MensajeGeneral.class);
 
         switch (message.getType()) {
             case "chat":

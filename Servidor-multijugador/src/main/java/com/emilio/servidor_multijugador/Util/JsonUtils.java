@@ -1,6 +1,6 @@
-package Util;
+package com.emilio.servidor_multijugador.Util;
 
-import Cliente.Modelos.Mensajes.MensajeGeneral;
+import com.emilio.servidor_multijugador.web.Mensajes.MensajeGeneral;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonUtils {

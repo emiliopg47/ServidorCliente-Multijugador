@@ -78,7 +78,7 @@
 ```
 
 ## Funcionamiento Pong
-1. El cliente mueve la pala y se mansa un mensaje tipo MovePaddle con el movimiento que ha realizado (Up,Down), y la pala que ha realizado el movimiento (Left,Right).
+1. El cliente mueve la pala y se manda un mensaje tipo MovePaddle con el movimiento que ha realizado (Up,Down), y la pala que ha realizado el movimiento (Left,Right).
 2. El servidor recibe el mensaje y actualiza la posición de la pala en el gameState.
 3. A demas el servidor estará ejecutando el LoopGame que moverá la bola y detectará colisiones.
 4. Cada uno de estos loops enviará un mensaje Pong a todos los clientes con el estado del juego (gameState).

@@ -1,0 +1,29 @@
+package com.emilio.servidor_multijugador.game.pong.modelos;
+
+public class Pala {
+
+    private double x;
+    private double y;
+
+    public Pala(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+}

@@ -1,6 +1,7 @@
-package com.emilio.servidor_multijugador.web.websocket;
+package com.emilio.servidor_multijugador.web.websocket.WebHandlers;
 
 import com.emilio.servidor_multijugador.web.websocket.data.Player;
+import com.emilio.servidor_multijugador.web.websocket.data.Room;
 import com.emilio.servidor_multijugador.web.websocket.handler.DataHandler;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,12 +16,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class WebSocketHandler extends TextWebSocketHandler {
+public class ChatWebHandler extends TextWebSocketHandler {
 
     Map<String, Room> rooms;
     private static int roomCounter = 1;
 
-    public WebSocketHandler() {
+    public ChatWebHandler() {
         this.rooms = new HashMap<>();
     }
     @Override

@@ -3,6 +3,8 @@ package com.emilio.servidor_multijugador.game.pong.modelos;
 import com.emilio.servidor_multijugador.Util.CONFIG;
 import com.emilio.servidor_multijugador.web.Mensajes.PongMove;
 
+import static com.emilio.servidor_multijugador.Util.CONFIG.altoPala;
+import static com.emilio.servidor_multijugador.Util.CONFIG.anchoPala;
 import static java.lang.Math.abs;
 
 public class GameState {
@@ -24,6 +26,14 @@ public class GameState {
         this.bola = new Bola(xBola, yBola);
         this.palaIzquierda = new Pala(xPalaIzq, 170);
         this.palaDerecha = new Pala(xPalaDrch, 170);
+    }
+
+    public GameState(){
+        this.marcadorIzq = 0;
+        this.marcadorDrch = 0;
+        this.bola = new Bola(250, 300);
+        this.palaIzquierda = new Pala(30, 170);
+        this.palaDerecha = new Pala(560, 170);
     }
 
     public void actualizar() {
@@ -76,7 +86,7 @@ public class GameState {
             bola.setVelocidad(bola.getVelocidad() + bola.getAceleracion());
         }
 
-        /*
+
         // Rebote en la pala izquierda
         if ((bola.getX() - radio) < palaIzquierda.getX() + anchoPala &&
                 (bola.getY() + radio) > palaIzquierda.getY() &&
@@ -94,7 +104,7 @@ public class GameState {
             bola.setDx(-abs(bola.getDx()));
             bola.setVelocidad(bola.getVelocidad() + bola.getAceleracion());
         }
-         */
+
     }
 
 
@@ -104,7 +114,7 @@ public class GameState {
         }
     }
     private void moverIzquierdaAbajo() {
-        if (getPalaIzquierda().getY() < CONFIG.altoVentanaPong - CONFIG.altoPala) {
+        if (getPalaIzquierda().getY() < CONFIG.altoVentanaPong - altoPala) {
             getPalaIzquierda().setY(getPalaIzquierda().getY() + 10);
         }
     }
@@ -114,7 +124,7 @@ public class GameState {
         }
     }
     private void moverDerechaAbajo() {
-        if (getPalaDerecha().getY() < CONFIG.altoVentanaPong - CONFIG.altoPala) {
+        if (getPalaDerecha().getY() < CONFIG.altoVentanaPong - altoPala) {
             getPalaDerecha().setY(getPalaDerecha().getY() + 10);
         }
     }

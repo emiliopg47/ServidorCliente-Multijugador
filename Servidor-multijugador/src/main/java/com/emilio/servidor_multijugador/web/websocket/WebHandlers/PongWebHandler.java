@@ -48,6 +48,8 @@ public class PongWebHandler extends TextWebSocketHandler {
             room.addPlayer(player);
         } else {
             room.addPlayer(player);
+            System.out.println("Un jugador se ha unido a la sala: " + room.getId());
+            startGame(room);
         }
 
 
@@ -63,7 +65,7 @@ public class PongWebHandler extends TextWebSocketHandler {
         String mensaje = null;
         switch (type){
             case "MOVE_PADDLE":
-                dataHandler.movePaddle(data, buscarMiSala(session).getGameState());
+                dataHandler.movePaddle(data, buscarMiSala(session).getEstado());
                 break;
         }
     }
@@ -88,6 +90,8 @@ public class PongWebHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         System.out.println("Cliente desconectado: " + session.getId());
+        PongRoom room = buscarMiSala(session);
+        room.pararJuego();
         super.afterConnectionClosed(session, status);
     }
 
@@ -100,9 +104,10 @@ public class PongWebHandler extends TextWebSocketHandler {
     private void startGame(PongRoom room) {
         for (Player player : room.getPlayers()) {
             try {
-                player.getSession().sendMessage(new TextMessage("El juego ha comenzado en la sala: " + room.getId()));
-            } catch (IOException e) {
-                e.printStackTrace();
+                Thread.sleep(3000);
+                room.comenzarJuego();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         }
     }

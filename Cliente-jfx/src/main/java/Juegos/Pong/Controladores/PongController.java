@@ -21,6 +21,7 @@ public class PongController {
 
     @FXML
     private Rectangle palaIzquierda;
+
     @FXML
     private Rectangle palaDerecha;
     @FXML

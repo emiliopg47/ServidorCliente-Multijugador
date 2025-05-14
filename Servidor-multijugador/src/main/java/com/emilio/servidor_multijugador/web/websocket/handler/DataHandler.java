@@ -27,10 +27,6 @@ public class DataHandler {
 
     public void movePaddle(JsonNode data, GameState gameState){
         PongMove movimiento = JsonUtils.fromJson(data.toString(), PongMove.class);
-
         gameState.actualizar(movimiento);
-
-        GameStateMensaje gameStateMensaje = new GameStateMensaje(gameState);
-
     }
 }

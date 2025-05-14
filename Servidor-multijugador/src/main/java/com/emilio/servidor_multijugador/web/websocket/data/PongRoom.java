@@ -1,25 +1,78 @@
 package com.emilio.servidor_multijugador.web.websocket.data;
 
-import com.emilio.servidor_multijugador.game.pong.Loop.GameLoop;
+import com.emilio.servidor_multijugador.Util.JsonUtils;
 import com.emilio.servidor_multijugador.game.pong.modelos.GameState;
+import com.emilio.servidor_multijugador.web.Mensajes.GameStateMensaje;
+import com.emilio.servidor_multijugador.web.Mensajes.MensajeGeneral;
+import org.springframework.web.socket.TextMessage;
 
-public class PongRoom extends Room{
+import java.io.IOException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
-    GameLoop gameLoop;
+public class PongRoom extends Room {
+
+    private GameState estado;
+    private ScheduledExecutorService scheduler;
 
     public PongRoom(String id) {
         super(id);
+
     }
 
-    public GameLoop getGameLoop() {
-        return gameLoop;
+    public void comenzarJuego() {
+        estado = new GameState();
+        this.scheduler = Executors.newSingleThreadScheduledExecutor();
+        startLoop();
     }
 
-    public void setGameLoop(GameLoop gameLoop) {
-        this.gameLoop = gameLoop;
+    public void pararJuego() {
+        if (scheduler != null && !scheduler.isShutdown()) {
+            scheduler.shutdown();
+        }
     }
 
-    public GameState getGameState() {
-        return gameLoop.getEstado();
+    public GameState getEstado() {
+        return estado;
+    }
+
+    private void startLoop() {
+        scheduler.scheduleAtFixedRate(this::loop, 0, 16, TimeUnit.MILLISECONDS);
+    }
+
+    public void stopLoop() {
+        if (scheduler != null && !scheduler.isShutdown()) {
+            scheduler.shutdown();
+        }
+    }
+
+    public void loop() {
+
+
+        // 1. Actualizar lógica del juego
+        estado.actualizar();
+        // 2. Comprobar colisiones
+        estado.comprobarColisiones();
+
+        // 3. Comprobar si hay un ganador
+
+        // 4. Enviar el estado del juego a los jugadores
+        broadcastState();
+    }
+
+    public void broadcastState() {
+        GameStateMensaje mensajeEstado = new GameStateMensaje(estado);
+        MensajeGeneral mensaje = new MensajeGeneral("ESTADO", mensajeEstado);
+        for (Player player : getPlayers()) {
+            try {
+                String json = JsonUtils.toJson(mensaje);
+                player.getSession().sendMessage(new TextMessage(json));
+                System.out.println(json);
+            } catch (IOException e) {
+                System.out.println("Error al enviar el mensaje a " + player.getNick() + ": " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
     }
 }

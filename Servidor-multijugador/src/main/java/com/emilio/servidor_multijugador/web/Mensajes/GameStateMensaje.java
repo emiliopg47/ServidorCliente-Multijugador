@@ -25,4 +25,51 @@ public class GameStateMensaje {
         this.marcadorDerecha = gameState.getMarcadorDrch();
     }
 
+    public double getPalaIzquierda() {
+        return palaIzquierda;
+    }
+
+    public void setPalaIzquierda(double palaIzquierda) {
+        this.palaIzquierda = palaIzquierda;
+    }
+
+    public double getPalaDerecha() {
+        return palaDerecha;
+    }
+
+    public void setPalaDerecha(double palaDerecha) {
+        this.palaDerecha = palaDerecha;
+    }
+
+    public double getxBola() {
+        return xBola;
+    }
+
+    public void setxBola(double xBola) {
+        this.xBola = xBola;
+    }
+
+    public double getyBola() {
+        return yBola;
+    }
+
+    public void setyBola(double yBola) {
+        this.yBola = yBola;
+    }
+
+    public int getMarcadorIzquierda() {
+        return marcadorIzquierda;
+    }
+
+    public void setMarcadorIzquierda(int marcadorIzquierda) {
+        this.marcadorIzquierda = marcadorIzquierda;
+    }
+
+    public int getMarcadorDerecha() {
+        return marcadorDerecha;
+    }
+
+    public void setMarcadorDerecha(int marcadorDerecha) {
+        this.marcadorDerecha = marcadorDerecha;
+    }
 }

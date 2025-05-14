@@ -18,7 +18,7 @@ public class Bola {
         this.dx = random() > 0.5 ? 2 : -2;
         this.dy = random() > 0.5 ? 0.5 : -0.5;
         this.radio = 10;
-        this.aceleracion = 0.2;
+        this.aceleracion = 0.1;
     }
 
     public Bola(){}

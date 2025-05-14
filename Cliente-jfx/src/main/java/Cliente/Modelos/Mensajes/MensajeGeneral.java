@@ -22,5 +22,13 @@ public class MensajeGeneral {
     }
     public MensajeGeneral() {
     }
+
+    @Override
+    public String toString() {
+        return "MensajeGeneral{" +
+                "type='" + type + '\'' +
+                ", data=" + data +
+                '}';
+    }
 }
 

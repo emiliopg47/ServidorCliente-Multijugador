@@ -22,4 +22,12 @@ public class JsonUtils {
             throw new RuntimeException("Error al convertir objeto a JSON", e);
         }
     }
+
+    public static String toJson(Object object) {
+        try {
+            return mapper.writeValueAsString(object);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al convertir objeto a JSON", e);
+        }
+    }
 }

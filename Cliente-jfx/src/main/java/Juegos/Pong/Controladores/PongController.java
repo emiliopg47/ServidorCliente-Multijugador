@@ -1,7 +1,9 @@
 package Juegos.Pong.Controladores;
 
+import Cliente.Conexion.PongClient;
+import Cliente.Modelos.Mensajes.GameStateMensaje;
 import Juegos.Pong.LoopJuego;
-import Juegos.Pong.Modelos.Game;
+import Juegos.Pong.Modelos.GameState;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -17,7 +19,7 @@ import java.util.Set;
 public class PongController {
 
     @FXML
-    private AnchorPane anchorPane;
+    public AnchorPane anchorPane;
 
     @FXML
     private Rectangle palaIzquierda;
@@ -32,29 +34,35 @@ public class PongController {
     private Label marcadorDrch;
 
     private final Set<KeyCode> teclasActivas = new HashSet<>();
+    public GameState estado;
 
+    PongClient pongClient;
 
     @FXML
     public void initialize() {
-        Game estado = new Game(palaDerecha.getLayoutX(), palaIzquierda.getLayoutX(), bola.getLayoutX(), bola.getLayoutY());
-        LoopJuego loop = new LoopJuego(estado, this);
-        loop.start();
+        //LoopJuego loop = new LoopJuego(estado, this);
+        //loop.start();
         // Configuración inicial de las palas y la bola
+
+
+/*
         Platform.runLater(() -> {
-            Scene scene = anchorPane.getScene();
             if (scene == null) return;
 
             // Registrar eventos de teclado
-            scene.setOnKeyPressed(event -> teclasActivas.add(event.getCode()));  // Agregar tecla presionada
-            scene.setOnKeyReleased(event -> teclasActivas.remove(event.getCode()));  // Eliminar tecla liberada
+            //scene.setOnKeyPressed(event -> teclasActivas.add(event.getCode()));  // Agregar tecla presionada
+            //scene.setOnKeyReleased(event -> teclasActivas.remove(event.getCode()));  // Eliminar tecla liberada
 
             // Forzar el foco al AnchorPane
             anchorPane.requestFocus();
         });
+
+ */
+
     }
 
 
-    public void actualizar(Game game){
+    public void actualizar(GameState game){
         // Actualiza la posición de las palas
         palaIzquierda.setLayoutY(game.getPalaIzquierda().getY());
         palaDerecha.setLayoutY(game.getPalaDerecha().getY());
@@ -69,7 +77,24 @@ public class PongController {
         marcadorDrch.setText(String.valueOf(game.getMarcadorDrch()));
     }
 
+    public void actualizar(GameStateMensaje game){
+        // Actualiza la posición de las palas
+        palaIzquierda.setLayoutY(game.getPalaIzquierda());
+        palaDerecha.setLayoutY(game.getPalaDerecha());
+        // Actualiza la posición de la bola
+        bola.setLayoutX(game.getxBola());
+        bola.setLayoutY(game.getyBola());
+        // Actualiza el marcador
+        marcadorIzq.setText(String.valueOf(game.getMarcadorIzquierda()));
+        marcadorDrch.setText(String.valueOf(game.getMarcadorDerecha()));
+        // Actualiza el estado del juego
+    }
+
     public Set<KeyCode> getTeclasActivas() {
         return teclasActivas;
+    }
+
+    public void setPongClient(PongClient pongClient) {
+        this.pongClient = pongClient;
     }
 }

@@ -1,10 +1,14 @@
 package Cliente.Controladores;
 
 import Cliente.Conexion.ChatClient;
+import Cliente.Conexion.PongClient;
+import Juegos.Pong.Controladores.PongController;
 import Util.CONFIG;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.PointLight;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -22,16 +26,36 @@ public class PrincipalControler {
 
     @FXML
     public void handleSearchGame() {
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Pong.fxml"));
         try {
             Parent root = loader.load();
+
+            PongController pongController = loader.getController();
+            PongClient pongClient = new PongClient(nick, pongController);
+            pongController.setPongClient(pongClient);
+            String uri = "ws://" + CONFIG.direccionServidor + ":8080/ws/pong";
+            pongClient.conectar(uri);
+
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.setTitle("Pong");
+
+            // Ejecutar el ajuste de tamaño después de que la ventana se haya mostrado
+            Platform.runLater(() -> {
+                root.applyCss();
+                root.layout();
+                stage.sizeToScene();
+                stage.setMinWidth(scene.getWidth());
+                stage.setMinHeight(scene.getHeight());
+            });
+
             stage.centerOnScreen();
             stage.show();
+
+            stage.setOnCloseRequest(event -> {
+                pongClient.close();
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }

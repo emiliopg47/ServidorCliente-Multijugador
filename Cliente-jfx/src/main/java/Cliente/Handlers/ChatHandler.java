@@ -31,7 +31,7 @@ public class ChatHandler implements MessageHandler{
 
     @Override
     public void handleDisconnect() {
-        // Handle disconnection
+        // Handle disconnection-
         System.out.println("Client disconnected");
     }
 }

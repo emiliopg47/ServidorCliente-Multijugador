@@ -1,17 +1,17 @@
 package Juegos.Pong;
 
 import Juegos.Pong.Controladores.PongController;
-import Juegos.Pong.Modelos.Game;
+import Juegos.Pong.Modelos.GameState;
 import Util.CONFIG;
 import javafx.animation.AnimationTimer;
 import javafx.scene.input.KeyCode;
 
 public class LoopJuego extends AnimationTimer {
 
-    private final Game estado;
+    private final GameState estado;
     private final PongController controlador;
 
-    public LoopJuego(Game estado, PongController controlador) {
+    public LoopJuego(GameState estado, PongController controlador) {
         this.estado = estado;
         this.controlador = controlador;
     }

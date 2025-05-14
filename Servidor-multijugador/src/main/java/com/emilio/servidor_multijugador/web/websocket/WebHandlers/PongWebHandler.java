@@ -46,6 +46,7 @@ public class PongWebHandler extends TextWebSocketHandler {
         if (room == null) {
             room = nuevaSala();
             room.addPlayer(player);
+            startGame(room); //Prueba
         } else {
             room.addPlayer(player);
             System.out.println("Un jugador se ha unido a la sala: " + room.getId());
@@ -102,14 +103,13 @@ public class PongWebHandler extends TextWebSocketHandler {
         return room;
     }
     private void startGame(PongRoom room) {
-        for (Player player : room.getPlayers()) {
-            try {
-                Thread.sleep(3000);
-                room.comenzarJuego();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
+        room.comenzarJuego();
+
     }
     private PongRoom buscarMiSala(WebSocketSession session){
         for (PongRoom room : rooms.values()) {

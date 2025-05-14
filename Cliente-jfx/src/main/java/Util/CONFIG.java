@@ -7,4 +7,8 @@ public class CONFIG {
     public static double altoPala = 60;
     public static double anchoPala = 10;
 
+    public static double xPalaIzquierda = 30;
+    public static double xPalaDerecha = 560;
+
+
 }

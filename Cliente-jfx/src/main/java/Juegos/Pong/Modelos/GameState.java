@@ -1,10 +1,11 @@
 package Juegos.Pong.Modelos;
 
+import Cliente.Modelos.Mensajes.GameStateMensaje;
 import Util.CONFIG;
 
 import static java.lang.Math.abs;
 
-public class Game {
+public class GameState {
 
     private int marcadorIzq;
     private int marcadorDrch;
@@ -14,12 +15,20 @@ public class Game {
     private int radio = 5;
 
 
-    public Game(double xPalaDrch, double xPalaIzq, double xBola, double yBola) {
+    public GameState(double xPalaDrch, double xPalaIzq, double xBola, double yBola) {
         this.marcadorIzq = 0;
         this.marcadorDrch = 0;
         this.bola = new Bola(xBola, yBola);
         this.palaIzquierda = new Pala(xPalaIzq, 170);
         this.palaDerecha = new Pala(xPalaDrch, 170);
+    }
+
+    public GameState(GameStateMensaje gameStateMensaje){
+        this.marcadorIzq = gameStateMensaje.getMarcadorIzquierda();
+        this.marcadorDrch = gameStateMensaje.getMarcadorDerecha();
+        this.bola = new Bola(gameStateMensaje.getxBola(), gameStateMensaje.getyBola());
+        this.palaIzquierda = new Pala(CONFIG.xPalaIzquierda, gameStateMensaje.getPalaIzquierda());
+        this.palaDerecha = new Pala(CONFIG.xPalaDerecha, gameStateMensaje.getPalaDerecha());
     }
 
     public void actualizar() {

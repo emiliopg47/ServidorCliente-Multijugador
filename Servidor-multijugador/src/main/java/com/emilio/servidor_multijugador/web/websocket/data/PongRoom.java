@@ -38,7 +38,9 @@ public class PongRoom extends Room {
     }
 
     private void startLoop() {
-        scheduler.scheduleAtFixedRate(this::loop, 0, 16, TimeUnit.MILLISECONDS);
+        // 30 FPS
+        long frameTime = 1000 / 30;
+        scheduler.scheduleAtFixedRate(this::loop, 0, frameTime, TimeUnit.MILLISECONDS);
     }
 
     public void stopLoop() {
@@ -68,7 +70,6 @@ public class PongRoom extends Room {
             try {
                 String json = JsonUtils.toJson(mensaje);
                 player.getSession().sendMessage(new TextMessage(json));
-                System.out.println(json);
             } catch (IOException e) {
                 System.out.println("Error al enviar el mensaje a " + player.getNick() + ": " + e.getMessage());
                 e.printStackTrace();

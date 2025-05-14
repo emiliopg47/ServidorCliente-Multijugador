@@ -1,15 +1,8 @@
 package Cliente.Conexion;
 
 import Cliente.Dispatch.MessageDispatcher;
-import Cliente.Handlers.ChatHandler;
 import Cliente.Handlers.PongHandler;
-import Cliente.Modelos.Mensajes.ChatData;
-import Cliente.Modelos.Mensajes.MensajeGeneral;
 import Juegos.Pong.Controladores.PongController;
-import Util.JsonUtils;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class PongClient extends WebSocketClient{
     private String nick;

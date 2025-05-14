@@ -2,16 +2,13 @@ package Juegos.Pong.Controladores;
 
 import Cliente.Conexion.PongClient;
 import Cliente.Modelos.Mensajes.GameStateMensaje;
-import Juegos.Pong.LoopJuego;
 import Juegos.Pong.Modelos.GameState;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.layout.AnchorPane;
 
 import java.util.HashSet;
 import java.util.Set;

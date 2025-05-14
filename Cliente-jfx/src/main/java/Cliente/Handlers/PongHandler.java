@@ -1,6 +1,5 @@
 package Cliente.Handlers;
 
-import Cliente.Controladores.ChatController;
 import Cliente.Modelos.Mensajes.GameStateMensaje;
 import Cliente.Modelos.Mensajes.MensajeGeneral;
 import Juegos.Pong.Controladores.PongController;

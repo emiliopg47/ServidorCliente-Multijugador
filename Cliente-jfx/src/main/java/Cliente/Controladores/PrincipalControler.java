@@ -4,13 +4,15 @@ import Cliente.Conexion.ChatClient;
 import Cliente.Conexion.PongClient;
 import Juegos.Pong.Controladores.PongController;
 import Util.CONFIG;
-import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.PointLight;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class PrincipalControler {
 
@@ -25,9 +27,9 @@ public class PrincipalControler {
     }
 
     @FXML
-    public void handleSearchGame() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Pong.fxml"));
+    public void handleSearchGame(ActionEvent event) {
         try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Pong.fxml"));
             Parent root = loader.load();
 
             PongController pongController = loader.getController();
@@ -36,30 +38,26 @@ public class PrincipalControler {
             String uri = "ws://" + CONFIG.direccionServidor + ":8080/ws/pong";
             pongClient.conectar(uri);
 
+            // Obtener el stage actual a partir del botón u otro nodo
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
             Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.setTitle("Pong");
+            currentStage.setScene(scene);
+            currentStage.sizeToScene();
+            currentStage.centerOnScreen();
+            currentStage.setTitle("Pong");
+            currentStage.setResizable(false);
 
-            // Ejecutar el ajuste de tamaño después de que la ventana se haya mostrado
-            Platform.runLater(() -> {
-                root.applyCss();
-                root.layout();
-                stage.sizeToScene();
-                stage.setMinWidth(scene.getWidth());
-                stage.setMinHeight(scene.getHeight());
-            });
+            currentStage.setOnCloseRequest(e -> pongClient.close());
+            currentStage.show();
 
-            stage.centerOnScreen();
-            stage.show();
-
-            stage.setOnCloseRequest(event -> {
-                pongClient.close();
-            });
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
+
 
     @FXML
     public void handleViewProfile() {

@@ -15,9 +15,6 @@ public class GameState {
     private Pala palaIzquierda;
     private Pala palaDerecha;
     private int radio = 5;
-    private final double  anchoVentanaPong = 500;
-    private final double altoVentanaPong = 600;
-
 
 
     public GameState(double xPalaDrch, double xPalaIzq, double xBola, double yBola) {
@@ -31,7 +28,7 @@ public class GameState {
     public GameState(){
         this.marcadorIzq = 0;
         this.marcadorDrch = 0;
-        this.bola = new Bola(250, 300);
+        this.bola = new Bola(300, 200);
         this.palaIzquierda = new Pala(30, 170);
         this.palaDerecha = new Pala(560, 170);
     }
@@ -57,8 +54,8 @@ public class GameState {
 
     public void comprobarColisiones() {
         // Rebote en la derecha
-        if ((bola.getX() + radio) > anchoVentanaPong) {
-            bola.setX(anchoVentanaPong - radio);
+        if ((bola.getX() + radio) > CONFIG.anchoVentanaPong) {
+            bola.setX(CONFIG.anchoVentanaPong - radio);
             bola.setDx(-abs(bola.getDx()));
             bola.setVelocidad(bola.getVelocidad() + bola.getAceleracion());
             marcadorIzq++;
@@ -73,8 +70,8 @@ public class GameState {
         }
 
         // Rebote abajo
-        if ((bola.getY() + radio) > altoVentanaPong) {
-            bola.setY(altoVentanaPong - radio);
+        if ((bola.getY() + radio) > CONFIG.altoVentanaPong) {
+            bola.setY(CONFIG.altoVentanaPong - radio);
             bola.setDy(-abs(bola.getDy()));
             bola.setVelocidad(bola.getVelocidad() + bola.getAceleracion());
         }
@@ -86,12 +83,11 @@ public class GameState {
             bola.setVelocidad(bola.getVelocidad() + bola.getAceleracion());
         }
 
-
         // Rebote en la pala izquierda
-        if ((bola.getX() - radio) < palaIzquierda.getX() + anchoPala &&
+        if ((bola.getX() - radio) < palaIzquierda.getX() + CONFIG.anchoPala &&
                 (bola.getY() + radio) > palaIzquierda.getY() &&
-                (bola.getY() - radio) < palaIzquierda.getY() + altoPala) {
-            bola.setX(palaIzquierda.getX() + anchoPala + radio);
+                (bola.getY() - radio) < palaIzquierda.getY() + CONFIG.altoPala) {
+            bola.setX(palaIzquierda.getX() + CONFIG.anchoPala + radio);
             bola.setDx(abs(bola.getDx()));
             bola.setVelocidad(bola.getVelocidad() + bola.getAceleracion());
         }
@@ -99,7 +95,7 @@ public class GameState {
         // Rebote en la pala derecha
         if ((bola.getX() + radio) > palaDerecha.getX() &&
                 (bola.getY() + radio) > palaDerecha.getY() &&
-                (bola.getY() - radio) < palaDerecha.getY() + altoPala) {
+                (bola.getY() - radio) < palaDerecha.getY() + CONFIG.altoPala) {
             bola.setX(palaDerecha.getX() - radio);
             bola.setDx(-abs(bola.getDx()));
             bola.setVelocidad(bola.getVelocidad() + bola.getAceleracion());

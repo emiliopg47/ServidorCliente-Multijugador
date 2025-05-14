@@ -1,14 +1,8 @@
-import Cliente.Modelos.Mensajes.GameStateMensaje;
-import Cliente.Modelos.Mensajes.MensajeGeneral;
-import Util.CONFIG;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import static Util.JsonUtils.fromJson;
-import static Util.JsonUtils.toJson;
 
 public class MainApp extends Application {
     @Override

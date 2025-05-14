@@ -39,7 +39,10 @@ public class PongRoom extends Room {
 
     private void startLoop() {
         // 30 FPS
-        long frameTime = 1000 / 30;
+        //long frameTime = 1000 / 30;
+        // 60 FPS
+        long frameTime = 1000 / 60;
+
         scheduler.scheduleAtFixedRate(this::loop, 0, frameTime, TimeUnit.MILLISECONDS);
     }
 

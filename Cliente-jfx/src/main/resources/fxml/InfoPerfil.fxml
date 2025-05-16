@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Cliente.Controladores.InfoPerfilController"
+            style="-fx-background-color: #f9f9f9;">
+
+    <center>
+        <HBox spacing="20" alignment="TOP_CENTER">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20" />
+            </padding>
+
+            <!-- Columna izquierda: foto + datos -->
+            <VBox spacing="10" alignment="TOP_CENTER">
+                <!-- Foto de perfil -->
+                <ImageView fx:id="imagenPerfil"
+                           fitWidth="120" fitHeight="120"
+                           preserveRatio="true">
+                    <image>
+                        <Image url="@/images/login/fotoPerfilGenerica.png" />
+                    </image>
+                </ImageView>
+
+                <!-- Hipervínculo para cambiar imagen -->
+                <Hyperlink fx:id="cambiarImagenLink" text="Cambiar imagen" onAction="#cambiarImagen"/>
+
+                <!-- Datos del jugador -->
+                <VBox spacing="5" alignment="TOP_LEFT">
+                    <Label text="Nombre:" style="-fx-font-weight: bold;" />
+                    <Label fx:id="nombreLabel" text="JugadorX" />
+
+                    <Label text="Correo:" style="-fx-font-weight: bold;" />
+                    <Label fx:id="correoLabel" text="correo@ejemplo.com" />
+
+                    <Label text="Fecha de Nacimiento:" style="-fx-font-weight: bold;" />
+                    <Label fx:id="fechaNacimientoLabel" text="01/01/2000" />
+                </VBox>
+            </VBox>
+
+            <!-- Columna derecha: juegos + puntuación + historial -->
+            <VBox spacing="15" alignment="TOP_LEFT" prefWidth="300">
+                <padding>
+                    <Insets top="10" right="0" bottom="0" left="0" />
+                </padding>
+
+                <!-- ComboBox para seleccionar juego -->
+                <ComboBox fx:id="gameComboBox"
+                          prefWidth="250"
+                          style="-fx-font-size: 14px; -fx-background-radius: 6;" />
+
+                <!-- Puntuación -->
+                <Label fx:id="puntuacionLabel"
+                       text="Puntuación: 1200"
+                       style="-fx-font-size: 13px;" />
+
+                <!-- Historial W/L -->
+                <Label fx:id="historialWLLabel"
+                       text="Historial: 15 W / 5 L"
+                       style="-fx-font-size: 13px;" />
+
+                <!-- Historial de juegos -->
+                <Label text="Historial de partidas:" style="-fx-font-weight: bold;" />
+                <ListView fx:id="historialListView" prefHeight="200" />
+            </VBox>
+
+        </HBox>
+    </center>
+</BorderPane>

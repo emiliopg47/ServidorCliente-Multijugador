@@ -13,10 +13,15 @@ public class CONFIG {
     public static double xPalaIzquierda = 30;
     public static double xPalaDerecha = 560;
 
-    public static List<String> listaJuegos = new ArrayList<>() {{;
+    public static List<String> listaAplicaciones = new ArrayList<>() {{;
         add("Pong");
         add("Chat");
     }};
+
+    public static List<String> listaJuegos = new ArrayList<>() {{;
+        add("Pong");
+    }};
+
 
 
 }

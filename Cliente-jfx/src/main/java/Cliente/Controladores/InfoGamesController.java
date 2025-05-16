@@ -21,7 +21,7 @@ public class InfoGamesController extends Controller{
 
     @FXML
     public void initialize() {
-        gameComboBox.getItems().addAll(CONFIG.listaJuegos);
+        gameComboBox.getItems().addAll(CONFIG.listaAplicaciones);
         gameComboBox.setOnAction(event -> mostrarInformacionJuego(gameComboBox.getValue()));
     }
 

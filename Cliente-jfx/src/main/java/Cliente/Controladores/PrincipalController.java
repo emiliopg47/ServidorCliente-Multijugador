@@ -68,8 +68,8 @@ public class PrincipalController {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("Aplicación Principal");
-            stage.setWidth(1000); // Establecer un tamaño máximo de ancho
-            stage.setHeight(800); // Establecer un tamaño máximo de altura
+            stage.setWidth(1000);
+            stage.setHeight(800);
             stage.centerOnScreen();
 
             stage.show();
@@ -86,7 +86,18 @@ public class PrincipalController {
 
     @FXML
     public void handleViewProfile() {
-        System.out.println("Mostrando perfil...");
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/InfoPerfil.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Perfil");
+            stage.setScene(new Scene(root));
+            stage.sizeToScene();
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -118,6 +129,7 @@ public class PrincipalController {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("Login");
+            stage.sizeToScene();
             stage.centerOnScreen();
 
             stage.show();

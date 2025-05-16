@@ -1,7 +1,7 @@
 package Juegos.Pong.Controladores;
 
 import Cliente.Conexion.PongClient;
-import Cliente.Modelos.Mensajes.GameStateMensaje;
+import Cliente.Mensajes.GameStateMensaje;
 import Juegos.Pong.LoopJuego;
 import Juegos.Pong.Modelos.GameState;
 import javafx.application.Platform;

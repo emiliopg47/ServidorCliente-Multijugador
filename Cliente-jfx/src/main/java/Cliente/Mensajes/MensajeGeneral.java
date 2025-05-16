@@ -1,4 +1,4 @@
-package Cliente.Modelos.Mensajes;
+package Cliente.Mensajes;
 
 public class MensajeGeneral {
     private String type;

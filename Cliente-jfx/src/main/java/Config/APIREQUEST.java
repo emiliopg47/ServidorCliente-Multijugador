@@ -1,6 +1,4 @@
-package Cliente.Controladores;
-
-import Util.CONFIG;
+package Config;
 
 public class APIREQUEST {
     public static final String API_URL = "http://" + CONFIG.direccionServidor + ":8080/api";

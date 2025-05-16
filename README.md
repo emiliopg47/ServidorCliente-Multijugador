@@ -1,3 +1,19 @@
+# TO DO
+* Ventana de registro
+* Sistema de puntuaciones
+* Pong
+  * Asignar lado a cada jugador
+  * Mostar en cada lado el nombre del jugador (con sus puntos o el W/L)
+  * Finalizar el juego cuando un jugador llegue a X puntos (sets?)
+* Ventana de perfil
+  * Cambiar el nick
+  * Cambiar la contraseña
+  * Cambiar el correo
+  * Cambiar la fecha de nacimiento
+  * Ver la puntuacion de los juegos
+* Añadir algún juego mas?
+
+
 # API REST
 ## Login
 

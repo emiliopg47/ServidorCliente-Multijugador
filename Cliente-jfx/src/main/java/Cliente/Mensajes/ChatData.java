@@ -1,4 +1,4 @@
-package Cliente.Modelos.Mensajes;
+package Cliente.Mensajes;
 
 public class ChatData {
     private String mensaje;

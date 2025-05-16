@@ -1,11 +1,9 @@
 package Juegos.Pong;
 
 import Cliente.Conexion.PongClient;
-import Cliente.Modelos.Mensajes.MensajeGeneral;
-import Cliente.Modelos.Mensajes.PongMove;
+import Cliente.Mensajes.MensajeGeneral;
+import Cliente.Mensajes.PongMove;
 import Juegos.Pong.Controladores.PongController;
-import Juegos.Pong.Modelos.GameState;
-import Util.CONFIG;
 import Util.JsonUtils;
 import javafx.animation.AnimationTimer;
 import javafx.scene.input.KeyCode;

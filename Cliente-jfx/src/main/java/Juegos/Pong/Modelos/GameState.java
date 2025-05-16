@@ -1,7 +1,7 @@
 package Juegos.Pong.Modelos;
 
-import Cliente.Modelos.Mensajes.GameStateMensaje;
-import Util.CONFIG;
+import Cliente.Mensajes.GameStateMensaje;
+import Config.CONFIG;
 
 import static java.lang.Math.abs;
 

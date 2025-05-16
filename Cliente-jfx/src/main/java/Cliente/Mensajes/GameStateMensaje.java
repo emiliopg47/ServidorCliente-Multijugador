@@ -1,4 +1,4 @@
-package Cliente.Modelos.Mensajes;
+package Cliente.Mensajes;
 
 import Juegos.Pong.Modelos.GameState;
 

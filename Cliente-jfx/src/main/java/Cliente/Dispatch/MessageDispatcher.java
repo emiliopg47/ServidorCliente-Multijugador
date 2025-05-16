@@ -1,7 +1,7 @@
 package Cliente.Dispatch;
 
 import Cliente.Handlers.ChatHandler;
-import Cliente.Modelos.Mensajes.MensajeGeneral;
+import Cliente.Mensajes.MensajeGeneral;
 import Util.JsonUtils;
 
 public class MessageDispatcher {

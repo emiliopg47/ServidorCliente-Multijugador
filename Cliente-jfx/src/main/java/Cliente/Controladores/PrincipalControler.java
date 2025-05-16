@@ -3,7 +3,7 @@ package Cliente.Controladores;
 import Cliente.Conexion.ChatClient;
 import Cliente.Conexion.PongClient;
 import Juegos.Pong.Controladores.PongController;
-import Util.CONFIG;
+import Config.CONFIG;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -48,13 +48,38 @@ public class PrincipalControler {
             currentStage.setTitle("Pong");
             currentStage.setResizable(false);
 
-            currentStage.setOnCloseRequest(e -> pongClient.close());
+            currentStage.setOnCloseRequest(e -> closePong(pongClient, event));
             currentStage.show();
 
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void closePong(PongClient pongClient, ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Principal.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Aplicación Principal");
+            stage.setWidth(1000); // Establecer un tamaño máximo de ancho
+            stage.setHeight(800); // Establecer un tamaño máximo de altura
+            stage.centerOnScreen();
+
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (pongClient != null) {
+            pongClient.close();
         }
     }
 
@@ -66,8 +91,22 @@ public class PrincipalControler {
 
 
     @FXML
-    public void handleLogout() {
-        System.out.println("Cerrando sesión...");
+    public void handleLogout(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Login.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Login");
+            stage.centerOnScreen();
+
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

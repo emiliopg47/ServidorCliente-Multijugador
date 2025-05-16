@@ -1,7 +1,7 @@
 package Cliente.Handlers;
 
 import Cliente.Controladores.ChatController;
-import Cliente.Modelos.Mensajes.ChatData;
+import Cliente.Mensajes.ChatData;
 import Util.JsonUtils;
 import javafx.application.Platform;
 

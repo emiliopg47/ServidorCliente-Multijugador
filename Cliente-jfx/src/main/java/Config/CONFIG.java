@@ -1,4 +1,4 @@
-package Util;
+package Config;
 
 public class CONFIG {
     public static String direccionServidor = "localhost";

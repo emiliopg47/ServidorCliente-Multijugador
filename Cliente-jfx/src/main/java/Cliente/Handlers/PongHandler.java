@@ -1,7 +1,7 @@
 package Cliente.Handlers;
 
-import Cliente.Modelos.Mensajes.GameStateMensaje;
-import Cliente.Modelos.Mensajes.MensajeGeneral;
+import Cliente.Mensajes.GameStateMensaje;
+import Cliente.Mensajes.MensajeGeneral;
 import Juegos.Pong.Controladores.PongController;
 import Juegos.Pong.Modelos.GameState;
 import Util.JsonUtils;

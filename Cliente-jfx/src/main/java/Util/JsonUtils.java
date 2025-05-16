@@ -1,6 +1,6 @@
 package Util;
 
-import Cliente.Modelos.Mensajes.MensajeGeneral;
+import Cliente.Mensajes.MensajeGeneral;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonUtils {

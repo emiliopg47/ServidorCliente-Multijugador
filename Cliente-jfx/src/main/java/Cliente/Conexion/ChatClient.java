@@ -3,8 +3,8 @@ package Cliente.Conexion;
 import Cliente.Controladores.ChatController;
 import Cliente.Dispatch.MessageDispatcher;
 import Cliente.Handlers.ChatHandler;
-import Cliente.Modelos.Mensajes.ChatData;
-import Cliente.Modelos.Mensajes.MensajeGeneral;
+import Cliente.Mensajes.ChatData;
+import Cliente.Mensajes.MensajeGeneral;
 import Util.JsonUtils;
 
 import java.time.LocalDateTime;

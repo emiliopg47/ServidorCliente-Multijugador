@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Cliente.Controladores.InfoGamesController"
+      alignment="TOP_CENTER"
+      spacing="15"
+      style="-fx-background-color: #f0f4f8; -fx-border-radius: 10; -fx-background-radius: 10;">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20" />
+    </padding>
+
+    <!-- Título o ComboBox -->
+    <ComboBox fx:id="gameComboBox"
+              prefWidth="250"
+              style="-fx-font-size: 14px; -fx-background-radius: 6;" />
+
+    <!-- Sección de descripción -->
+    <VBox spacing="8" alignment="TOP_LEFT" prefWidth="300">
+        <Label text="Descripción:"
+               style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #333;" />
+        <TextArea fx:id="descripcionArea"
+                  wrapText="true"
+                  editable="false"
+                  prefRowCount="4"
+                  style="-fx-control-inner-background: #ffffff; -fx-background-radius: 6; -fx-border-radius: 6;" />
+    </VBox>
+
+    <!-- Sección de cómo jugar -->
+    <VBox spacing="8" alignment="TOP_LEFT" prefWidth="300">
+        <Label text="Cómo jugar:"
+               style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #333;" />
+        <TextArea fx:id="comoJugarArea"
+                  wrapText="true"
+                  editable="false"
+                  prefRowCount="4"
+                  style="-fx-control-inner-background: #ffffff; -fx-background-radius: 6; -fx-border-radius: 6;" />
+    </VBox>
+
+</VBox>

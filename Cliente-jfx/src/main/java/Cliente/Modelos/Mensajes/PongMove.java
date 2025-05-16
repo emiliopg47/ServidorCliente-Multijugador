@@ -1,4 +1,4 @@
-package com.emilio.servidor_multijugador.web.Mensajes;
+package Cliente.Modelos.Mensajes;
 
 public class PongMove {
     String direccion;
@@ -9,9 +9,6 @@ public class PongMove {
         this.paddle = paddle;
     }
 
-    public PongMove(){
-
-    }
     public String getDireccion() {
         return direccion;
     }

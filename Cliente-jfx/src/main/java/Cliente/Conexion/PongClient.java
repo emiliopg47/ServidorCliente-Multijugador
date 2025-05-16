@@ -10,7 +10,7 @@ public class PongClient extends WebSocketClient{
 
     public PongClient(String nick, PongController pongController) {
         this.nick = nick;
-        this.pongController = pongController; // Pasas el controlador del chat
+        this.pongController = pongController;
         this.dispatcher = new MessageDispatcher();
     }
 
@@ -22,8 +22,8 @@ public class PongClient extends WebSocketClient{
         pongHandler.handle(mensaje);
     }
 
-    public void movePaddle(String contenido) {
-
+    public void movePaddle(String mensaje) {
+        sendMessage(mensaje);
     }
 
     public void setPongController(PongController pongController) {

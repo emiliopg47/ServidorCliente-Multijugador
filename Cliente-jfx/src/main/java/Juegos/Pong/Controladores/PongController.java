@@ -2,7 +2,9 @@ package Juegos.Pong.Controladores;
 
 import Cliente.Conexion.PongClient;
 import Cliente.Modelos.Mensajes.GameStateMensaje;
+import Juegos.Pong.LoopJuego;
 import Juegos.Pong.Modelos.GameState;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
@@ -31,33 +33,31 @@ public class PongController {
     private Label marcadorDrch;
 
     private final Set<KeyCode> teclasActivas = new HashSet<>();
-    public GameState estado;
 
+    boolean gameStarted = false;
     PongClient pongClient;
 
     @FXML
     public void initialize() {
-        //LoopJuego loop = new LoopJuego(estado, this);
-        //loop.start();
-        // Configuración inicial de las palas y la bola
-
-
-/*
         Platform.runLater(() -> {
-            if (scene == null) return;
+            if (anchorPane.getScene() == null) return;
 
-            // Registrar eventos de teclado
-            //scene.setOnKeyPressed(event -> teclasActivas.add(event.getCode()));  // Agregar tecla presionada
-            //scene.setOnKeyReleased(event -> teclasActivas.remove(event.getCode()));  // Eliminar tecla liberada
+            anchorPane.getScene().setOnKeyPressed(event -> teclasActivas.add(event.getCode()));
+            anchorPane.getScene().setOnKeyReleased(event -> teclasActivas.remove(event.getCode()));
 
-            // Forzar el foco al AnchorPane
             anchorPane.requestFocus();
         });
-
- */
-
     }
 
+    public void startGame() {
+        LoopJuego loopJuego = new LoopJuego(pongClient, this);
+        loopJuego.start();
+        gameStarted = true;
+    }
+
+    public boolean isStarted() {
+        return gameStarted;
+    }
 
     public void actualizar(GameState game){
         // Actualiza la posición de las palas

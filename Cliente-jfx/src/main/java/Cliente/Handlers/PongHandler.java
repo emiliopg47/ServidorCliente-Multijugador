@@ -17,6 +17,10 @@ public class PongHandler implements MessageHandler{
             String mensajeStr = (String) message;
             MensajeGeneral data = JsonUtils.fromJson(mensajeStr, MensajeGeneral.class);
 
+            if (!pongController.isStarted()) {
+                pongController.startGame();
+            }
+
             if (data.getType().equals("ESTADO")) {
                 // Intentar convertir a GameStateMensaje
                 String dataString = JsonUtils.toJson(data.getData());

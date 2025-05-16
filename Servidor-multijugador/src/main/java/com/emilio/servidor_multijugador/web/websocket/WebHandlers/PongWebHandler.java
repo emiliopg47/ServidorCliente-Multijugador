@@ -46,6 +46,7 @@ public class PongWebHandler extends TextWebSocketHandler {
         if (room == null) {
             room = nuevaSala();
             room.addPlayer(player);
+            //startGame(room);  //Solo pruebas
         } else {
             room.addPlayer(player);
             System.out.println("Un jugador se ha unido a la sala: " + room.getId());

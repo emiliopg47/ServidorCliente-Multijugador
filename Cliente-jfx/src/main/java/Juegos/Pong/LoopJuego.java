@@ -1,11 +1,57 @@
 package Juegos.Pong;
 
+import Cliente.Conexion.PongClient;
+import Cliente.Modelos.Mensajes.MensajeGeneral;
+import Cliente.Modelos.Mensajes.PongMove;
 import Juegos.Pong.Controladores.PongController;
 import Juegos.Pong.Modelos.GameState;
 import Util.CONFIG;
+import Util.JsonUtils;
 import javafx.animation.AnimationTimer;
 import javafx.scene.input.KeyCode;
 
+public class LoopJuego extends AnimationTimer {
+
+    private final PongClient pongClient;
+    private final PongController controlador;
+
+    private final String paddleUpIzquierda;
+    private String paddleDownIzquierda;
+    private String paddleUpDerecha;
+    private String paddleDownDerecha;
+
+    public LoopJuego(PongClient pongClient, PongController controlador) {
+        this.pongClient = pongClient;
+        this.controlador = controlador;
+        this.paddleUpIzquierda = JsonUtils.toJson(new MensajeGeneral(("MOVE_PADDLE"), new PongMove("UP", "LEFT")));
+        this.paddleDownIzquierda = JsonUtils.toJson(new MensajeGeneral(("MOVE_PADDLE"), new PongMove("DOWN", "LEFT")));
+        this.paddleUpDerecha = JsonUtils.toJson(new MensajeGeneral(("MOVE_PADDLE"), new PongMove("UP", "RIGHT")));
+        this.paddleDownDerecha = JsonUtils.toJson(new MensajeGeneral(("MOVE_PADDLE"), new PongMove("DOWN", "RIGHT")));
+    }
+
+    @Override
+    public void handle(long now) {
+        comprobarTeclas();
+    }
+
+    public void comprobarTeclas() {
+        if (controlador.getTeclasActivas().contains(KeyCode.W)) {
+            pongClient.movePaddle(paddleUpIzquierda);
+        }
+        if (controlador.getTeclasActivas().contains(KeyCode.S)) {
+            pongClient.movePaddle(paddleDownIzquierda);
+        }
+        if (controlador.getTeclasActivas().contains(KeyCode.UP)) {
+            pongClient.movePaddle(paddleUpDerecha);
+        }
+        if (controlador.getTeclasActivas().contains(KeyCode.DOWN)) {
+            pongClient.movePaddle(paddleDownDerecha);
+        }
+    }
+}
+
+
+/*
 public class LoopJuego extends AnimationTimer {
 
     private final GameState estado;
@@ -18,17 +64,7 @@ public class LoopJuego extends AnimationTimer {
 
     @Override
     public void handle(long now) {
-        // 1. Actualizar lógica del juego
-        estado.actualizar();
-
-        // 2. Comprobar las teclas activas
         comprobarTeclas();
-
-        // 3. Comprobar colisiones
-        estado.comprobarColisiones();
-
-        // 4. Actualizar controladores o UI
-        controlador.actualizar(estado);
     }
 
     public void comprobarTeclas() {
@@ -68,3 +104,6 @@ public class LoopJuego extends AnimationTimer {
         }
     }
 }
+
+
+ */

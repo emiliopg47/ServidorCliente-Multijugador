@@ -1,6 +1,5 @@
 package com.emilio.servidor_multijugador.web.Mensajes;
 
-import com.emilio.servidor_multijugador.Util.JsonUtils;
 import com.emilio.servidor_multijugador.game.pong.modelos.GameState;
 
 public class GameStateMensaje {

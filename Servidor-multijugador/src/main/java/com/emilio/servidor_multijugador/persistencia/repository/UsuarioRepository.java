@@ -1,5 +1,5 @@
 package com.emilio.servidor_multijugador.persistencia.repository;
-import com.emilio.servidor_multijugador.persistencia.modelos.Ranking;
+
 import com.emilio.servidor_multijugador.persistencia.modelos.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

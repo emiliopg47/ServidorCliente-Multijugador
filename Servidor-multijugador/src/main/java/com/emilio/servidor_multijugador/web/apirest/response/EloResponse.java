@@ -1,7 +1,5 @@
 package com.emilio.servidor_multijugador.web.apirest.response;
 
-import com.emilio.servidor_multijugador.persistencia.modelos.Ranking;
-
 public class EloResponse {
     private boolean success;
     private String message;

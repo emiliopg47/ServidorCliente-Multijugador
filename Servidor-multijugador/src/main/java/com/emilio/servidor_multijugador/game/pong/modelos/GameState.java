@@ -4,7 +4,6 @@ import com.emilio.servidor_multijugador.Util.CONFIG;
 import com.emilio.servidor_multijugador.web.Mensajes.PongMove;
 
 import static com.emilio.servidor_multijugador.Util.CONFIG.altoPala;
-import static com.emilio.servidor_multijugador.Util.CONFIG.anchoPala;
 import static java.lang.Math.abs;
 
 public class GameState {

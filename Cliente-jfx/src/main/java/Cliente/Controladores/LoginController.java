@@ -15,7 +15,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class LoginControler extends Controler {
+public class LoginController extends Controller {
 
     @FXML
     private TextField usernameField;
@@ -62,8 +62,23 @@ public class LoginControler extends Controler {
         }
     }
 
+    @FXML
+    public void abrirRegistro() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Registro.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) usernameField.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Registro");
+            stage.setResizable(false);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private Stage getStage(FXMLLoader loader, String user, Parent root) {
-        PrincipalControler principalControler = loader.getController();
+        PrincipalController principalControler = loader.getController();
         principalControler.setNick(user);
         Scene scene = new Scene(root);
 

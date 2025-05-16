@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class PrincipalControler {
+public class PrincipalController {
 
     private String nick;
 

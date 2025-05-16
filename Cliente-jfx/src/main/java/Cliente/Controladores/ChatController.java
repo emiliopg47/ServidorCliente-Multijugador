@@ -6,7 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-public class ChatController extends Controler {
+public class ChatController extends Controller {
 
 
     @FXML

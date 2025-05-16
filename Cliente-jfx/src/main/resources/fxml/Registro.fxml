@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="642.0" prefWidth="648.0" style="-fx-background-color: #1E3A8A;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Cliente.Controladores.RegistroController">
+
+    <GridPane alignment="CENTER" layoutX="79.0" layoutY="76.0" prefHeight="490.0" prefWidth="491.0"
+              style="-fx-background-color: white; -fx-background-radius: 15px; -fx-padding: 30px; -fx-hgap: 20; -fx-vgap: 20;"
+              AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="79.0" AnchorPane.rightAnchor="78.0" AnchorPane.topAnchor="76.0">
+
+        <!-- Título -->
+        <Label alignment="CENTER" style="-fx-font-size: 48px; -fx-font-family: 'Segoe UI'; -fx-font-weight: bold; -fx-text-fill: #1E3A8A;" text="Crea tu cuenta" GridPane.columnSpan="2" />
+
+        <!-- Nick / Usuario -->
+        <ImageView fitHeight="48" fitWidth="48" GridPane.rowIndex="1">
+            <image><Image url="@/images/login/usuario3.png" /></image>
+        </ImageView>
+        <TextField fx:id="nombreUser" alignment="CENTER" prefWidth="300" promptText="Nombre de usuario"
+                   style="-fx-font-size: 18px; -fx-padding: 10px;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+        <!-- Correo electrónico -->
+        <ImageView fitHeight="48" fitWidth="48" GridPane.rowIndex="2">
+            <image><Image url="@/images/login/email.png" /></image>
+        </ImageView>
+        <TextField fx:id="email" alignment="CENTER" prefWidth="300" promptText="Correo electrónico"
+                   style="-fx-font-size: 18px; -fx-padding: 10px;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+        <!-- Contraseña -->
+        <ImageView fitHeight="48" fitWidth="48" GridPane.rowIndex="3">
+            <image><Image url="@/images/login/lock.png" /></image>
+        </ImageView>
+        <PasswordField fx:id="passwordField" alignment="CENTER" prefWidth="300" promptText="Contraseña"
+                       style="-fx-font-size: 18px; -fx-padding: 10px;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+        <!-- Confirmar contraseña -->
+        <ImageView fitHeight="48" fitWidth="48" GridPane.rowIndex="4">
+            <image><Image url="@/images/login/lock.png" /></image>
+        </ImageView>
+        <PasswordField fx:id="confirmPasswordField" alignment="CENTER" prefWidth="300" promptText="Confirmar contraseña"
+                       style="-fx-font-size: 18px; -fx-padding: 10px;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+        <!-- Fecha de nacimiento -->
+        <ImageView fitHeight="48" fitWidth="48" GridPane.rowIndex="5">
+            <image><Image url="@/images/login/calendario.png" /></image>
+        </ImageView>
+        <DatePicker fx:id="fechaNac" prefWidth="300" promptText="Fecha de nacimiento"
+                    style="-fx-font-size: 18px; -fx-padding: 10px;" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+        <!-- Botón de registro -->
+        <Button alignment="CENTER" onAction="#handleRegistro"
+                style="-fx-background-color: #3B82F6; -fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold; -fx-padding: 12px 25px; -fx-background-radius: 25px;"
+                text="Registrarse" GridPane.columnSpan="2" GridPane.rowIndex="6" />
+
+        <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+        </columnConstraints>
+
+        <rowConstraints>
+            <RowConstraints /> <!-- Título -->
+            <RowConstraints /> <!-- Usuario -->
+            <RowConstraints /> <!-- Correo -->
+            <RowConstraints /> <!-- Contraseña -->
+            <RowConstraints /> <!-- Confirmar contraseña -->
+            <RowConstraints /> <!-- Fecha nacimiento -->
+            <RowConstraints /> <!-- Botón -->
+        </rowConstraints>
+    </GridPane>
+</AnchorPane>

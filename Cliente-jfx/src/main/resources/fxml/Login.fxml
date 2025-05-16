@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="642.0" prefWidth="648.0" style="-fx-background-color: #1E3A8A;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Cliente.Controladores.LoginControler">
+<AnchorPane prefHeight="642.0" prefWidth="648.0" style="-fx-background-color: #1E3A8A;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Cliente.Controladores.LoginController">
 
     <!-- Cuadro blanco para el login, con padding y tamaño flexible -->
     <GridPane alignment="CENTER" layoutX="79.0" layoutY="76.0" prefHeight="490.0" prefWidth="491.0" style="-fx-background-color: white; -fx-background-radius: 15px; -fx-padding: 30px; -fx-hgap: 20; -fx-vgap: 20;" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="79.0" AnchorPane.rightAnchor="78.0" AnchorPane.topAnchor="76.0">
@@ -40,7 +40,7 @@
         <Button alignment="CENTER" onAction="#handleLogin" style="-fx-background-color: #3B82F6; -fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold; -fx-padding: 12px 25px; -fx-background-radius: 25px;" text="Entrar" GridPane.columnSpan="2" GridPane.rowIndex="3" />
 
         <!-- Enlace para la cuenta -->
-        <Hyperlink alignment="CENTER" style="-fx-font-size: 18px; -fx-text-fill: #1E3A8A;" text="¿No tienes cuenta todavía?" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+        <Hyperlink alignment="CENTER" style="-fx-font-size: 18px; -fx-text-fill: #1E3A8A;" text="¿No tienes cuenta todavía?" GridPane.columnSpan="2" GridPane.rowIndex="4"  onAction="#abrirRegistro"/>
       <columnConstraints>
          <ColumnConstraints />
          <ColumnConstraints />

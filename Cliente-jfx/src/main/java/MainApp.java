@@ -1,24 +1,7 @@
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import Cliente.GUI;
 
-public class MainApp extends Application {
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Login.fxml"));
-        primaryStage.setTitle("Login JavaFX");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.setResizable(false);
-        primaryStage.show();
-
-    }
-
+public class MainApp  {
     public static void main(String[] args) {
-        launch(args);
-
-
+        GUI.launch(GUI.class, args);
     }
-
 }

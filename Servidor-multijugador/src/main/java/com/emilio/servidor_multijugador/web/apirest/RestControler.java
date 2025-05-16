@@ -50,10 +50,10 @@ public class RestControler{
         }
     }
 
-    @PostMapping("/infoJuego")
-    public ResponseEntity<GameInfoResponse> info(@RequestBody String juego) {
+    @GetMapping("/infoJuego/{juego}")
+    public ResponseEntity<GameInfoResponse> info(@PathVariable String juego) {
         Juego j = serviceJuego.findByNombre(juego);
-        GameInfoResponse gameInfoResponse = new GameInfoResponse( j);
+        GameInfoResponse gameInfoResponse = new GameInfoResponse(j);
         return ResponseEntity.ok(gameInfoResponse);
     }
 

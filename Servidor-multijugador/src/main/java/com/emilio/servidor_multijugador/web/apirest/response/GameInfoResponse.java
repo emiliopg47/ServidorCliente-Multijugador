@@ -6,18 +6,18 @@ public class GameInfoResponse {
 
     private String nombre;
     private String descripcion;
-    private String como_jugar;
+    private String comoJugar;
 
     public GameInfoResponse(String nombre, String descripcion, String como_jugar) {
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.como_jugar = como_jugar;
+        this.comoJugar = como_jugar;
     }
 
     public GameInfoResponse(Juego juego){
         this.nombre = juego.getNombre();
         this.descripcion = juego.getDescripcion();
-        this.como_jugar = juego.getComoJugar();
+        this.comoJugar = juego.getComo_jugar();
     }
 
     public String getNombre() {
@@ -36,11 +36,11 @@ public class GameInfoResponse {
         this.descripcion = descripcion;
     }
 
-    public String getComo_jugar() {
-        return como_jugar;
+    public String getComoJugar() {
+        return comoJugar;
     }
 
-    public void setComo_jugar(String como_jugar) {
-        this.como_jugar = como_jugar;
+    public void setComoJugar(String comoJugar) {
+        this.comoJugar = comoJugar;
     }
 }

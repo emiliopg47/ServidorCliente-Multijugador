@@ -10,6 +10,10 @@ Accept: application/json
   "nick": "emilio",
   "password": "1234"
 }
+###
+GET http://localhost:8080/api/infoJuego/Pong
+
+###
 
 ###
 POST http://localhost:8080/api/register

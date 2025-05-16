@@ -20,9 +20,10 @@
     <center>
         <StackPane style="-fx-background-color: #f0f4f8; -fx-padding: 50px;">
             <VBox alignment="CENTER" spacing="30" style="-fx-padding: 30px; -fx-background-color: white; -fx-background-radius: 10px;">
-                <Button onAction="#handleSearchGame" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 22px; -fx-padding: 15px 30px; -fx-background-radius: 10px;" text="Buscar Partida" />
+                <Button onAction="#handleSearchGame" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 22px; -fx-padding: 15px 30px; -fx-background-radius: 10px;" text="Jugar Pong" />
                 <Button onAction="#handleViewProfile" style="-fx-background-color: #3B82F6; -fx-text-fill: white; -fx-font-size: 22px; -fx-padding: 15px 30px; -fx-background-radius: 10px;" text="Ver Perfil" />
                 <Button onAction="#handleChat" style="-fx-background-color: #FFD700; -fx-text-fill: white; -fx-font-size: 22px; -fx-padding: 15px 30px; -fx-background-radius: 10px;" text="Chat" />
+                <Button onAction="#handleInfoGames" style="-fx-background-color: #bf7c98; -fx-text-fill: white; -fx-font-size: 22px; -fx-padding: 15px 30px; -fx-background-radius: 10px;" text="Información de Juegos" />
                 <Button onAction="#handleLogout" style="-fx-background-color: #FF5733; -fx-text-fill: white; -fx-font-size: 22px; -fx-padding: 15px 30px; -fx-background-radius: 10px;" text="Cerrar Sesión" />
 
             </VBox>

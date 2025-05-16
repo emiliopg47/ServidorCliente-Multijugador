@@ -89,6 +89,23 @@ public class PrincipalController {
         System.out.println("Mostrando perfil...");
     }
 
+    @FXML
+    public void handleInfoGames(){
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/InfoGames.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Información de Juegos");
+            stage.setScene(new Scene(root));
+            stage.sizeToScene();
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     @FXML
     public void handleLogout(ActionEvent event) {

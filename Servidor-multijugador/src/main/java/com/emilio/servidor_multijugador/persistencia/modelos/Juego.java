@@ -2,6 +2,9 @@ package com.emilio.servidor_multijugador.persistencia.modelos;
 
 import jakarta.persistence.*;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "juego")
 public class Juego {
@@ -17,15 +20,37 @@ public class Juego {
     private String descripcion;
 
     @Lob
-    @Column(name = "comoJugar")
-    private String comoJugar;
+    @Column(name = "como_jugar")
+    private String como_jugar;
 
-    public String getComoJugar() {
-        return comoJugar;
+    @OneToMany(mappedBy = "idJuego")
+    private Set<HistorialGames> historialGames = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "idJuego")
+    private Set<Ranking> rankings = new LinkedHashSet<>();
+
+    public Set<Ranking> getRankings() {
+        return rankings;
     }
 
-    public void setComoJugar(String comoJugar) {
-        this.comoJugar = comoJugar;
+    public void setRankings(Set<Ranking> rankings) {
+        this.rankings = rankings;
+    }
+
+    public Set<HistorialGames> getHistorialGames() {
+        return historialGames;
+    }
+
+    public void setHistorialGames(Set<HistorialGames> historialGames) {
+        this.historialGames = historialGames;
+    }
+
+    public String getComo_jugar() {
+        return como_jugar;
+    }
+
+    public void setComo_jugar(String comoJugar) {
+        this.como_jugar = comoJugar;
     }
 
 

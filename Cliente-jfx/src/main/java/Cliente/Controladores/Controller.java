@@ -26,7 +26,7 @@ public class Controller {
         alert.showAndWait();
     }
 
-    public JSONObject api_request(String url,  String json) {
+    public JSONObject postApi(String url, String json) {
         HttpClient client = HttpClient.newHttpClient();
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -35,6 +35,21 @@ public class Controller {
                 .POST(HttpRequest.BodyPublishers.ofString(json))
                 .build();
 
+        return getJsonObject(client, request);
+    }
+    public JSONObject getApi(String url) {
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .GET()
+                .build();
+
+        return getJsonObject(client, request);
+    }
+
+    private JSONObject getJsonObject(HttpClient client, HttpRequest request) {
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());

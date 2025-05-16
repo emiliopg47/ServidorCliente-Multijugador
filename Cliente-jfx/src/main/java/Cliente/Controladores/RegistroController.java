@@ -14,10 +14,6 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import org.json.JSONObject;
 
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -74,7 +70,7 @@ public class RegistroController extends  Controller{
         }
 
         String json = JsonUtils.toJson(registroMensaje);
-        JSONObject respuesta = api_request(APIREQUEST.REGISTER_URL, json);
+        JSONObject respuesta = postApi(APIREQUEST.REGISTER_URL, json);
         boolean success = respuesta.getBoolean("success");
 
         if (success) {

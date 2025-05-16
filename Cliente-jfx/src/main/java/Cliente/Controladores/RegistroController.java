@@ -78,7 +78,7 @@ public class RegistroController extends  Controller{
         boolean success = respuesta.getBoolean("success");
 
         if (success) {
-            showConfirmation("",respuesta.getString("message" + ". Redirigiendo a la pantalla de inicio de sesión."));
+            showConfirmation("",respuesta.getString("message") + ". Redirigiendo a la pantalla de inicio de sesión.");
             registroExitoso();
         } else {
             showError("Error de registro.", respuesta.getString("message"));

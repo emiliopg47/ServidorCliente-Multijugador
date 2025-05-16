@@ -25,4 +25,8 @@ public class ServiceJuego {
         dao.deleteById(id);
     }
 
+    public Juego findByNombre(String nombre) {
+        return dao.findByNombre(nombre);
+    }
+
 }

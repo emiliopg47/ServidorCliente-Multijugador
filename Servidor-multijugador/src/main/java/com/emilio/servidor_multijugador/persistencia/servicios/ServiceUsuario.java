@@ -23,11 +23,19 @@ public class ServiceUsuario {
     public void deleteById(Integer id) {
         dao.deleteById(id);
     }
-    public boolean findByNick(String nick) {
+    public boolean existByNick(String nick) {
         return dao.existsByNick(nick);
     }
 
-    public boolean findByCorreo(String correo) {
+    public Usuario findByNick(String nick) {
+        return dao.findByNick(nick);
+    }
+
+    public Usuario findByCorreo(String correo) {
+        return dao.findByCorreo(correo);
+    }
+
+    public boolean existByCorreo(String correo) {
         return dao.existsByCorreo(correo);
     }
 

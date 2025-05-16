@@ -15,6 +15,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     boolean existsByCorreo(String correo);
 
+    Usuario findByNick(String nick);
+    Usuario findByCorreo(String correo);
+
     @Query("""
         select r.puntos
         from

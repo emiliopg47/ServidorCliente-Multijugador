@@ -1,6 +1,9 @@
 package com.emilio.servidor_multijugador.web.apirest;
 
+import com.emilio.servidor_multijugador.Util.Hash;
+import com.emilio.servidor_multijugador.persistencia.modelos.Juego;
 import com.emilio.servidor_multijugador.persistencia.modelos.Usuario;
+import com.emilio.servidor_multijugador.persistencia.servicios.ServiceJuego;
 import com.emilio.servidor_multijugador.persistencia.servicios.ServiceUsuario;
 import com.emilio.servidor_multijugador.web.apirest.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +18,12 @@ public class RestControler{
     @Autowired
     private ServiceUsuario serviceUsuario;
 
+    @Autowired
+    private ServiceJuego serviceJuego;
+
     @PostMapping("/pruebas")
     public ResponseEntity<LoginResponse> pruebas() {
-        LoginResponse res = new LoginResponse(true, "Resultado: " + serviceUsuario.findByNick("emilio"), null);
+        LoginResponse res = new LoginResponse(true, "Resultado: " + serviceUsuario.existByNick("emilio"), null);
         return ResponseEntity.ok(res);
     }
 
@@ -35,11 +41,20 @@ public class RestControler{
     public ResponseEntity<RegisterResponse> singIn(@RequestBody Usuario usuario){
         RegisterResponse registerResponse = comprobarRegistro(usuario);
         if (registerResponse.isSuccess()) {
+            // Encriptar la contraseña
+            usuario.setPassword(Hash.hashPassword(usuario.getPassword()));
             serviceUsuario.create(usuario);
             return ResponseEntity.ok(registerResponse);
         } else {
             return ResponseEntity.badRequest().body(registerResponse);
         }
+    }
+
+    @PostMapping("/infoJuego")
+    public ResponseEntity<GameInfoResponse> info(@RequestBody String juego) {
+        Juego j = serviceJuego.findByNombre(juego);
+        GameInfoResponse gameInfoResponse = new GameInfoResponse( j);
+        return ResponseEntity.ok(gameInfoResponse);
     }
 
     @GetMapping("/elo/{nick}/{juego}")
@@ -50,12 +65,6 @@ public class RestControler{
         } else {
             return ResponseEntity.badRequest().body(rankingResponse);
         }
-    }
-
-    @PostMapping("/matchmaking")
-    public MatchMakingResponse matchmaking(@RequestBody Usuario usuario) {
-        // Metodo para hacer matchmaking
-        return null;
     }
 
     private EloResponse comprobarRanking(String nick, String juego) {
@@ -69,21 +78,21 @@ public class RestControler{
     private LoginResponse comprobarLogin(Usuario usuario) {
         // Metodo para comprobar el login de un usuario
         if (usuario.getCorreo() == null) {
-            if (!serviceUsuario.findByNick(usuario.getNick())) {
+            if (!serviceUsuario.existByNick(usuario.getNick())) {
                 return new LoginResponse(false, Mensajes.USUARIO_NO_ENCONTRADO, null);
             }
-            Usuario u = serviceUsuario.findByNickAndPassword(usuario.getNick(), usuario.getPassword());
-            if (u == null) {
+            Usuario u = serviceUsuario.findByNick(usuario.getNick());
+            if (!Hash.verificarPassword(usuario.getPassword(), u.getPassword())) {
                 return new LoginResponse(false, Mensajes.CONTRASENA_INCORRECTA, null);
             }
             return new LoginResponse(true, Mensajes.CONEXION_EXITOSA, u);
         }
         if (usuario.getNick() == null) {
-            if (!serviceUsuario.findByCorreo(usuario.getCorreo())) {
+            if (!serviceUsuario.existByCorreo(usuario.getCorreo())) {
                 return new LoginResponse(false, Mensajes.USUARIO_NO_ENCONTRADO, null);
             }
-            Usuario u = serviceUsuario.findByCorreoAndPassword(usuario.getCorreo(), usuario.getPassword());
-            if (u == null) {
+            Usuario u = serviceUsuario.findByCorreo(usuario.getCorreo());
+            if (!Hash.verificarPassword(usuario.getPassword(), u.getPassword())) {
                 return new LoginResponse(false, Mensajes.CONTRASENA_INCORRECTA, null);
             }
             return new LoginResponse(true, Mensajes.CONEXION_EXITOSA, u);
@@ -96,10 +105,10 @@ public class RestControler{
         if (usuario.getNick() == null && usuario.getCorreo() == null && usuario.getPassword() == null && usuario.getFechaNac() == null) {
             return new RegisterResponse(false, Mensajes.CAMPOS_INCOMPELTOS + "en comprobarRegistro()" + this.getClass());
         }
-        if (usuario.getNick() != null && serviceUsuario.findByNick(usuario.getNick())) {
+        if (usuario.getNick() != null && serviceUsuario.existByNick(usuario.getNick())) {
             return new RegisterResponse(false, Mensajes.NICK_YA_EXISTE);
         }
-        if (usuario.getCorreo() != null && serviceUsuario.findByCorreo(usuario.getCorreo())) {
+        if (usuario.getCorreo() != null && serviceUsuario.existByCorreo(usuario.getCorreo())) {
             return new RegisterResponse(false, Mensajes.CORREO_YA_EXISTE);
         }
         return new RegisterResponse(true, Mensajes.REGISTRO_EXITOSO);

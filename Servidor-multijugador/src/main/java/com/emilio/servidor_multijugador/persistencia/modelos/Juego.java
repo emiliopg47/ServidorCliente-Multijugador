@@ -16,6 +16,19 @@ public class Juego {
     @Column(name = "descripcion")
     private String descripcion;
 
+    @Lob
+    @Column(name = "comoJugar")
+    private String comoJugar;
+
+    public String getComoJugar() {
+        return comoJugar;
+    }
+
+    public void setComoJugar(String comoJugar) {
+        this.comoJugar = comoJugar;
+    }
+
+
     public Integer getId() {
         return id;
     }

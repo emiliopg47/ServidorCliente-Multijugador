@@ -10,5 +10,6 @@ public class Mensajes {
     public static final String USUARIO_NO_ENCONTRADO = "Usuario no encontrado";
 
     public static final String REGISTRO_EXITOSO = "Usuario registrado correctamente";
-    public static final String RANKING_NO_ENCONTRADO = "EL jugador no tiene rango en ese juego";
+    public static final String RANKING_NO_ENCONTRADO = "El jugador no tiene rango en ese juego";
+    public static final String JUEGO_NO_ENCONTRADO = "El juego no existe";
 }

@@ -1,5 +1,4 @@
 # TO DO
-* Ventana de registro
 * Sistema de puntuaciones
 * Pong
   * Asignar lado a cada jugador

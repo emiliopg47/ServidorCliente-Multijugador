@@ -61,9 +61,9 @@ public class RestControler{
             return ResponseEntity.badRequest().body(rankingResponse);
         }
     }
-    @GetMapping
-    public ResponseEntity<CambioFotoPerfilResponse> cambiarFotoPerfil(@RequestBody byte[] imagen, @RequestParam String nick) {
-        Usuario usuario = serviceUsuario.findByNick(nick);
+    @PostMapping("/cambiarFotoPerfil")
+    public ResponseEntity<CambioFotoPerfilResponse> cambiarFotoPerfil(@RequestBody byte[] imagen, @RequestParam String nick, @RequestParam String password) {
+        Usuario usuario = serviceUsuario.findByNickAndPassword(nick, password);
         if (usuario == null) {
             return ResponseEntity.badRequest().body(new CambioFotoPerfilResponse(false, Mensajes.USUARIO_NO_ENCONTRADO, null));
         }

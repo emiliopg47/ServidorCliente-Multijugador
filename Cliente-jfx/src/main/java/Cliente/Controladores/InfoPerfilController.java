@@ -1,6 +1,8 @@
 package Cliente.Controladores;
 
+import Config.APIREQUEST;
 import Config.CONFIG;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
@@ -53,4 +55,9 @@ public class InfoPerfilController extends Controller{
 
     }
 
+    public void cambiarImagen(ActionEvent actionEvent) {
+
+
+        //postApi(APIREQUEST.CAMBIAR_IMAGEN );
+    }
 }

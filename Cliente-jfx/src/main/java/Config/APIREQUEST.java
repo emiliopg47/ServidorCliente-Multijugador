@@ -8,4 +8,5 @@ public class APIREQUEST {
     public static final String GAME_INFO = API_URL + "/infoJuego";
 
 
+    public static final String CAMBIAR_IMAGEN = API_URL + "/cambiarImagen";
 }

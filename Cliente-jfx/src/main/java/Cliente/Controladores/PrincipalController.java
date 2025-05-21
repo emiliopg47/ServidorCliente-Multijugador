@@ -2,19 +2,63 @@ package Cliente.Controladores;
 
 import Cliente.Conexion.ChatClient;
 import Cliente.Conexion.PongClient;
-import Juegos.Pong.Controladores.PongController;
 import Config.CONFIG;
+import Juegos.Pong.Controladores.PongController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class PrincipalController {
+
+public class PrincipalController extends Controller {
+
+    // CABECERA
+    @FXML
+    private ImageView imgPerfil;
+    @FXML
+    private Button btnInfo;
+    @FXML
+    private Label lblJugadores;
+    @FXML
+    private Button btnCerrarSesion;
+
+    // CUADRO CENTRAL - PANEL JUGAR
+    @FXML
+    private StackPane panelJugar;
+    @FXML
+    private ImageView imgAvatarCentro;
+    @FXML
+    private Label lblNombreCentro;
+    @FXML
+    private Label lblRangoCentro;
+    @FXML
+    private Button btnBuscar;
+
+    // CHAT
+    @FXML
+    private TextArea chatOutput;
+    @FXML
+    private TextField chatInput;
+
+    // PIE
+    @FXML
+    private ImageView imgGitHub;
+
+    // Imagen de fondo (añadida por código para poder hacer el bind)
+    private ImageView fondoJugar;
+
+
 
     private String nick;
 
@@ -33,6 +77,7 @@ public class PrincipalController {
             Parent root = loader.load();
 
             PongController pongController = loader.getController();
+            pongController.setNick(nick);
             PongClient pongClient = new PongClient(nick, pongController);
             pongController.setPongClient(pongClient);
             String uri = "ws://" + CONFIG.direccionServidor + ":8080/ws/pong";
@@ -48,7 +93,7 @@ public class PrincipalController {
             currentStage.setTitle("Pong");
             currentStage.setResizable(false);
 
-            currentStage.setOnCloseRequest(e -> closePong(pongClient, event));
+
             currentStage.show();
 
         } catch (IOException e) {
@@ -58,31 +103,35 @@ public class PrincipalController {
         }
     }
 
-    public void closePong(PongClient pongClient, ActionEvent event) {
+
+    @FXML
+    public void handleViewGitHub() {
+        /*String url = "https://github.com/emiliopg47/ServidorCliente-Multijugador";
+
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Principal.fxml"));
-            Parent root = loader.load();
+            if (java.awt.Desktop.isDesktopSupported()) {
+                java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
+                if (desktop.isSupported(java.awt.Desktop.Action.BROWSE)) {
+                    desktop.browse(java.net.URI.create(url));
+                    return;
+                }
+            }
 
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setTitle("Aplicación Principal");
-            stage.setWidth(1000);
-            stage.setHeight(800);
-            stage.centerOnScreen();
-
-            stage.show();
-
-        } catch (IOException e) {
+            // Alternativas según sistema operativo
+            String os = System.getProperty("os.name").toLowerCase();
+            if (os.contains("win")) {
+                Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + url);
+            } else if (os.contains("mac")) {
+                Runtime.getRuntime().exec("open " + url);
+            } else if (os.contains("nix") || os.contains("nux")) {
+                Runtime.getRuntime().exec("xdg-open " + url);
+            } else {
+                System.err.println("Sistema operativo no soportado: " + os);
+            }
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-
-        if (pongClient != null) {
-            pongClient.close();
-        }
+        }*/
     }
-
 
     @FXML
     public void handleViewProfile() {

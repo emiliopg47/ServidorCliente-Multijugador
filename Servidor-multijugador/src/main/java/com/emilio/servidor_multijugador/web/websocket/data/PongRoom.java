@@ -1,8 +1,10 @@
 package com.emilio.servidor_multijugador.web.websocket.data;
 
+import com.emilio.servidor_multijugador.Util.CONFIG;
 import com.emilio.servidor_multijugador.Util.JsonUtils;
 import com.emilio.servidor_multijugador.game.pong.modelos.GameState;
 import com.emilio.servidor_multijugador.web.Mensajes.GameStateMensaje;
+import com.emilio.servidor_multijugador.web.Mensajes.GameEndMensaje;
 import com.emilio.servidor_multijugador.web.Mensajes.MensajeGeneral;
 import org.springframework.web.socket.TextMessage;
 
@@ -59,16 +61,36 @@ public class PongRoom extends Room {
         estado.actualizar();
         // 2. Comprobar colisiones
         estado.comprobarColisiones();
-
-        // 3. Comprobar si hay un ganador
-
-        // 4. Enviar el estado del juego a los jugadores
+        // 3. Enviar el estado del juego a los jugadores
         broadcastState();
     }
-
     public void broadcastState() {
+        //Comprobar ganador
+        if (estado.getMarcadorIzq() == CONFIG.puntosNecesariosParaGanar){
+            GameEndMensaje mensajeGanador = new GameEndMensaje();
+            mensajeGanador.setGanador("IZQUIERDA");
+            mensajeGanador.setPuntosJugadorDerecha(-10);
+            mensajeGanador.setPuntosJugadorIzquierda(10);
+
+            mandarMensajeBroadcast(new MensajeGeneral("FIN",mensajeGanador));
+            stopLoop();
+        }
+
+        if (estado.getMarcadorDrch() == CONFIG.puntosNecesariosParaGanar){
+            GameEndMensaje mensajeGanador = new GameEndMensaje();
+            mensajeGanador.setGanador("DERECHA");
+            mensajeGanador.setPuntosJugadorDerecha(10);
+            mensajeGanador.setPuntosJugadorIzquierda(-10);
+                mandarMensajeBroadcast(new MensajeGeneral("FIN",mensajeGanador));
+            stopLoop();
+        }
+
         GameStateMensaje mensajeEstado = new GameStateMensaje(estado);
         MensajeGeneral mensaje = new MensajeGeneral("ESTADO", mensajeEstado);
+        mandarMensajeBroadcast(mensaje);
+
+    }
+    private void mandarMensajeBroadcast(MensajeGeneral mensaje){
         for (Player player : getPlayers()) {
             try {
                 String json = JsonUtils.toJson(mensaje);

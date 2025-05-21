@@ -29,6 +29,7 @@ public class LoopJuego extends AnimationTimer {
 
     @Override
     public void handle(long now) {
+        // El loop del cliente solo comprobara las teclsa
         comprobarTeclas();
     }
 

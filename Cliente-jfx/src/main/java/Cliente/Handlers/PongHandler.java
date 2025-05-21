@@ -1,5 +1,6 @@
 package Cliente.Handlers;
 
+import Cliente.Mensajes.GameEndMensaje;
 import Cliente.Mensajes.GameStateMensaje;
 import Cliente.Mensajes.MensajeGeneral;
 import Juegos.Pong.Controladores.PongController;
@@ -32,6 +33,18 @@ public class PongHandler implements MessageHandler{
                     pongController.actualizar(game);
                 });
             }
+
+            if (data.getType().equals("FIN")) {
+                String dataString = JsonUtils.toJson(data.getData());
+                GameEndMensaje gameEndMensaje = JsonUtils.fromJson(dataString, GameEndMensaje.class);
+
+                // Fin del juego
+                Platform.runLater(() -> {
+                    pongController.mostrarFinJuego(gameEndMensaje);
+                });
+            }
+
+
         } catch (Exception e) {
             System.err.println("Error al manejar el mensaje: " + e.getMessage());
             e.printStackTrace();

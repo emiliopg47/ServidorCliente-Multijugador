@@ -24,7 +24,7 @@
                            fitWidth="120" fitHeight="120"
                            preserveRatio="true">
                     <image>
-                        <Image url="@/images/login/fotoPerfilGenerica.png" />
+                        <Image url="@/images/fotoPerfilGenerica.png" />
                     </image>
                 </ImageView>
 

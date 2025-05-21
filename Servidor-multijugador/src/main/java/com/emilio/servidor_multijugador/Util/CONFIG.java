@@ -8,4 +8,6 @@ public class CONFIG {
 
     public static double xPalaIzquierda = 30;
     public static double xPalaDerecha = 560;
+
+    public static int puntosNecesariosParaGanar = 10;
 }

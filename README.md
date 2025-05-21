@@ -1,15 +1,28 @@
 # TO DO
-* Sistema de puntuaciones
+
+* Sistema de puntuaciones (Elo/rango)
+
 * Pong
   * Asignar lado a cada jugador
   * Mostar en cada lado el nombre del jugador (con sus puntos o el W/L)
-  * Finalizar el juego cuando un jugador llegue a X puntos (sets?)
+  * Cambiar la ventana de informacion del fin de partida
+
+* Base de datos
+  * Añadir a la tabla usuarios un campo para la imagen de perfil
+  
 * Ventana de perfil
+  * Mostrar la imagen de perfil
   * Cambiar el nick
   * Cambiar la contraseña
   * Cambiar el correo
   * Cambiar la fecha de nacimiento
   * Ver la puntuacion de los juegos
+
+* Chat (Intentar integrarlo en la ventana principal)
+  * Que sea global y no por sala
+  * Añadir a base de datos los mensajes
+  * Al abir la ventana cargar los mensajes de la base de datos desde x tiempo
+
 * Añadir algún juego mas?
 
 

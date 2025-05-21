@@ -26,6 +26,14 @@ public class Controller {
         alert.showAndWait();
     }
 
+    public void showInformation(String cabezera, String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Información: ");
+        alert.setHeaderText(cabezera);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
+
     public JSONObject postApi(String url, String json) {
         HttpClient client = HttpClient.newHttpClient();
 
@@ -37,6 +45,7 @@ public class Controller {
 
         return getJsonObject(client, request);
     }
+
     public JSONObject getApi(String url) {
         HttpClient client = HttpClient.newHttpClient();
 

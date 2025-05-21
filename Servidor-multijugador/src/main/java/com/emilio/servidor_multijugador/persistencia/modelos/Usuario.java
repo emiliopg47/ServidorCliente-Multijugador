@@ -24,6 +24,17 @@ public class Usuario {
     @Column(name = "fecha_nac", nullable = false)
     private LocalDate fechaNac;
 
+    @Column(name = "imagen")
+    private byte[] imagen;
+
+    public byte[] getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(byte[] imagen) {
+        this.imagen = imagen;
+    }
+
     public Integer getId() {
         return id;
     }

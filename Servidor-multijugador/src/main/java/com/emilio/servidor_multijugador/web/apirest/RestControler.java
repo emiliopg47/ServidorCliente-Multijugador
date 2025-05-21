@@ -5,6 +5,7 @@ import com.emilio.servidor_multijugador.persistencia.modelos.Juego;
 import com.emilio.servidor_multijugador.persistencia.modelos.Usuario;
 import com.emilio.servidor_multijugador.persistencia.servicios.ServiceJuego;
 import com.emilio.servidor_multijugador.persistencia.servicios.ServiceUsuario;
+import com.emilio.servidor_multijugador.web.Mensajes.CambioFotoPerfilResponse;
 import com.emilio.servidor_multijugador.web.apirest.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,15 +22,9 @@ public class RestControler{
     @Autowired
     private ServiceJuego serviceJuego;
 
-    @PostMapping("/pruebas")
-    public ResponseEntity<LoginResponse> pruebas() {
-        LoginResponse res = new LoginResponse(true, "Resultado: " + serviceUsuario.existByNick("emilio"), null);
-        return ResponseEntity.ok(res);
-    }
-
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody Usuario usuario) {
-        LoginResponse loginResponse = comprobarLogin(usuario);
+    public ResponseEntity<DatosUsuarioResponse> login(@RequestBody Usuario usuario) {
+        DatosUsuarioResponse loginResponse = comprobarLogin(usuario);
         if (loginResponse.isSuccess()) {
             return ResponseEntity.ok(loginResponse);
         } else {
@@ -66,6 +61,21 @@ public class RestControler{
             return ResponseEntity.badRequest().body(rankingResponse);
         }
     }
+    @GetMapping
+    public ResponseEntity<CambioFotoPerfilResponse> cambiarFotoPerfil(@RequestBody byte[] imagen, @RequestParam String nick) {
+        Usuario usuario = serviceUsuario.findByNick(nick);
+        if (usuario == null) {
+            return ResponseEntity.badRequest().body(new CambioFotoPerfilResponse(false, Mensajes.USUARIO_NO_ENCONTRADO, null));
+        }
+        usuario.setImagen(imagen);
+        try{
+            serviceUsuario.update(usuario);
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(new CambioFotoPerfilResponse(false, Mensajes.ERROR_AL_CAMBIAR_IMAGEN + " en cambiarFotoPerfil() " + this.getClass(), null));
+        }
+        CambioFotoPerfilResponse response = new CambioFotoPerfilResponse(true, Mensajes.CAMBIO_FOTO_PERFIL_EXITOSO, imagen);
+        return ResponseEntity.ok(response);
+    }
 
     private EloResponse comprobarRanking(String nick, String juego) {
         Long elo = serviceUsuario.findPuntosByNickAndJuego(nick, juego);
@@ -75,29 +85,29 @@ public class RestControler{
         return new EloResponse(true, "", elo);
     }
 
-    private LoginResponse comprobarLogin(Usuario usuario) {
+    private DatosUsuarioResponse comprobarLogin(Usuario usuario) {
         // Metodo para comprobar el login de un usuario
         if (usuario.getCorreo() == null) {
             if (!serviceUsuario.existByNick(usuario.getNick())) {
-                return new LoginResponse(false, Mensajes.USUARIO_NO_ENCONTRADO, null);
+                return new DatosUsuarioResponse(false, Mensajes.USUARIO_NO_ENCONTRADO, null);
             }
             Usuario u = serviceUsuario.findByNick(usuario.getNick());
             if (!Hash.verificarPassword(usuario.getPassword(), u.getPassword())) {
-                return new LoginResponse(false, Mensajes.CONTRASENA_INCORRECTA, null);
+                return new DatosUsuarioResponse(false, Mensajes.CONTRASENA_INCORRECTA, null);
             }
-            return new LoginResponse(true, Mensajes.CONEXION_EXITOSA, u);
+            return new DatosUsuarioResponse(true, Mensajes.CONEXION_EXITOSA, u);
         }
         if (usuario.getNick() == null) {
             if (!serviceUsuario.existByCorreo(usuario.getCorreo())) {
-                return new LoginResponse(false, Mensajes.USUARIO_NO_ENCONTRADO, null);
+                return new DatosUsuarioResponse(false, Mensajes.USUARIO_NO_ENCONTRADO, null);
             }
             Usuario u = serviceUsuario.findByCorreo(usuario.getCorreo());
             if (!Hash.verificarPassword(usuario.getPassword(), u.getPassword())) {
-                return new LoginResponse(false, Mensajes.CONTRASENA_INCORRECTA, null);
+                return new DatosUsuarioResponse(false, Mensajes.CONTRASENA_INCORRECTA, null);
             }
-            return new LoginResponse(true, Mensajes.CONEXION_EXITOSA, u);
+            return new DatosUsuarioResponse(true, Mensajes.CONEXION_EXITOSA, u);
         }
-        return new LoginResponse(false, Mensajes.ERROR_INESPERADO + " en comprobarLogin() " + this.getClass(), null);
+        return new DatosUsuarioResponse(false, Mensajes.ERROR_INESPERADO + " en comprobarLogin() " + this.getClass(), null);
     }
 
     private RegisterResponse comprobarRegistro(Usuario usuario) {

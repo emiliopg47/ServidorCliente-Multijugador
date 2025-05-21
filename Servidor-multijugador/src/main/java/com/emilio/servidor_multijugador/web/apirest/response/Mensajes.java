@@ -12,4 +12,6 @@ public class Mensajes {
     public static final String REGISTRO_EXITOSO = "Usuario registrado correctamente";
     public static final String RANKING_NO_ENCONTRADO = "El jugador no tiene rango en ese juego";
     public static final String JUEGO_NO_ENCONTRADO = "El juego no existe";
+    public static final String CAMBIO_FOTO_PERFIL_EXITOSO = "Cambio de foto de perfil exitoso";
+    public static final String ERROR_AL_CAMBIAR_IMAGEN = "Error al cambiar la imagen";
 }

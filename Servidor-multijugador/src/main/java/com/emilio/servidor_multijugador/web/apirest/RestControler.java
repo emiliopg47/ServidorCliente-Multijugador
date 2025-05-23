@@ -25,6 +25,7 @@ public class RestControler{
     @PostMapping("/login")
     public ResponseEntity<DatosUsuarioResponse> login(@RequestBody Usuario usuario) {
         DatosUsuarioResponse loginResponse = comprobarLogin(usuario);
+        loginResponse.getUsuario().setPassword(usuario.getPassword());
         if (loginResponse.isSuccess()) {
             return ResponseEntity.ok(loginResponse);
         } else {
@@ -62,18 +63,18 @@ public class RestControler{
         }
     }
     @PostMapping("/cambiarFotoPerfil")
-    public ResponseEntity<CambioFotoPerfilResponse> cambiarFotoPerfil(@RequestBody byte[] imagen, @RequestParam String nick, @RequestParam String password) {
-        Usuario usuario = serviceUsuario.findByNickAndPassword(nick, password);
-        if (usuario == null) {
+    public ResponseEntity<CambioFotoPerfilResponse> cambiarFotoPerfil(@RequestBody Usuario usuario) {
+        Usuario u = comprobarUsuario(usuario);
+        if (u == null) {
             return ResponseEntity.badRequest().body(new CambioFotoPerfilResponse(false, Mensajes.USUARIO_NO_ENCONTRADO, null));
         }
-        usuario.setImagen(imagen);
+        u.setImagen(usuario.getImagen());
         try{
             serviceUsuario.update(usuario);
         } catch (Exception e){
             return ResponseEntity.badRequest().body(new CambioFotoPerfilResponse(false, Mensajes.ERROR_AL_CAMBIAR_IMAGEN + " en cambiarFotoPerfil() " + this.getClass(), null));
         }
-        CambioFotoPerfilResponse response = new CambioFotoPerfilResponse(true, Mensajes.CAMBIO_FOTO_PERFIL_EXITOSO, imagen);
+        CambioFotoPerfilResponse response = new CambioFotoPerfilResponse(true, Mensajes.CAMBIO_FOTO_PERFIL_EXITOSO, usuario.getImagen());
         return ResponseEntity.ok(response);
     }
 
@@ -122,5 +123,20 @@ public class RestControler{
             return new RegisterResponse(false, Mensajes.CORREO_YA_EXISTE);
         }
         return new RegisterResponse(true, Mensajes.REGISTRO_EXITOSO);
+    }
+
+    private Usuario comprobarUsuario(Usuario usuario) {
+        // Metodo para comprobar el registro de un usuario
+        if (usuario.getNick() == null) {
+            if (!serviceUsuario.existByCorreo(usuario.getCorreo())) {
+                return  null;
+            }
+            Usuario u = serviceUsuario.findByCorreo(usuario.getCorreo());
+            if (!Hash.verificarPassword(usuario.getPassword(), u.getPassword())) {
+                return u;
+            }
+            return null;
+        }
+        return null;
     }
 }

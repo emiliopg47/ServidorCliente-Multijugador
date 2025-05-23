@@ -1,6 +1,6 @@
-package com.emilio.servidor_multijugador.web.apirest.response;
+package Cliente.Respuestas;
 
-import com.emilio.servidor_multijugador.persistencia.modelos.Usuario;
+import Cliente.Respuestas.modelos.Usuario;
 
 public class DatosUsuarioResponse {
     private boolean success;

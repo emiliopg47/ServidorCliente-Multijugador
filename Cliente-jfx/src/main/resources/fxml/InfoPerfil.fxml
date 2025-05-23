@@ -20,11 +20,11 @@
             <!-- Columna izquierda: foto + datos -->
             <VBox spacing="10" alignment="TOP_CENTER">
                 <!-- Foto de perfil -->
-                <ImageView fx:id="imagenPerfil"
+                <ImageView fx:id="imgViewPerfil"
                            fitWidth="120" fitHeight="120"
                            preserveRatio="true">
                     <image>
-                        <Image url="@/images/fotoPerfilGenerica.png" />
+                        <Image url="@/images/fotoPerfilGenerica.png"  fx:id="imagenPerfil"/>
                     </image>
                 </ImageView>
 

@@ -1,6 +1,9 @@
 package Cliente.Controladores;
 
+import Cliente.Respuestas.DatosUsuarioResponse;
 import Config.APIREQUEST;
+import Config.UsuarioLogeado;
+import Util.JsonUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -36,7 +39,10 @@ public class LoginController extends Controller {
             json.put("nick", user);
             json.put("password", pass);
 
-            HttpClient client = HttpClient.newHttpClient();
+            JSONObject jsonResponse = postApi(APIREQUEST.LOGIN_URL,json.toString());
+            DatosUsuarioResponse respuesta = JsonUtils.fromJson(jsonResponse.toString(), DatosUsuarioResponse.class);
+
+/*            HttpClient client = HttpClient.newHttpClient();
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(APIREQUEST.LOGIN_URL))
@@ -46,9 +52,15 @@ public class LoginController extends Controller {
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             JSONObject jsonResponse = new JSONObject(response.body());
-            boolean success = jsonResponse.getBoolean("success");
 
-            if (success){
+ */
+            if (respuesta.isSuccess()) {
+                UsuarioLogeado.nick = respuesta.getUsuario().getNick();
+                UsuarioLogeado.correo = respuesta.getUsuario().getCorreo();
+                UsuarioLogeado.password = respuesta.getUsuario().getPassword();
+                UsuarioLogeado.fechaNacimiento = respuesta.getUsuario().getFechaNac();
+                UsuarioLogeado.imagenPerfil = respuesta.getUsuario().getImagen();
+
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PrincipalApp.fxml"));
                 Parent root = loader.load();
                 Stage stage = getStage(loader, user, root);

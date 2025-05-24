@@ -2,8 +2,10 @@ package com.emilio.servidor_multijugador.web.apirest;
 
 import com.emilio.servidor_multijugador.Util.Hash;
 import com.emilio.servidor_multijugador.persistencia.modelos.Juego;
+import com.emilio.servidor_multijugador.persistencia.modelos.Ranking;
 import com.emilio.servidor_multijugador.persistencia.modelos.Usuario;
 import com.emilio.servidor_multijugador.persistencia.servicios.ServiceJuego;
+import com.emilio.servidor_multijugador.persistencia.servicios.ServiceRanking;
 import com.emilio.servidor_multijugador.persistencia.servicios.ServiceUsuario;
 import com.emilio.servidor_multijugador.web.Mensajes.CambioFotoPerfilResponse;
 import com.emilio.servidor_multijugador.web.apirest.response.*;
@@ -18,6 +20,9 @@ public class RestControler{
 
     @Autowired
     private ServiceUsuario serviceUsuario;
+
+    @Autowired
+    private ServiceRanking serviceRanking;
 
     @Autowired
     private ServiceJuego serviceJuego;
@@ -40,6 +45,7 @@ public class RestControler{
             // Encriptar la contraseña
             usuario.setPassword(Hash.hashPassword(usuario.getPassword()));
             serviceUsuario.create(usuario);
+            setRankingNuevoUser(usuario);
             return ResponseEntity.ok(registerResponse);
         } else {
             return ResponseEntity.badRequest().body(registerResponse);
@@ -64,15 +70,16 @@ public class RestControler{
     }
     @PostMapping("/cambiarFotoPerfil")
     public ResponseEntity<CambioFotoPerfilResponse> cambiarFotoPerfil(@RequestBody Usuario usuario) {
-        Usuario u = comprobarUsuario(usuario);
-        if (u == null) {
-            return ResponseEntity.badRequest().body(new CambioFotoPerfilResponse(false, Mensajes.USUARIO_NO_ENCONTRADO, null));
+        DatosUsuarioResponse loginResponse = comprobarLogin(usuario);
+        if (!loginResponse.isSuccess()) {
+            return ResponseEntity.badRequest().body(new CambioFotoPerfilResponse(false, loginResponse.getMessage(), null));
         }
-        u.setImagen(usuario.getImagen());
+        Usuario userActualizarImagen = loginResponse.getUsuario();
+        userActualizarImagen.setImagen(usuario.getImagen());
         try{
-            serviceUsuario.update(usuario);
+            serviceUsuario.update(userActualizarImagen);
         } catch (Exception e){
-            return ResponseEntity.badRequest().body(new CambioFotoPerfilResponse(false, Mensajes.ERROR_AL_CAMBIAR_IMAGEN + " en cambiarFotoPerfil() " + this.getClass(), null));
+            return ResponseEntity.badRequest().body(new CambioFotoPerfilResponse(false, Mensajes.ERROR_AL_CAMBIAR_IMAGEN + " en cambiarFotoPerfil() " + this.getClass() + "Ex" + e.getMessage(), null));
         }
         CambioFotoPerfilResponse response = new CambioFotoPerfilResponse(true, Mensajes.CAMBIO_FOTO_PERFIL_EXITOSO, usuario.getImagen());
         return ResponseEntity.ok(response);
@@ -81,9 +88,9 @@ public class RestControler{
     private EloResponse comprobarRanking(String nick, String juego) {
         Long elo = serviceUsuario.findPuntosByNickAndJuego(nick, juego);
         if (elo == null) {
-            return new EloResponse(false, Mensajes.RANKING_NO_ENCONTRADO, null);
+            return new EloResponse(false, Mensajes.RANKING_NO_ENCONTRADO, 0);
         }
-        return new EloResponse(true, "", elo);
+        return new EloResponse(true, "", elo.intValue());
     }
 
     private DatosUsuarioResponse comprobarLogin(Usuario usuario) {
@@ -125,18 +132,15 @@ public class RestControler{
         return new RegisterResponse(true, Mensajes.REGISTRO_EXITOSO);
     }
 
-    private Usuario comprobarUsuario(Usuario usuario) {
-        // Metodo para comprobar el registro de un usuario
-        if (usuario.getNick() == null) {
-            if (!serviceUsuario.existByCorreo(usuario.getCorreo())) {
-                return  null;
-            }
-            Usuario u = serviceUsuario.findByCorreo(usuario.getCorreo());
-            if (!Hash.verificarPassword(usuario.getPassword(), u.getPassword())) {
-                return u;
-            }
-            return null;
+    private void setRankingNuevoUser(Usuario usuario) {
+        // Metodo para crear un ranking de un nuevo usuario
+        for (Juego juego : serviceJuego.findAll()) {
+            Ranking ranking = new Ranking();
+            ranking.setIdJuego(juego);
+            ranking.setIdUsuario(usuario);
+            ranking.setPuntos(100);
+            serviceRanking.create(ranking);
         }
-        return null;
     }
+
 }

@@ -3,6 +3,7 @@ package Cliente.Controladores;
 import Cliente.Conexion.ChatClient;
 import Cliente.Conexion.PongClient;
 import Config.CONFIG;
+import Config.UsuarioLogeado;
 import Juegos.Pong.Controladores.PongController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,18 +15,27 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 
 public class PrincipalController extends Controller {
 
     // CABECERA
+
     @FXML
-    private ImageView imgPerfil;
+    private Circle circleInfPerfil;
+
+    @FXML
+    private Circle circleSupPerfil;
+
     @FXML
     private Button btnInfo;
     @FXML
@@ -36,8 +46,7 @@ public class PrincipalController extends Controller {
     // CUADRO CENTRAL - PANEL JUGAR
     @FXML
     private StackPane panelJugar;
-    @FXML
-    private ImageView imgAvatarCentro;
+
     @FXML
     private Label lblNombreCentro;
     @FXML
@@ -71,6 +80,28 @@ public class PrincipalController extends Controller {
     }
 
     @FXML
+    public void initialize() {
+        //Cargar los datos del usuario logueado
+        lblNombreCentro.setText(UsuarioLogeado.nick);
+
+        // Cargar la imagen de perfil del usuario logueado
+
+        if (UsuarioLogeado.imagenPerfil != null) {
+            Image imagenPerfil = new Image(new ByteArrayInputStream(UsuarioLogeado.imagenPerfil));
+
+            circleInfPerfil.setFill(new ImagePattern(imagenPerfil));
+            circleSupPerfil.setFill(new ImagePattern(imagenPerfil));
+        } else {
+            // Si no hay imagen, se puede establecer una imagen por defecto
+            Image imagenPorDefecto = new Image(getClass().getResourceAsStream("/images/fotoPerfilGenerica.png"));
+            circleInfPerfil.setFill(new ImagePattern(imagenPorDefecto));
+            circleSupPerfil.setFill(new ImagePattern(imagenPorDefecto));
+        }
+
+        lblRangoCentro.setText("Puntos: " + UsuarioLogeado.elo);
+    }
+
+    @FXML
     public void handleSearchGame(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Pong.fxml"));
@@ -80,7 +111,7 @@ public class PrincipalController extends Controller {
             pongController.setNick(nick);
             PongClient pongClient = new PongClient(nick, pongController);
             pongController.setPongClient(pongClient);
-            String uri = "ws://" + CONFIG.direccionServidor + ":8080/ws/pong";
+            String uri = "ws://" + CONFIG.direccionServidor + ":8080/ws/pong?nick=" + UsuarioLogeado.nick;
             pongClient.conectar(uri);
 
             // Obtener el stage actual a partir del botón u otro nodo

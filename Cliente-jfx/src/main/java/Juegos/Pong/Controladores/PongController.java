@@ -5,6 +5,8 @@ import Cliente.Controladores.Controller;
 import Cliente.Controladores.PrincipalController;
 import Cliente.Mensajes.GameEndMensaje;
 import Cliente.Mensajes.GameStateMensaje;
+import Cliente.Mensajes.PlayerMensaje;
+import Config.UsuarioLogeado;
 import Juegos.Pong.LoopJuego;
 import Juegos.Pong.Modelos.GameState;
 import javafx.application.Platform;
@@ -13,14 +15,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class PongController extends Controller {
@@ -40,12 +46,20 @@ public class PongController extends Controller {
     @FXML
     private Label marcadorDrch;
 
+    @FXML
+    private Circle fotoPerfilJ2;
+
+    @FXML
+    private Circle fotoPerfilJ1;
+
     private final Set<KeyCode> teclasActivas = new HashSet<>();
 
     boolean gameStarted = false;
     PongClient pongClient;
 
     private String nick;
+
+    private int idPlayer;
 
     @FXML
     public void initialize() {
@@ -88,7 +102,7 @@ public class PongController extends Controller {
 
 
     public void startGame() {
-        LoopJuego loopJuego = new LoopJuego(pongClient, this);
+        LoopJuego loopJuego = new LoopJuego(pongClient, this, idPlayer);
         loopJuego.start();
         gameStarted = true;
     }
@@ -102,7 +116,6 @@ public class PongController extends Controller {
         palaIzquierda.setLayoutY(game.getPalaIzquierda().getY());
         palaDerecha.setLayoutY(game.getPalaDerecha().getY());
 
-
         // Actualiza la posición de la bola
         bola.setLayoutX(game.getBola().getX());
         bola.setLayoutY(game.getBola().getY());
@@ -110,19 +123,6 @@ public class PongController extends Controller {
         // Actualiza el marcador
         marcadorIzq.setText(String.valueOf(game.getMarcadorIzq()));
         marcadorDrch.setText(String.valueOf(game.getMarcadorDrch()));
-    }
-
-    public void actualizar(GameStateMensaje game){
-        // Actualiza la posición de las palas
-        palaIzquierda.setLayoutY(game.getPalaIzquierda());
-        palaDerecha.setLayoutY(game.getPalaDerecha());
-        // Actualiza la posición de la bola
-        bola.setLayoutX(game.getxBola());
-        bola.setLayoutY(game.getyBola());
-        // Actualiza el marcador
-        marcadorIzq.setText(String.valueOf(game.getMarcadorIzquierda()));
-        marcadorDrch.setText(String.valueOf(game.getMarcadorDerecha()));
-        // Actualiza el estado del juego
     }
 
     public void mostrarFinJuego(GameEndMensaje gameEndMensaje) {
@@ -140,6 +140,12 @@ public class PongController extends Controller {
             mensaje += "Jugador2: " + gameEndMensaje.getPuntosJugadorDerecha() + "\n";
         }
         showInformation("FIN DEL JUEGO", mensaje);
+        // Cerrar el cliente de Pong
+        if (pongClient != null) {
+            pongClient.close();
+        }
+        // Volver a la pantalla principal
+        closePong();
     }
 
     public Set<KeyCode> getTeclasActivas() {
@@ -152,5 +158,31 @@ public class PongController extends Controller {
 
     public void setNick(String nick) {
         this.nick = nick;
+    }
+
+    public void actualizarPlayer(List<PlayerMensaje> playersMensaje) {
+        if (playersMensaje.size() >= 2) {
+            PlayerMensaje player1 = playersMensaje.get(0);
+            PlayerMensaje player2 = playersMensaje.get(1);
+
+            if (player1.getNick().equals(UsuarioLogeado.nick)){
+                idPlayer = player1.getId();
+            }
+            if (player2.getNick().equals(UsuarioLogeado.nick)){
+                idPlayer = player2.getId();
+            }
+
+            // Actualizar foto de perfil del jugador 1
+            if (player1.getFotoPerfil() != null) {
+                fotoPerfilJ1.setFill(new ImagePattern(
+                        new Image(new ByteArrayInputStream(player1.getFotoPerfil()))));
+            }
+
+            // Actualizar foto de perfil del jugador 2
+            if (player2.getFotoPerfil() != null) {
+                fotoPerfilJ2.setFill(new ImagePattern(
+                        new Image(new ByteArrayInputStream(player2.getFotoPerfil()))));
+            }
+        }
     }
 }

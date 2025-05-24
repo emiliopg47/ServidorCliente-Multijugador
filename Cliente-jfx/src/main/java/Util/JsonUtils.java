@@ -1,7 +1,10 @@
 package Util;
 
 import Cliente.Mensajes.MensajeGeneral;
+import Cliente.Mensajes.PlayerMensaje;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.List;
 
 public class JsonUtils {
 
@@ -28,6 +31,14 @@ public class JsonUtils {
             return mapper.writeValueAsString(object);
         } catch (Exception e) {
             throw new RuntimeException("Error al convertir objeto a JSON", e);
+        }
+    }
+
+    public static List<PlayerMensaje> fromJsonList(String dataString, Class<PlayerMensaje> playerMensajeClass) {
+        try {
+            return mapper.readValue(dataString, mapper.getTypeFactory().constructCollectionType(List.class, playerMensajeClass));
+        } catch (Exception e) {
+            throw new RuntimeException("Error parsing JSON list", e);
         }
     }
 }

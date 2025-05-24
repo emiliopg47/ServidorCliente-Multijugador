@@ -42,24 +42,13 @@ public class LoginController extends Controller {
             JSONObject jsonResponse = postApi(APIREQUEST.LOGIN_URL,json.toString());
             DatosUsuarioResponse respuesta = JsonUtils.fromJson(jsonResponse.toString(), DatosUsuarioResponse.class);
 
-/*            HttpClient client = HttpClient.newHttpClient();
-
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(APIREQUEST.LOGIN_URL))
-                    .header("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(json.toString()))
-                    .build();
-
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            JSONObject jsonResponse = new JSONObject(response.body());
-
- */
             if (respuesta.isSuccess()) {
                 UsuarioLogeado.nick = respuesta.getUsuario().getNick();
                 UsuarioLogeado.correo = respuesta.getUsuario().getCorreo();
                 UsuarioLogeado.password = respuesta.getUsuario().getPassword();
                 UsuarioLogeado.fechaNacimiento = respuesta.getUsuario().getFechaNac();
                 UsuarioLogeado.imagenPerfil = respuesta.getUsuario().getImagen();
+                UsuarioLogeado.elo = obtenerElo(respuesta.getUsuario().getNick());
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PrincipalApp.fxml"));
                 Parent root = loader.load();
@@ -101,6 +90,28 @@ public class LoginController extends Controller {
         stage.setHeight(800); // Establecer un tamaño máximo de altura
         stage.centerOnScreen();
         return stage;
+    }
+
+    private int obtenerElo(String nick) {
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(APIREQUEST.ELO + "/" + nick + "/pmilong"))
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            JSONObject jsonResponse = new JSONObject(response.body());
+            if (jsonResponse.getBoolean("success")) {
+                return jsonResponse.getInt("elo");
+            } else {
+                System.out.println("Error al obtener el Elo: " + jsonResponse.getString("message"));
+                return 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
 }

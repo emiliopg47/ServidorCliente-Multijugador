@@ -29,4 +29,7 @@ public class ServiceJuego {
         return dao.findByNombre(nombre);
     }
 
+    public Juego[] findAll() {
+        return dao.findAll().toArray(new Juego[0]);
+    }
 }

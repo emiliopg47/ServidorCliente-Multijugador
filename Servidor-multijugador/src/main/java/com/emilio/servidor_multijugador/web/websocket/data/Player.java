@@ -4,8 +4,10 @@ import org.springframework.web.socket.WebSocketSession;
 
 public class Player {
     WebSocketSession session;
-    String nick;
-    String elo;
+    private int id;
+    private String nick;
+    private int elo;
+    private byte[] fotoPerfil;
 
     public WebSocketSession getSession() {
         return session;
@@ -23,11 +25,25 @@ public class Player {
         this.nick = nick;
     }
 
-    public String getElo() {
+    public int getElo() {
         return elo;
     }
 
-    public void setElo(String elo) {
+    public void setElo(int elo) {
         this.elo = elo;
+    }
+
+    public byte[] getFotoPerfil() {
+        return fotoPerfil;
+    }
+    public void setFotoPerfil(byte[] fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
+    }
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

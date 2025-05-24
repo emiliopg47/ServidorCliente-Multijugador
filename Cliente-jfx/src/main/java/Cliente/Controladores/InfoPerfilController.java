@@ -74,6 +74,14 @@ public class InfoPerfilController extends Controller{
         nombreLabel.setText(UsuarioLogeado.nick);
         correoLabel.setText(UsuarioLogeado.correo);
         fechaNacimientoLabel.setText(UsuarioLogeado.fechaNacimiento);
+        if (UsuarioLogeado.imagenPerfil != null) {
+            imagenPerfil = new Image(new ByteArrayInputStream(UsuarioLogeado.imagenPerfil));
+            imgViewPerfil.setImage(imagenPerfil);
+        } else {
+            // Si no hay imagen, se puede establecer una imagen por defecto
+            imgViewPerfil.setImage(new Image("default_profile_image.png"));
+        }
+        puntuacionLabel.setText(String.valueOf(UsuarioLogeado.elo));
 
     }
 

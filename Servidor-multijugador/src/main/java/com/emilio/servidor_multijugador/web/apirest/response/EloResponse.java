@@ -3,12 +3,12 @@ package com.emilio.servidor_multijugador.web.apirest.response;
 public class EloResponse {
     private boolean success;
     private String message;
-    private Long ranking;
+    private int elo;
 
-    public EloResponse(boolean success, String message, Long ranking) {
+    public EloResponse(boolean success, String message, int ranking) {
         this.success = success;
         this.message = message;
-        this.ranking = ranking;
+        this.elo = ranking;
     }
 
     public boolean isSuccess() {
@@ -19,7 +19,7 @@ public class EloResponse {
         return message;
     }
 
-    public Long getRanking() {
-        return ranking;
+    public int getElo() {
+        return elo;
     }
 }

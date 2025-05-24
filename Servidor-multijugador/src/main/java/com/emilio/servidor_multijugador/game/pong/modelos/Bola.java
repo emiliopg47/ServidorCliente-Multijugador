@@ -21,6 +21,11 @@ public class Bola {
         this.aceleracion = 0.1;
     }
 
+    public void reset() {
+        this.x = 300;
+        this.y = 200;
+    }
+
     public Bola(){}
 
     public void mover() {

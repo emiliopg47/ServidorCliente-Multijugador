@@ -3,10 +3,13 @@ package Cliente.Handlers;
 import Cliente.Mensajes.GameEndMensaje;
 import Cliente.Mensajes.GameStateMensaje;
 import Cliente.Mensajes.MensajeGeneral;
+import Cliente.Mensajes.PlayerMensaje;
 import Juegos.Pong.Controladores.PongController;
 import Juegos.Pong.Modelos.GameState;
 import Util.JsonUtils;
 import javafx.application.Platform;
+
+import java.util.List;
 
 public class PongHandler implements MessageHandler{
 
@@ -18,9 +21,7 @@ public class PongHandler implements MessageHandler{
             String mensajeStr = (String) message;
             MensajeGeneral data = JsonUtils.fromJson(mensajeStr, MensajeGeneral.class);
 
-            if (!pongController.isStarted()) {
-                pongController.startGame();
-            }
+
 
             if (data.getType().equals("ESTADO")) {
                 // Intentar convertir a GameStateMensaje
@@ -32,6 +33,21 @@ public class PongHandler implements MessageHandler{
                 Platform.runLater(() -> {
                     pongController.actualizar(game);
                 });
+            }
+
+            if (data.getType().equals("INFO_GAME")) {
+                // Intentar convertir a PlayerStateMensaje
+                String dataString = JsonUtils.toJson(data.getData());
+                List<PlayerMensaje> playerMensajes = JsonUtils.fromJsonList(dataString, PlayerMensaje.class);
+
+                // Actualizar el controlador con el estado del jugador
+                Platform.runLater(() -> {
+                    pongController.actualizarPlayer(playerMensajes);
+                });
+
+                if (!pongController.isStarted()) {
+                    pongController.startGame();
+                }
             }
 
             if (data.getType().equals("FIN")) {

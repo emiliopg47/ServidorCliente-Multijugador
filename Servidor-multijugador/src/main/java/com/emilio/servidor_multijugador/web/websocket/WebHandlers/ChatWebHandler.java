@@ -5,6 +5,7 @@ import com.emilio.servidor_multijugador.web.websocket.data.Room;
 import com.emilio.servidor_multijugador.web.websocket.handler.DataHandler;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -16,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+@Component
 public class ChatWebHandler extends TextWebSocketHandler {
 
     Map<String, Room> rooms;
@@ -36,12 +38,10 @@ public class ChatWebHandler extends TextWebSocketHandler {
                 .toSingleValueMap();
 
         String nickValue = params.get("nick");
-        String eloValue = params.get("elo");
 
         Player player = new Player();
         player.setSession(session);
         player.setNick(nickValue);
-        player.setElo(eloValue);
 
         Room room = buscarSalaConJugador();
         if (room == null) {

@@ -1,5 +1,6 @@
 package com.emilio.servidor_multijugador;
 
+import com.emilio.servidor_multijugador.persistencia.servicios.ServiceRanking;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

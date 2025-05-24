@@ -24,7 +24,7 @@ public class Usuario {
     @Column(name = "fecha_nac", nullable = false)
     private LocalDate fechaNac;
 
-    @Column(name = "imagen")
+    @Column(name = "imagen", columnDefinition = "mediumblob")
     private byte[] imagen;
 
     public byte[] getImagen() {

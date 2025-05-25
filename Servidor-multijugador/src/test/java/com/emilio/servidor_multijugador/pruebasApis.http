@@ -31,12 +31,4 @@ Accept: application/json
 GET http://localhost:8080/api/elo/{{nick}}/{{juego}}
 
 ###
-POST http://localhost:8080/api/cambiarFotoPerfil
-Content-Type: aplication/json
-Accept: application/json
-
-{
-"nick": "emilio",
- "imagen": "apfapfk",
-"password": "1234"
-}
+GET http://localhost:8080/api/historial/{{nick}}

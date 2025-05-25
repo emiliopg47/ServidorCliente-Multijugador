@@ -11,4 +11,5 @@ public class APIREQUEST {
     public static final String CAMBIAR_IMAGEN = API_URL + "/cambiarFotoPerfil";
 
     public static final String ELO = API_URL + "/elo";
+    public static final String HISTORIAL_URL = API_URL + "/historial";
 }

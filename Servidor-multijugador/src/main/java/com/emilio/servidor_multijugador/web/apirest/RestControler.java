@@ -1,9 +1,8 @@
 package com.emilio.servidor_multijugador.web.apirest;
 
 import com.emilio.servidor_multijugador.Util.Hash;
-import com.emilio.servidor_multijugador.persistencia.modelos.Juego;
-import com.emilio.servidor_multijugador.persistencia.modelos.Ranking;
-import com.emilio.servidor_multijugador.persistencia.modelos.Usuario;
+import com.emilio.servidor_multijugador.persistencia.modelos.*;
+import com.emilio.servidor_multijugador.persistencia.servicios.ServiceHistorialGames;
 import com.emilio.servidor_multijugador.persistencia.servicios.ServiceJuego;
 import com.emilio.servidor_multijugador.persistencia.servicios.ServiceRanking;
 import com.emilio.servidor_multijugador.persistencia.servicios.ServiceUsuario;
@@ -12,6 +11,8 @@ import com.emilio.servidor_multijugador.web.apirest.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -26,6 +27,8 @@ public class RestControler{
 
     @Autowired
     private ServiceJuego serviceJuego;
+    @Autowired
+    private ServiceHistorialGames serviceHistorialGames;
 
     @PostMapping("/login")
     public ResponseEntity<DatosUsuarioResponse> login(@RequestBody Usuario usuario) {
@@ -83,6 +86,21 @@ public class RestControler{
         }
         CambioFotoPerfilResponse response = new CambioFotoPerfilResponse(true, Mensajes.CAMBIO_FOTO_PERFIL_EXITOSO, usuario.getImagen());
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/historial/{nick}")
+    public ResponseEntity<HistorialResponse> historial(@PathVariable String nick) {
+        Usuario usuario = serviceUsuario.findByNick(nick);
+        if (usuario == null) {
+            return ResponseEntity.badRequest().body(new HistorialResponse(false, Mensajes.USUARIO_NO_ENCONTRADO, null));
+        }
+        List<HistorialGameDTO> historialGames = serviceHistorialGames.buscarJuegos(usuario);
+        HistorialResponse historialResponse = new HistorialResponse(true, "", historialGames);
+        if (historialResponse.isSuccess()) {
+            return ResponseEntity.ok(historialResponse);
+        } else {
+            return ResponseEntity.badRequest().body(historialResponse);
+        }
     }
 
     private EloResponse comprobarRanking(String nick, String juego) {

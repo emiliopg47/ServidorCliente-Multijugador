@@ -96,7 +96,7 @@ public class LoginController extends Controller {
         try {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(APIREQUEST.ELO + "/" + nick + "/pmilong"))
+                    .uri(URI.create(APIREQUEST.ELO + "/" + nick + "/pong"))
                     .GET()
                     .build();
 

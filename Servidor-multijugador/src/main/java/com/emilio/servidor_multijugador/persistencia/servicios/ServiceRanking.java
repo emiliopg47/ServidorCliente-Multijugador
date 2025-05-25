@@ -44,4 +44,15 @@ public class ServiceRanking {
         }
         return 100;
     }
+
+    public void cambioElo(String player, int nuevoElo) {
+        Juego juego = serviceJuego.findByNombre("Pong");
+        Usuario usuario = serviceUsuario.findByNick(player);
+        Ranking ranking = dao.findByIdUsuarioAndIdJuego(usuario, juego);
+        if (ranking != null) {
+            ranking.setPuntos(nuevoElo);
+            dao.save(ranking);
+        }
+    }
+
 }

@@ -22,6 +22,8 @@ public class PongRoom extends Room {
     private GameState estado;
     private ScheduledExecutorService scheduler;
 
+    private int ganador;
+
     public PongRoom(String id) {
         super(id);
 
@@ -48,6 +50,7 @@ public class PongRoom extends Room {
         if (scheduler != null && !scheduler.isShutdown()) {
             scheduler.shutdown();
         }
+
     }
 
     public GameState getEstado() {
@@ -78,7 +81,7 @@ public class PongRoom extends Room {
     public void loop() {
         if (estado.comprobarColisiones()) {
             resetGame();
-            estado.iniciarPausa(1000);
+            estado.iniciarPausa(1000); // pausar 1 segundo sin bloquear el hilo
         }
 
         estado.actualizar();
@@ -93,6 +96,7 @@ public class PongRoom extends Room {
             mensajeGanador.setGanador("IZQUIERDA");
             mensajeGanador.setPuntosJugadorDerecha(-10);
             mensajeGanador.setPuntosJugadorIzquierda(10);
+            ganador = 1;
 
             mandarMensajeBroadcast(new MensajeGeneral("FIN",mensajeGanador));
             stopLoop();
@@ -104,6 +108,7 @@ public class PongRoom extends Room {
             mensajeGanador.setPuntosJugadorDerecha(10);
             mensajeGanador.setPuntosJugadorIzquierda(-10);
             mandarMensajeBroadcast(new MensajeGeneral("FIN",mensajeGanador));
+            ganador = 2;
             stopLoop();
         }
 
@@ -124,5 +129,9 @@ public class PongRoom extends Room {
                 e.printStackTrace();
             }
         }
+    }
+
+    public int getGanador() {
+        return ganador;
     }
 }

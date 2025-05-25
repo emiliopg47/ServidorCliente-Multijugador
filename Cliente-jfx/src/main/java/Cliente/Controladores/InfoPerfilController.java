@@ -2,16 +2,14 @@ package Cliente.Controladores;
 
 import Cliente.Mensajes.CambiarImagenMensaje;
 import Cliente.Respuestas.CambioFotoPerfilResponse;
+import Cliente.Respuestas.modelos.HistorialGameDTO;
 import Config.APIREQUEST;
 import Config.CONFIG;
 import Config.UsuarioLogeado;
 import Util.JsonUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
@@ -26,6 +24,8 @@ import java.net.http.HttpResponse;
 import java.nio.file.Files;
 
 import java.net.URI;
+import java.util.List;
+
 public class InfoPerfilController extends Controller{
     @FXML
     private ImageView imgViewPerfil;
@@ -67,6 +67,7 @@ public class InfoPerfilController extends Controller{
     public void initialize() {
         recuperarInformacionPerfil();
         gameComboBox.getItems().addAll(CONFIG.listaJuegos);
+        cargarHistorial();
     }
 
 
@@ -132,6 +133,54 @@ public class InfoPerfilController extends Controller{
             System.out.println("No se seleccionó ningún archivo.");
         }
     }
+
+    public void cargarHistorial(){
+        JSONObject json = getApi(APIREQUEST.HISTORIAL_URL + "/" + UsuarioLogeado.nick);
+
+        if (json.getBoolean("success")) {
+            List<HistorialGameDTO> historial = JsonUtils.fromJsonListHistorial(json.getJSONArray("historialGameDTO").toString(), HistorialGameDTO.class);
+            historialListView.getItems().clear();
+            for (HistorialGameDTO game : historial) {
+                if (game.getIdJugador1Nick().equals(UsuarioLogeado.nick)){
+                    if (game.getWinner() == 1){
+                        historialListView.getItems().add("Win: " + game.getIdJugador1Nick() + " vs " + game.getIdJugador2Nick() + " | " + game.getPuntosJ1() + " | " + game.getDuracionSeg() + "seg | "+  game.getFechaHora());
+                    } else {
+                        historialListView.getItems().add("Lose: " + game.getIdJugador1Nick() + " vs " + game.getIdJugador2Nick() + " | " + game.getPuntosJ1() + " | " + game.getDuracionSeg() + "seg | "+  game.getFechaHora());
+                    }
+                }
+                if (game.getIdJugador2Nick().equals(UsuarioLogeado.nick)){
+                    if (game.getWinner() == 2){
+                        historialListView.getItems().add("Win: " + game.getIdJugador1Nick() + " vs " + game.getIdJugador2Nick() + " | " + game.getPuntosJ2() + " | " + game.getDuracionSeg() + "seg | "+  game.getFechaHora());
+                    } else {
+                        historialListView.getItems().add("Lose: " + game.getIdJugador1Nick() + " vs " + game.getIdJugador2Nick() + " | " + game.getPuntosJ2() + " | " + game.getDuracionSeg() + "seg | "+  game.getFechaHora());
+                    }
+                }
+            }
+            historialListView.setCellFactory(lv -> new ListCell<String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                        setStyle("");
+                    } else {
+                        setText(item);
+                        if (item.contains("Win" + UsuarioLogeado.nick)) {
+                            setStyle("-fx-background-color: lightgreen;");
+                        } else if (item.contains("Lose" + UsuarioLogeado.nick)) {
+                            setStyle("-fx-background-color: lightcoral;");
+                        } else {
+                            setStyle("");
+                        }
+                    }
+                }
+            });
+        } else {
+            showError("Error: ", json.getString("message"));
+        }
+
+    }
+
 
     public CambioFotoPerfilResponse postCambiarImagen(String json) {
         HttpClient client = HttpClient.newHttpClient();

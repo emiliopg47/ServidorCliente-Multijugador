@@ -3,6 +3,7 @@ package com.emilio.servidor_multijugador.persistencia.modelos;
 import jakarta.persistence.*;
 
 import java.time.Instant;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "historial_games")
@@ -24,9 +25,6 @@ public class HistorialGames {
     @JoinColumn(name = "id_juego", nullable = false)
     private Juego idJuego;
 
-    @Column(name = "fecha_hora", nullable = false)
-    private Instant fechaHora;
-
     @Column(name = "puntos_j1", nullable = false)
     private Integer puntosJ1;
 
@@ -35,6 +33,28 @@ public class HistorialGames {
 
     @Column(name = "winner")
     private Byte winner;
+
+    @Column(name = "duracionSeg")
+    private Long duracionSeg;
+
+    @Column(name = "fecha", nullable = false)
+    private LocalDate fecha;
+
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
+
+    public Long getDuracionSeg() {
+        return duracionSeg;
+    }
+
+    public void setDuracionSeg(Long duracionSeg) {
+        this.duracionSeg = duracionSeg;
+    }
 
     public Integer getId() {
         return id;
@@ -66,14 +86,6 @@ public class HistorialGames {
 
     public void setIdJuego(Juego idJuego) {
         this.idJuego = idJuego;
-    }
-
-    public Instant getFechaHora() {
-        return fechaHora;
-    }
-
-    public void setFechaHora(Instant fechaHora) {
-        this.fechaHora = fechaHora;
     }
 
     public Integer getPuntosJ1() {

@@ -38,7 +38,7 @@ public class PongHandler implements MessageHandler{
             if (data.getType().equals("INFO_GAME")) {
                 // Intentar convertir a PlayerStateMensaje
                 String dataString = JsonUtils.toJson(data.getData());
-                List<PlayerMensaje> playerMensajes = JsonUtils.fromJsonList(dataString, PlayerMensaje.class);
+                List<PlayerMensaje> playerMensajes = JsonUtils.fromJsonListPlayer(dataString, PlayerMensaje.class);
 
                 // Actualizar el controlador con el estado del jugador
                 Platform.runLater(() -> {

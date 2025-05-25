@@ -2,7 +2,9 @@ package Util;
 
 import Cliente.Mensajes.MensajeGeneral;
 import Cliente.Mensajes.PlayerMensaje;
+import Cliente.Respuestas.modelos.HistorialGameDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.util.List;
 
@@ -34,9 +36,17 @@ public class JsonUtils {
         }
     }
 
-    public static List<PlayerMensaje> fromJsonList(String dataString, Class<PlayerMensaje> playerMensajeClass) {
+    public static List<PlayerMensaje> fromJsonListPlayer(String dataString, Class<PlayerMensaje> playerMensajeClass) {
         try {
             return mapper.readValue(dataString, mapper.getTypeFactory().constructCollectionType(List.class, playerMensajeClass));
+        } catch (Exception e) {
+            throw new RuntimeException("Error parsing JSON list", e);
+        }
+    }
+
+    public static List<HistorialGameDTO> fromJsonListHistorial(String dataString, Class<HistorialGameDTO> historialGameDTOClass) {
+        try {
+            return mapper.readValue(dataString, mapper.getTypeFactory().constructCollectionType(List.class, historialGameDTOClass));
         } catch (Exception e) {
             throw new RuntimeException("Error parsing JSON list", e);
         }

@@ -17,12 +17,12 @@ jobs:
           java-version: 21
 
       - name: Build with Gradle (cliente)
-        run: ./ServidorCliente-Multijugador/Cliente-jfx/gradlew clean build
+        run: chmod +x ./ServidorCliente-Multijugador/Cliente-jfx/gradlew clean fatJar
 
       - name: Prepare packaging folder
         run: |
           mkdir empaquetado
-          cp ServidorCliente-Multijugador/Cliente-jfx/build/libs/*.jar empaquetado/ClienteApp.jar
+          cp ServidorCliente-Multijugador/Cliente-jfx/build/libs/*-all.jar empaquetado/ClienteApp.jar
           cp ServidorCliente-Multijugador/Cliente-jfx/src/main/resources/images/logoApp.png empaquetado/icon.png
 
       - name: Package app (.deb)

@@ -48,7 +48,7 @@ jobs:
         run: ls -l dist/
 
       - name: Upload .deb artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: clienteapp-deb
           path: dist/*.deb

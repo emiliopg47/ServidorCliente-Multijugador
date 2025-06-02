@@ -37,6 +37,13 @@ jobs:
             --dest dist \
             --app-version 1.0
 
+      - name: Verify .deb file exists
+        run: |
+          if [ ! -f dist/ClienteApp_1.0-1_amd64.deb ]; then
+            echo "Error: .deb file not created!"
+            exit 1
+          fi
+
       - name: List dist directory
         run: ls -l dist/
 

@@ -37,8 +37,11 @@ jobs:
             --dest dist \
             --app-version 1.0
 
+      - name: List dist directory
+        run: ls -l dist/
+
       - name: Upload .deb artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.1.2
         with:
           name: clienteapp-deb
           path: dist/*.deb

@@ -29,16 +29,18 @@ jobs:
           copy Cliente-jfx\src\main\resources\images\logoApp.png empaquetado\icon.png
 
       - name: Package app (.exe)
+        shell: pwsh
         run: |
-          jpackage ^
-          --type exe ^
-          --name ClienteApp ^
-          --input empaquetado ^
-          --main-jar ClienteApp.jar ^
-          --main-class MainApp ^
-          --icon empaquetado\icon.png ^
-          --dest dist ^
-          --app-version 1.0
+          jpackage `
+            --type exe `
+            --name ClienteApp `
+            --input empaquetado `
+            --main-jar ClienteApp.jar `
+            --main-class MainApp `
+            --icon empaquetado\icon.png `
+            --dest dist `
+            --app-version 1.0
+
 
       - name: Upload .exe artifact
         uses: actions/upload-artifact@v4

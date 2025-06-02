@@ -30,14 +30,14 @@ jobs:
 
       - name: Package app (.exe)
         run: |
-          jpackage \
-          --type exe \
-          --name ClienteApp \
-          --input empaquetado \
-          --main-jar ClienteApp.jar \
-          --main-class MainApp \
-          --icon empaquetado\icon.png \
-          --dest dist \
+          jpackage ^
+          --type exe ^
+          --name ClienteApp ^
+          --input empaquetado ^
+          --main-jar ClienteApp.jar ^
+          --main-class MainApp ^
+          --icon empaquetado\icon.png ^
+          --dest dist ^
           --app-version 1.0
 
       - name: Upload .exe artifact

@@ -1,0 +1,46 @@
+name: Build and Package ClienteApp (AppImage)
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-appimage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup JDK 21
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Build with Gradle (cliente)
+        run: |
+          cd Cliente-jfx
+          ./gradlew clean fatJar
+
+      - name: Prepare packaging folder
+        run: |
+          mkdir empaquetado
+          cp Cliente-jfx/build/libs/*.jar empaquetado/ClienteApp.jar
+          cp Cliente-jfx/src/main/resources/images/logoApp.png empaquetado/icon.png
+
+      - name: Package app (AppImage)
+        run: |
+          jpackage \
+          --type app-image \
+          --name ClienteApp \
+          --input empaquetado \
+          --main-jar ClienteApp.jar \
+          --main-class MainApp \
+          --icon empaquetado/icon.png \
+          --dest dist \
+          --app-version 1.0
+
+      - name: Upload .app-image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: clienteapp-appimage
+          path: dist/*

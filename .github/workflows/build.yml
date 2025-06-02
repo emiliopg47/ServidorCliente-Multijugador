@@ -18,7 +18,7 @@ jobs:
 
       - name: Build with Gradle (cliente)
         run: |
-            cd ServidorCliente-Multijugador/Cliente-jfx
+            cd Cliente-jfx
             ./gradlew clean fatJar
 
 

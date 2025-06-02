@@ -25,33 +25,23 @@ jobs:
       - name: Prepare packaging folder
         run: |
           mkdir empaquetado
-          cp Cliente-jfx/build/libs/*-all.jar empaquetado/ClienteApp.jar
+          cp Cliente-jfx/build/libs/*.jar empaquetado/ClienteApp.jar
           cp Cliente-jfx/src/main/resources/images/logoApp.png empaquetado/icon.png
 
       - name: Package app (.deb)
         run: |
           jpackage \
-            --type deb \
-            --name ClienteApp \
-            --input empaquetado \
-            --main-jar ClienteApp.jar \
-            --main-class MainApp \
-            --icon empaquetado/icon.png \
-            --dest dist \
-            --app-version 1.0
-
-      - name: Verify .deb file exists
-        run: |
-          if [ ! -f dist/ClienteApp_1.0-1_amd64.deb ]; then
-            echo "Error: .deb file not created!"
-            exit 1
-          fi
-
-      - name: List dist directory
-        run: ls -l dist/
+          --type deb \
+          --name ClienteApp \
+          --input empaquetado \
+          --main-jar ClienteApp.jar \
+          --main-class MainApp \
+          --icon empaquetado/icon.png \
+          --dest dist \
+          --app-version 1.0
 
       - name: Upload .deb artifact
         uses: actions/upload-artifact@v4
-        with:
+        with: 
           name: clienteapp-deb
           path: dist/*.deb

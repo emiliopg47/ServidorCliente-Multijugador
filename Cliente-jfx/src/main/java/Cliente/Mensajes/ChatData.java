@@ -39,7 +39,8 @@ public class ChatData {
     }
 
     @Override
+    //Formato: [2025-06-02 12:45:00] <Emilio> Hola, ¿cómo estás?
     public String toString() {
-        return "("+ getFecha() + ") " + getNick() + ": " + getMensaje() + "\n";
+        return "\n[" + fecha + "] <" + nick + ">\n" + mensaje + "\n";
     }
 }

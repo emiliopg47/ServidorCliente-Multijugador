@@ -27,8 +27,8 @@
     <Label fx:id="marcadorDrch" layoutX="380" layoutY="20" style="-fx-font-size: 24;" text="0" textFill="white" />
 
 
-   <Circle fx:id="fotoPerfilJ2" fill="DODGERBLUE" layoutX="445.0" layoutY="38.0" radius="35.0" stroke="BLACK" strokeType="INSIDE" />
-   <Circle fx:id="fotoPerfilJ1" fill="DODGERBLUE" layoutX="149.0" layoutY="38.0" radius="35.0" stroke="BLACK" strokeType="INSIDE" />
+   <Circle fx:id="fotoPerfilJ2" fill="black" layoutX="445.0" layoutY="38.0" radius="35.0" stroke="BLACK" strokeType="INSIDE" />
+   <Circle fx:id="fotoPerfilJ1" fill="black" layoutX="149.0" layoutY="38.0" radius="35.0" stroke="BLACK" strokeType="INSIDE" />
 
 
 

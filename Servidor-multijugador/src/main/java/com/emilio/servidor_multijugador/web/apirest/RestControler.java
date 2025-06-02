@@ -33,8 +33,8 @@ public class RestControler{
     @PostMapping("/login")
     public ResponseEntity<DatosUsuarioResponse> login(@RequestBody Usuario usuario) {
         DatosUsuarioResponse loginResponse = comprobarLogin(usuario);
-        loginResponse.getUsuario().setPassword(usuario.getPassword());
         if (loginResponse.isSuccess()) {
+            loginResponse.getUsuario().setPassword(usuario.getPassword());
             return ResponseEntity.ok(loginResponse);
         } else {
             return ResponseEntity.badRequest().body(loginResponse);

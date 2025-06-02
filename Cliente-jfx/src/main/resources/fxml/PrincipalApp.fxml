@@ -7,7 +7,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Cliente.Controladores.PrincipalController">
+<BorderPane prefHeight="800.0" prefWidth="1045.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Cliente.Controladores.PrincipalController">
 
     <!-- CABECERA -->
     <top>
@@ -59,16 +59,16 @@
             </StackPane>
 
             <!-- PANEL CHAT -->
-            <VBox prefWidth="300" spacing="0" style="-fx-background-color: white;">
+            <VBox prefWidth="300" style="-fx-background-color: white;">
                 <VBox VBox.vgrow="ALWAYS">
-                    <TextArea fx:id="chatOutput" editable="false" prefWidth="300" style="-fx-font-family: 'Consolas';" wrapText="true" VBox.vgrow="ALWAYS" />
+                    <TextArea fx:id="txtAreaChat" editable="false" prefWidth="300" style="-fx-font-family: 'Consolas'; -fx-control-inner-background: #72a7c4;" wrapText="true" VBox.vgrow="ALWAYS" />
                 </VBox>
-                <HBox spacing="5">
+                <HBox spacing="5" style="-fx-background-color: #4d6b8a">
                     <padding>
                         <Insets bottom="10" left="10" right="10" top="10" />
                     </padding>
-                    <TextField fx:id="chatInput" promptText="Escribe tu mensaje..." HBox.hgrow="ALWAYS" />
-                    <Button onAction="#handleChat" style="-fx-background-color: #27ae60; -fx-text-fill: white;" text="Enviar" />
+                    <TextField fx:id="txtEnviarMensaje" promptText="Escribe tu mensaje..." HBox.hgrow="ALWAYS" />
+                    <Button onAction="#enviarMensaje" style="-fx-background-color: #27ae60; -fx-text-fill: white;" text="Enviar" />
                 </HBox>
             </VBox>
         </HBox>

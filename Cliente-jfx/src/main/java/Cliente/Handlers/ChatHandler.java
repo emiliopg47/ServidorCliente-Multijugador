@@ -1,26 +1,26 @@
 package Cliente.Handlers;
 
-import Cliente.Controladores.ChatController;
+import Cliente.Controladores.PrincipalController;
 import Cliente.Mensajes.ChatData;
 import Util.JsonUtils;
 import javafx.application.Platform;
 
 public class ChatHandler implements MessageHandler{
 
-    private ChatController chatController;
+    private PrincipalController principalController;
 
     @Override
     public void handle(Object message) {
         String mensajeStr = (String) message;
         ChatData data = JsonUtils.fromJson(mensajeStr, ChatData.class);
         Platform.runLater(() -> {
-            chatController.actualizarChat(data);
+            principalController.actualizarChat(data);
         });
 
     }
 
-    public void setChatController(ChatController chatController) {
-        this.chatController = chatController;
+    public void setPrincipalControler(PrincipalController principalController) {
+        this.principalController = principalController;
     }
 
     @Override

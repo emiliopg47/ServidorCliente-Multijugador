@@ -2,6 +2,7 @@ package Cliente.Controladores;
 
 import Cliente.Conexion.ChatClient;
 import Cliente.Conexion.PongClient;
+import Cliente.Mensajes.ChatData;
 import Config.CONFIG;
 import Config.UsuarioLogeado;
 import Juegos.Pong.Controladores.PongController;
@@ -18,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -56,9 +58,9 @@ public class PrincipalController extends Controller {
 
     // CHAT
     @FXML
-    private TextArea chatOutput;
+    private TextArea txtAreaChat;
     @FXML
-    private TextField chatInput;
+    private TextField txtEnviarMensaje;
 
     // PIE
     @FXML
@@ -67,6 +69,8 @@ public class PrincipalController extends Controller {
     // Imagen de fondo (añadida por código para poder hacer el bind)
     private ImageView fondoJugar;
 
+
+    private ChatClient chatClient;
 
 
     private String nick;
@@ -99,6 +103,8 @@ public class PrincipalController extends Controller {
         }
 
         lblRangoCentro.setText("Puntos: " + UsuarioLogeado.elo);
+
+        iniciarChat();
     }
 
     @FXML
@@ -218,36 +224,38 @@ public class PrincipalController extends Controller {
         }
     }
 
-    @FXML
-    public void handleChat() {
+    public void iniciarChat(){
+        chatClient = new ChatClient(this);
+        String uri = "ws://" + CONFIG.direccionServidor + ":8080/ws/chat?nick=" + UsuarioLogeado.nick;
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Chat.fxml"));
-            Parent root = loader.load();
-            ChatController chatControler = loader.getController();
-            chatControler.setNick(nick);
-
-            ChatClient chatClient = new ChatClient(nick,chatControler);
-            chatControler.setChatClient(chatClient);
-            String uri = "ws://" + CONFIG.direccionServidor +  ":8080/ws/chat?nick=" + nick + "&elo=100";
-            chatClient.conectar(uri); // Establecer la conexión al chat
-
-
-            Scene scene = new Scene(root);
-
-            Stage stage = new Stage(); // Crear una nueva ventana para el chat
-            stage.setScene(scene);
-            stage.setTitle("Chat");
-            stage.setWidth(600); // Establecer un tamaño máximo de ancho
-            stage.setHeight(300); // Establecer un tamaño máximo de altura
-            stage.centerOnScreen();
-
-            stage.setOnCloseRequest(event -> {
-                chatControler.cerrarChat();
-            });
-
-            stage.show();
+            chatClient.conectar(uri);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void actualizarChat(ChatData data) {
+        txtAreaChat.appendText(data.toString());
+    }
+
+
+    @FXML
+    public void enviarMensaje() {
+        if (txtEnviarMensaje == null || txtEnviarMensaje.getText().isEmpty()) {
+            return;
+        }
+        if (chatClient != null) {
+            chatClient.enviarMensajeChat(txtEnviarMensaje.getText());
+            txtEnviarMensaje.clear();
+        } else {
+            showError("Error", "No se ha establecido la conexión con el servidor.");
+        }
+    }
+
+
+    public void cerrarChat() {
+        if (chatClient != null) {
+            chatClient.close();
         }
     }
 }

@@ -26,7 +26,7 @@ jobs:
         run: |
           mkdir empaquetado
           copy Cliente-jfx\build\libs\*.jar empaquetado\ClienteApp.jar
-          copy Cliente-jfx\src\main\resources\images\logoApp.png empaquetado\icon.png
+          copy Cliente-jfx\src\main\resources\images\logoApp.ico empaquetado\icon.ico
 
       - name: Package app (.exe)
         run: |
@@ -36,7 +36,9 @@ jobs:
           --input empaquetado \
           --main-jar ClienteApp.jar \
           --main-class MainApp \
-          --icon empaquetado\icon.png \
+          --win-shortcut \
+          --win-menu \
+          --icon empaquetado\icon.ico \
           --dest dist \
           --app-version 1.0
 

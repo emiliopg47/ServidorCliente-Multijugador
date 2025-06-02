@@ -25,8 +25,8 @@ jobs:
       - name: Prepare packaging folder
         run: |
           mkdir empaquetado
-          cp ServidorCliente-Multijugador/Cliente-jfx/build/libs/*-all.jar empaquetado/ClienteApp.jar
-          cp ServidorCliente-Multijugador/Cliente-jfx/src/main/resources/images/logoApp.png empaquetado/icon.png
+          cp Cliente-jfx/build/libs/*-all.jar empaquetado/ClienteApp.jar
+          cp Cliente-jfx/src/main/resources/images/logoApp.png empaquetado/icon.png
 
       - name: Package app (.deb)
         run: |

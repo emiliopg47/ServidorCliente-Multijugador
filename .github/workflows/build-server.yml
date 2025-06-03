@@ -35,7 +35,7 @@ jobs:
 
       - name: Copy jar to server
         run: |
-          scp Servidor-multijugador/target/Servidor-multijugador.jar $SSH_USER@$SSH_HOST:$SERVER_JAR_PATH
+          scp Servidor-multijugador/target/*.jar $SSH_USER@$SSH_HOST:$SERVER_JAR_PATH
 
       - name: Restart server remotely
         run: |

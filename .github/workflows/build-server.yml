@@ -21,10 +21,11 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - name: Build server with Gradle
+      - name: Build server with Maven
         run: |
           cd Servidor-multijugador
-          ./gradlew clean build
+          mvn clean package -DskipTests
+
 
       - name: Setup SSH key
         uses: webfactory/ssh-agent@v0.9.0

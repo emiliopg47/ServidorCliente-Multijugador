@@ -23,7 +23,7 @@ jobs:
 
       - name: Build server with Gradle
         run: |
-          cd ServidorSpring
+          cd Servidor-multijugador
           ./gradlew clean build
 
       - name: Setup SSH key
@@ -33,13 +33,13 @@ jobs:
 
       - name: Copy jar to server
         run: |
-          scp ServidorSpring/build/libs/ServidorSpring.jar $SSH_USER@$SSH_HOST:$SERVER_JAR_PATH
+          scp Servidor-multijugador/build/libs/Servidor-multijugador.jar $SSH_USER@$SSH_HOST:$SERVER_JAR_PATH
 
       - name: Restart server remotely
         run: |
           ssh $SSH_USER@$SSH_HOST "
             # Parar proceso java anterior (si existe)
-            pkill -f 'java.*ServidorSpring.jar' || true
+            pkill -f 'java.*Servidor-multijugador.jar' || true
 
             # Arrancar nuevo servidor en background
             nohup java -jar $SERVER_JAR_PATH > servidor.log 2>&1 &

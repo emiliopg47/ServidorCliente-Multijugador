@@ -32,6 +32,7 @@ jobs:
           copy Cliente-jfx\src\main\resources\images\logoApp.ico empaquetado\icon.ico
 
       - name: Package app (.exe)
+        shell: pwsh
         run: |
           jpackage `
           --type exe `

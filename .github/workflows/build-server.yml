@@ -1,0 +1,46 @@
+name: Deploy en el servidor google cloud de la nueva version
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SERVER_JAR_PATH: ${{ secrets.SERVER_JAR_PATH }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup JDK 21
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Build server with Gradle
+        run: |
+          cd ServidorSpring
+          ./gradlew clean build
+
+      - name: Setup SSH key
+        uses: webfactory/ssh-agent@v0.8.1
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Copy jar to server
+        run: |
+          scp ServidorSpring/build/libs/ServidorSpring.jar $SSH_USER@$SSH_HOST:$SERVER_JAR_PATH
+
+      - name: Restart server remotely
+        run: |
+          ssh $SSH_USER@$SSH_HOST "
+            # Parar proceso java anterior (si existe)
+            pkill -f 'java.*ServidorSpring.jar' || true
+
+            # Arrancar nuevo servidor en background
+            nohup java -jar $SERVER_JAR_PATH > servidor.log 2>&1 &
+          "

@@ -17,12 +17,13 @@ public class GUI extends Application {
     public void start(Stage primaryStage) throws Exception {
         try {
             Properties props = new Properties();
-            File configFile = new File("config.properties");
+            var configStream = getClass().getResourceAsStream("/config.properties");
 
-            if (configFile.exists()) {
-                props.load(new FileInputStream(configFile));
+            if (configStream != null) {
+                props.load(configStream);
                 CONFIG.tipoArranque = "Servidor Google Cloud";
             } else {
+                // Si no existe, carga el de ejemplo
                 props.load(getClass().getResourceAsStream("/config.example.properties"));
                 CONFIG.tipoArranque = "Servidor Local";
             }

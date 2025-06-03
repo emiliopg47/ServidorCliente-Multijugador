@@ -16,6 +16,10 @@ jobs:
           distribution: temurin
           java-version: 21
 
+      - name: Create config.properties
+        run: |
+          echo "server.ip=${{ secrets.SERVER_IP }}" > Cliente-jfx/src/main/resources/config.properties
+
       - name: Build with Gradle (cliente)
         run: |
           cd Cliente-jfx

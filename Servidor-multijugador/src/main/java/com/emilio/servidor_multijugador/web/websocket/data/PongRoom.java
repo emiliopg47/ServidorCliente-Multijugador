@@ -1,8 +1,7 @@
 package com.emilio.servidor_multijugador.web.websocket.data;
 
-import com.emilio.servidor_multijugador.Util.CONFIG;
+import com.emilio.servidor_multijugador.Util.APP_VARIABLES;
 import com.emilio.servidor_multijugador.Util.JsonUtils;
-import com.emilio.servidor_multijugador.game.pong.modelos.Bola;
 import com.emilio.servidor_multijugador.game.pong.modelos.GameState;
 import com.emilio.servidor_multijugador.web.Mensajes.GameStateMensaje;
 import com.emilio.servidor_multijugador.web.Mensajes.GameEndMensaje;
@@ -91,7 +90,7 @@ public class PongRoom extends Room {
 
     public void broadcastState() {
         //Comprobar ganador
-        if (estado.getMarcadorIzq() == CONFIG.puntosNecesariosParaGanar){
+        if (estado.getMarcadorIzq() == APP_VARIABLES.puntosNecesariosParaGanar){
             GameEndMensaje mensajeGanador = new GameEndMensaje();
             mensajeGanador.setGanador("IZQUIERDA");
             mensajeGanador.setPuntosJugadorDerecha(-10);
@@ -102,7 +101,7 @@ public class PongRoom extends Room {
             stopLoop();
         }
 
-        if (estado.getMarcadorDrch() == CONFIG.puntosNecesariosParaGanar){
+        if (estado.getMarcadorDrch() == APP_VARIABLES.puntosNecesariosParaGanar){
             GameEndMensaje mensajeGanador = new GameEndMensaje();
             mensajeGanador.setGanador("DERECHA");
             mensajeGanador.setPuntosJugadorDerecha(10);

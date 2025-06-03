@@ -4,7 +4,7 @@ import Cliente.Mensajes.CambiarImagenMensaje;
 import Cliente.Respuestas.CambioFotoPerfilResponse;
 import Cliente.Respuestas.modelos.HistorialGameDTO;
 import Config.APIREQUEST;
-import Config.CONFIG;
+import Config.APP_VARIABLES;
 import Config.UsuarioLogeado;
 import Util.JsonUtils;
 import javafx.event.ActionEvent;
@@ -66,7 +66,7 @@ public class InfoPerfilController extends Controller{
     @FXML
     public void initialize() {
         recuperarInformacionPerfil();
-        gameComboBox.getItems().addAll(CONFIG.listaJuegos);
+        gameComboBox.getItems().addAll(APP_VARIABLES.listaJuegos);
         cargarHistorial();
     }
 
@@ -134,53 +134,53 @@ public class InfoPerfilController extends Controller{
         }
     }
 
+
+
     public void cargarHistorial(){
         JSONObject json = getApi(APIREQUEST.HISTORIAL_URL + "/" + UsuarioLogeado.nick);
+
+        historialListView.setCellFactory(lv -> new ListCell<String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    setText(item);
+                    if (item.contains("Win" )) {
+                        setStyle("-fx-background-color: lightgreen;");
+                    } else if (item.contains("Lose" )) {
+                        setStyle("-fx-background-color: lightcoral;");
+                    } else {
+                        setStyle("");
+                    }
+                }
+            }
+        });
 
         if (json.getBoolean("success")) {
             List<HistorialGameDTO> historial = JsonUtils.fromJsonListHistorial(json.getJSONArray("historialGameDTO").toString(), HistorialGameDTO.class);
             historialListView.getItems().clear();
             for (HistorialGameDTO game : historial) {
-                if (game.getIdJugador1Nick().equals(UsuarioLogeado.nick)){
-                    if (game.getWinner() == 1){
-                        historialListView.getItems().add("Win: " + game.getIdJugador1Nick() + " vs " + game.getIdJugador2Nick() + " | " + game.getPuntosJ1() + " | " + game.getDuracionSeg() + "seg | "+  game.getFechaHora());
-                    } else {
-                        historialListView.getItems().add("Lose: " + game.getIdJugador1Nick() + " vs " + game.getIdJugador2Nick() + " | " + game.getPuntosJ1() + " | " + game.getDuracionSeg() + "seg | "+  game.getFechaHora());
-                    }
-                }
-                if (game.getIdJugador2Nick().equals(UsuarioLogeado.nick)){
-                    if (game.getWinner() == 2){
-                        historialListView.getItems().add("Win: " + game.getIdJugador1Nick() + " vs " + game.getIdJugador2Nick() + " | " + game.getPuntosJ2() + " | " + game.getDuracionSeg() + "seg | "+  game.getFechaHora());
-                    } else {
-                        historialListView.getItems().add("Lose: " + game.getIdJugador1Nick() + " vs " + game.getIdJugador2Nick() + " | " + game.getPuntosJ2() + " | " + game.getDuracionSeg() + "seg | "+  game.getFechaHora());
-                    }
+                if (game.getIdJugador1Nick().equals(UsuarioLogeado.nick)) {
+                    String resultado = (game.getWinner() == 1) ? "Win" : "Lose";
+                    historialListView.getItems().add(
+                            resultado + ": " + game.getIdJugador1Nick() + " vs " + game.getIdJugador2Nick() +
+                                    " | " + game.getPuntosJ1() + " | " + game.getDuracionSeg() + "seg | " + game.getFechaHora()
+                    );
+                } else if (game.getIdJugador2Nick().equals(UsuarioLogeado.nick)) {
+                    String resultado = (game.getWinner() == 2) ? "Win" : "Lose";
+                    historialListView.getItems().add(
+                            resultado + ": " + game.getIdJugador1Nick() + " vs " + game.getIdJugador2Nick() +
+                                    " | " + game.getPuntosJ2() + " | " + game.getDuracionSeg() + "seg | " + game.getFechaHora()
+                    );
                 }
             }
-            historialListView.setCellFactory(lv -> new ListCell<String>() {
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || item == null) {
-                        setText(null);
-                        setStyle("");
-                    } else {
-                        setText(item);
-                        if (item.contains("Win" + UsuarioLogeado.nick)) {
-                            setStyle("-fx-background-color: lightgreen;");
-                        } else if (item.contains("Lose" + UsuarioLogeado.nick)) {
-                            setStyle("-fx-background-color: lightcoral;");
-                        } else {
-                            setStyle("");
-                        }
-                    }
-                }
-            });
         } else {
             showError("Error: ", json.getString("message"));
         }
-
     }
-
 
     public CambioFotoPerfilResponse postCambiarImagen(String json) {
         HttpClient client = HttpClient.newHttpClient();

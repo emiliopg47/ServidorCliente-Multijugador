@@ -1,4 +1,3 @@
-# .github/workflows/build-win.yml
 name: Build and Package ClienteApp (Windows)
 
 on:
@@ -17,6 +16,10 @@ jobs:
           distribution: temurin
           java-version: 21
 
+      - name: Create config.properties
+        run: |
+          echo server.ip=${{ secrets.SERVER_IP }} > Cliente-jfx\src\main\resources\config.properties
+
       - name: Build with Gradle (cliente)
         run: |
           cd Cliente-jfx
@@ -26,21 +29,22 @@ jobs:
         run: |
           mkdir empaquetado
           copy Cliente-jfx\build\libs\*.jar empaquetado\ClienteApp.jar
-          copy Cliente-jfx\src\main\resources\images\logoApp.png empaquetado\icon.png
+          copy Cliente-jfx\src\main\resources\images\logoApp.ico empaquetado\icon.ico
 
       - name: Package app (.exe)
         shell: pwsh
         run: |
           jpackage `
-            --type exe `
-            --name ClienteApp `
-            --input empaquetado `
-            --main-jar ClienteApp.jar `
-            --main-class MainApp `
-            --icon empaquetado\icon.png `
-            --dest dist `
-            --app-version 1.0
-
+          --type exe `
+          --name ClienteApp `
+          --input empaquetado `
+          --main-jar ClienteApp.jar `
+          --main-class MainApp `
+          --win-shortcut `
+          --win-menu `
+          --icon empaquetado\icon.ico `
+          --dest dist `
+          --app-version 1.0
 
       - name: Upload .exe artifact
         uses: actions/upload-artifact@v4

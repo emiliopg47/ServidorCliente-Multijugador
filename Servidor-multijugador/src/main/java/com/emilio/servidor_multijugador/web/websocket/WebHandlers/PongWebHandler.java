@@ -129,6 +129,11 @@ public class PongWebHandler extends TextWebSocketHandler {
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         System.out.println("Cliente desconectado: " + session.getId());
         PongRoom room = buscarMiSala(session);
+        if (room.getPlayers().size() < 2) {
+            System.out.println("Sala vacía, eliminando sala: " + room.getId());
+            rooms.remove(room.getId());
+            return;
+        }
         room.pararJuego();
         calcularElo(room.getPlayers().get(0), room.getPlayers().get(1), room.getGanador());
         guardarPartida();

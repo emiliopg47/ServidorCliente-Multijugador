@@ -32,7 +32,7 @@ public class LoginController extends Controller {
             String user = usernameField.getText();
             String pass = passwordField.getText();
             if (user.isEmpty() || pass.isEmpty()) {
-                System.out.println("Por favor, completa todos los campos.");
+                showInformation("Completa los campos", "Por favor, completa todos los campos.");
                 return;
             }
             JSONObject json = new JSONObject();

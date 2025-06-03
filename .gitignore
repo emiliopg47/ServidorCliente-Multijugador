@@ -6,6 +6,9 @@
 # Maven
 /target/
 
+
+
+config.properties
 # Archivos del sistema
 .DS_Store
 Thumbs.db

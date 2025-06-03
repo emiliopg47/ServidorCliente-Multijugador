@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Room {
-    private String id;
-    private List<Player> players;
+    protected String id;
+    protected List<Player> players;
 
     public Room(String id) {
         this.id = id;

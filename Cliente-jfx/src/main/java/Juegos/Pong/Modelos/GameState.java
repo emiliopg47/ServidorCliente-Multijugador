@@ -1,7 +1,7 @@
 package Juegos.Pong.Modelos;
 
 import Cliente.Mensajes.GameStateMensaje;
-import Config.CONFIG;
+import Config.APP_VARIABLES;
 
 import static java.lang.Math.abs;
 
@@ -27,8 +27,8 @@ public class GameState {
         this.marcadorIzq = gameStateMensaje.getMarcadorIzquierda();
         this.marcadorDrch = gameStateMensaje.getMarcadorDerecha();
         this.bola = new Bola(gameStateMensaje.getxBola(), gameStateMensaje.getyBola());
-        this.palaIzquierda = new Pala(CONFIG.xPalaIzquierda, gameStateMensaje.getPalaIzquierda());
-        this.palaDerecha = new Pala(CONFIG.xPalaDerecha, gameStateMensaje.getPalaDerecha());
+        this.palaIzquierda = new Pala(APP_VARIABLES.xPalaIzquierda, gameStateMensaje.getPalaIzquierda());
+        this.palaDerecha = new Pala(APP_VARIABLES.xPalaDerecha, gameStateMensaje.getPalaDerecha());
     }
 
     public void actualizar() {
@@ -37,8 +37,8 @@ public class GameState {
 
     public void comprobarColisiones() {
         // Rebote en la derecha
-        if ((bola.getX() + radio) > CONFIG.anchoVentanaPong) {
-            bola.setX(CONFIG.anchoVentanaPong - radio);
+        if ((bola.getX() + radio) > APP_VARIABLES.anchoVentanaPong) {
+            bola.setX(APP_VARIABLES.anchoVentanaPong - radio);
             bola.setDx(-abs(bola.getDx()));
             bola.setVelocidad(bola.getVelocidad() + bola.getAceleracion());
             marcadorIzq++;
@@ -53,8 +53,8 @@ public class GameState {
         }
 
         // Rebote abajo
-        if ((bola.getY() + radio) > CONFIG.altoVentanaPong) {
-            bola.setY(CONFIG.altoVentanaPong - radio);
+        if ((bola.getY() + radio) > APP_VARIABLES.altoVentanaPong) {
+            bola.setY(APP_VARIABLES.altoVentanaPong - radio);
             bola.setDy(-abs(bola.getDy()));
             bola.setVelocidad(bola.getVelocidad() + bola.getAceleracion());
         }
@@ -67,10 +67,10 @@ public class GameState {
         }
 
         // Rebote en la pala izquierda
-        if ((bola.getX() - radio) < palaIzquierda.getX() + CONFIG.anchoPala &&
+        if ((bola.getX() - radio) < palaIzquierda.getX() + APP_VARIABLES.anchoPala &&
                 (bola.getY() + radio) > palaIzquierda.getY() &&
-                (bola.getY() - radio) < palaIzquierda.getY() + CONFIG.altoPala) {
-            bola.setX(palaIzquierda.getX() + CONFIG.anchoPala + radio);
+                (bola.getY() - radio) < palaIzquierda.getY() + APP_VARIABLES.altoPala) {
+            bola.setX(palaIzquierda.getX() + APP_VARIABLES.anchoPala + radio);
             bola.setDx(abs(bola.getDx()));
             bola.setVelocidad(bola.getVelocidad() + bola.getAceleracion());
         }
@@ -78,7 +78,7 @@ public class GameState {
         // Rebote en la pala derecha
         if ((bola.getX() + radio) > palaDerecha.getX() &&
                 (bola.getY() + radio) > palaDerecha.getY() &&
-                (bola.getY() - radio) < palaDerecha.getY() + CONFIG.altoPala) {
+                (bola.getY() - radio) < palaDerecha.getY() + APP_VARIABLES.altoPala) {
             bola.setX(palaDerecha.getX() - radio);
             bola.setDx(-abs(bola.getDx()));
             bola.setVelocidad(bola.getVelocidad() + bola.getAceleracion());

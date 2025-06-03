@@ -20,11 +20,12 @@ import java.util.Objects;
 @Component
 public class ChatWebHandler extends TextWebSocketHandler {
 
-    Map<String, Room> rooms;
+    Room salaChat;
     private static int roomCounter = 1;
 
     public ChatWebHandler() {
-        this.rooms = new HashMap<>();
+
+        this.salaChat = new Room("Sala Chat");
     }
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -43,46 +44,21 @@ public class ChatWebHandler extends TextWebSocketHandler {
         player.setSession(session);
         player.setNick(nickValue);
 
-        Room room = buscarSalaConJugador();
-        if (room == null) {
-            room = nuevaSala();
-            room.addPlayer(player);
-        } else {
-            room.addPlayer(player);
-        }
+        salaChat.addPlayer(player);
+
     }
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode root = mapper.readTree(message.getPayload());
-        String type = root.get("type").asText();
         JsonNode data = root.get("data");
-
-        DataHandler dataHandler = new DataHandler();
-        JsonNode mensaje = null;
-        switch (type){
-            case "move":
-                mensaje = dataHandler.move(data);
-                break;
-            case "chat":
-                mensaje = dataHandler.chat(data);
-                break;
-        }
-        mandarMensaje(mensaje.toString() ,session);
+        mandarMensaje(data.toString() ,session);
     }
 
     public void mandarMensaje(String mensaje, WebSocketSession session) {
-        Room room = buscarMiSala(session);
-        if (room != null) {
-            for (Player p: room.getPlayers()){
-                if (p.getSession().equals(session)){
-                    if (mensaje != null) {
-                        room.mandarMensaje(mensaje, session);
-                    }
-                }
-            }
-        }
+        salaChat.mandarMensaje(mensaje, session);
     }
+
     @Override
     public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
         System.out.println("Error en la conexión: " + exception.getMessage());
@@ -94,37 +70,4 @@ public class ChatWebHandler extends TextWebSocketHandler {
         super.afterConnectionClosed(session, status);
     }
 
-    private Room nuevaSala(){
-        System.out.println("No existe sala, creando una nueva");
-        Room room = new Room("Sala " + roomCounter++);
-        rooms.put(room.getId(), room);
-        return room;
-    }
-    private void startGame(Room room) {
-        for (Player player : room.getPlayers()) {
-            try {
-                player.getSession().sendMessage(new TextMessage("El chat ha comenzado en la sala: " + room.getId()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    private Room buscarMiSala(WebSocketSession session){
-        for (Room room : rooms.values()) {
-            for (Player player: room.getPlayers()) {
-                if (player.getSession().equals(session)) {
-                    return room;
-                }
-            }
-        }
-        return null;
-    }
-    private Room buscarSalaConJugador(){
-        for (Room room : rooms.values()) {
-            if (room.getPlayers().size() < 2) {
-                return room;
-            }
-        }
-        return null;
-    }
 }

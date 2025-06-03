@@ -1,7 +1,7 @@
 package Cliente.Controladores;
 
 import Config.APIREQUEST;
-import Config.CONFIG;
+import Config.APP_VARIABLES;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
@@ -21,7 +21,7 @@ public class InfoGamesController extends Controller{
 
     @FXML
     public void initialize() {
-        gameComboBox.getItems().addAll(CONFIG.listaAplicaciones);
+        gameComboBox.getItems().addAll(APP_VARIABLES.listaAplicaciones);
         gameComboBox.setOnAction(event -> mostrarInformacionJuego(gameComboBox.getValue()));
     }
 

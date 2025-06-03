@@ -4,7 +4,7 @@ import Cliente.Mensajes.CambiarImagenMensaje;
 import Cliente.Respuestas.CambioFotoPerfilResponse;
 import Cliente.Respuestas.modelos.HistorialGameDTO;
 import Config.APIREQUEST;
-import Config.CONFIG;
+import Config.APP_VARIABLES;
 import Config.UsuarioLogeado;
 import Util.JsonUtils;
 import javafx.event.ActionEvent;
@@ -66,7 +66,7 @@ public class InfoPerfilController extends Controller{
     @FXML
     public void initialize() {
         recuperarInformacionPerfil();
-        gameComboBox.getItems().addAll(CONFIG.listaJuegos);
+        gameComboBox.getItems().addAll(APP_VARIABLES.listaJuegos);
         cargarHistorial();
     }
 

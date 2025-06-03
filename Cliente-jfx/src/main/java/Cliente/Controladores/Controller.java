@@ -1,5 +1,6 @@
 package Cliente.Controladores;
 
+import Config.CONFIG;
 import javafx.scene.control.Alert;
 import org.json.JSONObject;
 
@@ -63,6 +64,7 @@ public class Controller {
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException e) {
+            showError("Error de conexión", "No se pudo conectar con el servidor. Se esta conectando a: " + CONFIG.tipoArranque);
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);

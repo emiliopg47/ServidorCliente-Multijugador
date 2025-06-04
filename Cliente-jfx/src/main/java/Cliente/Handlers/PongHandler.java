@@ -41,13 +41,15 @@ public class PongHandler implements MessageHandler{
                 List<PlayerMensaje> playerMensajes = JsonUtils.fromJsonListPlayer(dataString, PlayerMensaje.class);
 
                 // Actualizar el controlador con el estado del jugador
+
                 Platform.runLater(() -> {
                     pongController.actualizarPlayer(playerMensajes);
+                    if (!pongController.isStarted()) {
+                        pongController.startGame();
+                    }
                 });
 
-                if (!pongController.isStarted()) {
-                    pongController.startGame();
-                }
+
             }
 
             if (data.getType().equals("FIN")) {

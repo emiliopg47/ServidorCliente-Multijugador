@@ -25,8 +25,8 @@ public class Room {
         }
     }
 
-    public void removePlayer(Player player) {
-        players.remove(player);
+    public void removePlayer(WebSocketSession session) {
+        players.removeIf(player -> player.getSession().equals(session));
     }
 
     public List<Player> getPlayers() {

@@ -12,8 +12,6 @@ public class ChatRoom extends Room {
     @Override
     public void addPlayer(Player player) {
         super.players.add(player);
-        String mensajeBienvenida = "¡Bienvenido al chat, " + player.getNick() + "!";
-        mandarMensaje(mensajeBienvenida, player.getSession());
     }
 
     @Override
@@ -21,6 +19,17 @@ public class ChatRoom extends Room {
         super.mandarMensaje(mensaje, emisor);
         guardarMensajeBD(mensaje);
     }
+
+    public void broadcastMessage(String mensaje) {
+        for (Player player : super.players) {
+            try {
+                player.getSession().sendMessage(new org.springframework.web.socket.TextMessage(mensaje));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     public void guardarMensajeBD(String mensaje) {
         // Comming soon....

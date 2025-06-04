@@ -38,7 +38,7 @@ public class ChatClient extends WebSocketClient {
         String fechaHoraFormateada = fechahora.format(formato);
         // Prepara un JSON simple de tipo "chat"
         ChatData chatData = new ChatData(contenido, UsuarioLogeado.nick, fechaHoraFormateada);
-        MensajeGeneral message = new MensajeGeneral("chat", chatData);
+        MensajeGeneral message = new MensajeGeneral("CHAT", chatData);
 
         principalController.actualizarChat(chatData);
 

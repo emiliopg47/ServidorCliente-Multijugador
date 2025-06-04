@@ -249,6 +249,10 @@ public class PrincipalController extends Controller {
         }
     }
 
+    public void actualizarNumeroJugadores(int numeroJugadores) {
+        lblJugadores.setText("Jugadores Activos: " + numeroJugadores);
+    }
+
 
     public void cerrarChat() {
         if (chatClient != null) {

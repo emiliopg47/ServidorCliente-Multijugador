@@ -1,5 +1,9 @@
 package com.emilio.servidor_multijugador.web.websocket.WebHandlers;
 
+import com.emilio.servidor_multijugador.Util.JsonUtils;
+import com.emilio.servidor_multijugador.web.Mensajes.MensajeGeneral;
+import com.emilio.servidor_multijugador.web.Mensajes.NumeroJugadoresMensaje;
+import com.emilio.servidor_multijugador.web.websocket.data.ChatRoom;
 import com.emilio.servidor_multijugador.web.websocket.data.Player;
 import com.emilio.servidor_multijugador.web.websocket.data.Room;
 import com.emilio.servidor_multijugador.web.websocket.handler.DataHandler;
@@ -20,12 +24,12 @@ import java.util.Objects;
 @Component
 public class ChatWebHandler extends TextWebSocketHandler {
 
-    Room salaChat;
+    ChatRoom salaChat;
     private static int roomCounter = 1;
 
     public ChatWebHandler() {
 
-        this.salaChat = new Room("Sala Chat");
+        this.salaChat = new ChatRoom("Sala Chat");
     }
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -46,17 +50,25 @@ public class ChatWebHandler extends TextWebSocketHandler {
 
         salaChat.addPlayer(player);
 
+
+        NumeroJugadoresMensaje numeroJugadoresMensaje = new NumeroJugadoresMensaje(salaChat.getPlayers().size());
+        MensajeGeneral mensajeGeneral = new MensajeGeneral("NUMERO_JUGADORES_ACTIVOS", numeroJugadoresMensaje);
+
+        broadcastMessage(JsonUtils.toJson(mensajeGeneral));
     }
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode root = mapper.readTree(message.getPayload());
-        JsonNode data = root.get("data");
-        mandarMensaje(data.toString() ,session);
+        String mensaje = message.getPayload();
+
+        mandarMensaje(mensaje,session);
     }
 
     public void mandarMensaje(String mensaje, WebSocketSession session) {
         salaChat.mandarMensaje(mensaje, session);
+    }
+
+    public void broadcastMessage(String mensaje) {
+        salaChat.broadcastMessage(mensaje);
     }
 
     @Override
@@ -66,7 +78,13 @@ public class ChatWebHandler extends TextWebSocketHandler {
     }
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        System.out.println("Cliente desconectado: " + session.getId());
+        salaChat.removePlayer(session);
+
+        // Actualizar el número de jugadores activos
+        NumeroJugadoresMensaje numeroJugadoresMensaje = new NumeroJugadoresMensaje(salaChat.getPlayers().size());
+        MensajeGeneral mensajeGeneral = new MensajeGeneral("NUMERO_JUGADORES_ACTIVOS", numeroJugadoresMensaje);
+        broadcastMessage(JsonUtils.toJson(mensajeGeneral));
+
         super.afterConnectionClosed(session, status);
     }
 

@@ -44,6 +44,6 @@ jobs:
       - name: Restart server remotely
         run: |
           ssh $SSH_USER@$SSH_HOST "
-            pkill -f 'java.*servidor-multijugador*.jar' || true
+            pkill -f 'java\ -jar' || true
             nohup java -jar $SERVER_JAR_PATH > servidor.log 2>&1 &
           "

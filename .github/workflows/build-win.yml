@@ -14,24 +14,12 @@ jobs:
         with:
           distribution: temurin
           java-version: 21
-
-      - name: DEBUG - Mostrar contenido antes de crear config.properties
-        run: dir Cliente-jfx\src\main\resources
-
       - name: Create config.properties
         run: |
           echo server.ip=${{ secrets.SERVER_IP }} > Cliente-jfx\src\main\resources\config.properties
           echo "Contenido generado:"
           type Cliente-jfx\src\main\resources\config.properties
-
-      - name: DEBUG - Verificar que config.properties existe
-        run: |
-          if (Test-Path "Cliente-jfx\src\main\resources\config.properties") {
-            Write-Host "✅ config.properties existe"
-            Get-Content "Cliente-jfx\src\main\resources\config.properties"
-          } else {
-            Write-Host "❌ config.properties NO existe"
-          }
+     
 
       - name: Build with Gradle (cliente)
         run: |
@@ -44,14 +32,6 @@ jobs:
           copy Cliente-jfx\build\libs\*.jar empaquetado\ClienteApp.jar
           copy Cliente-jfx\src\main\resources\images\logoApp.ico empaquetado\icon.ico
 
-      - name: DEBUG - Inspeccionar contenido del JAR
-        run: |
-          mkdir inspeccion
-          cd inspeccion
-          jar xf ..\empaquetado\ClienteApp.jar
-          dir
-          echo "✅ Archivo config.properties incluido:"
-          type config.properties || echo "❌ config.properties NO se encuentra en el JAR"
 
       - name: Package app (.exe)
         shell: pwsh

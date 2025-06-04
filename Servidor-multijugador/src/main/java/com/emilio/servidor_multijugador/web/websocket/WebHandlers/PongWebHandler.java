@@ -129,14 +129,30 @@ public class PongWebHandler extends TextWebSocketHandler {
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         System.out.println("Cliente desconectado: " + session.getId());
         PongRoom room = buscarMiSala(session);
-        if (room.getPlayers().size() < 2) {
-            System.out.println("Sala vacía, eliminando sala: " + room.getId());
+
+        if (room == null) {
+            System.out.println("No se encontró la sala del jugador, cerrando sesión.");
+            return;
+        }
+        if (room.getGanador() == 0) {
+            System.out.println("No se ha jugado la partida, eliminando sala.");
             rooms.remove(room.getId());
+            return;
+        }
+        if (room.getPlayers().size() < 2) {
+            System.out.println("Sala vacía, eliminando sala.");
+            rooms.remove(room.getId());
+            return;
+        }
+        if (room.datosGuardados){
+            rooms.remove(room.getId());
+            System.out.println("Sala eliminada: " + room.getId());
             return;
         }
         room.pararJuego();
         calcularElo(room.getPlayers().get(0), room.getPlayers().get(1), room.getGanador());
         guardarPartida();
+        room.datosGuardados = true;
 
         super.afterConnectionClosed(session, status);
     }
@@ -216,6 +232,7 @@ public class PongWebHandler extends TextWebSocketHandler {
 
 
     private void guardarPartida() {
+        System.out.println("Guardando partida en el historial");
         historialGame.setFecha(LocalDate.now());
         historialGame.setDuracionSeg(Instant.now().getEpochSecond() - horaInicio.getEpochSecond());
         historialGame.setIdJuego(serviceJuego.findByNombre("Pong"));

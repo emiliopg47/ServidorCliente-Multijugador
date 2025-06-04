@@ -20,7 +20,9 @@ public class Room {
     }
 
     public void addPlayer(Player player) {
+
         if (players.size() < 2) {
+
             players.add(player);
         }
     }

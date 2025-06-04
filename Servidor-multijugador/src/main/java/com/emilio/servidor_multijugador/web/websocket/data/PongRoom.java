@@ -21,7 +21,9 @@ public class PongRoom extends Room {
     private GameState estado;
     private ScheduledExecutorService scheduler;
 
-    private int ganador;
+
+    public boolean datosGuardados = false;
+    private int ganador = 0;
 
     public PongRoom(String id) {
         super(id);
@@ -39,6 +41,8 @@ public class PongRoom extends Room {
             playerMensajes.add(playerMensaje);
         }
         MensajeGeneral mensajeGeneral = new MensajeGeneral("INFO_GAME", playerMensajes);
+        System.out.println("Comenzando juego con ");
+
         mandarMensajeBroadcast(mensajeGeneral);
         estado = new GameState();
         this.scheduler = Executors.newSingleThreadScheduledExecutor();

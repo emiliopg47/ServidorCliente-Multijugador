@@ -85,6 +85,7 @@ public class ChatWebHandler extends TextWebSocketHandler {
         MensajeGeneral mensajeGeneral = new MensajeGeneral("NUMERO_JUGADORES_ACTIVOS", numeroJugadoresMensaje);
         broadcastMessage(JsonUtils.toJson(mensajeGeneral));
 
+
         super.afterConnectionClosed(session, status);
     }
 

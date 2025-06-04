@@ -5,6 +5,7 @@ import Cliente.Mensajes.MensajeGeneral;
 import Cliente.Mensajes.PongMove;
 import Juegos.Pong.Controladores.PongController;
 import Util.JsonUtils;
+import com.sun.source.tree.IfTree;
 import javafx.animation.AnimationTimer;
 import javafx.scene.input.KeyCode;
 
@@ -17,8 +18,6 @@ public class LoopJuego extends AnimationTimer {
     private String paddleDownIzquierda;
     private String paddleUpDerecha;
     private String paddleDownDerecha;
-
-    private int idPlayer;
 
     public LoopJuego(PongClient pongClient, PongController controlador, int idPlayer) {
         this.pongClient = pongClient;
@@ -36,6 +35,10 @@ public class LoopJuego extends AnimationTimer {
             this.paddleDownIzquierda = JsonUtils.toJson(new MensajeGeneral(("MOVE_PADDLE"), new PongMove("DOWN", "RIGHT")));
             this.paddleUpDerecha = JsonUtils.toJson(new MensajeGeneral(("MOVE_PADDLE"), new PongMove("UP", "RIGHT")));
             this.paddleDownDerecha = JsonUtils.toJson(new MensajeGeneral(("MOVE_PADDLE"), new PongMove("DOWN", "RIGHT")));
+        }
+
+        if (idPlayer != 1 && idPlayer != 2) {
+            System.out.println("No se ha establecido el id de manera correcta: " + idPlayer);
         }
 
     }

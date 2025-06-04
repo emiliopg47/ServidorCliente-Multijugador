@@ -33,13 +33,17 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      - name: Add server to known_hosts
+        run: |
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts    
+
       - name: Copy jar to server
         run: |
-          scp Servidor-multijugador/target/Servidor-multijugador.jar $SSH_USER@$SSH_HOST:$SERVER_JAR_PATH
+          scp Servidor-multijugador/target/*.jar $SSH_USER@$SSH_HOST:$SERVER_JAR_PATH
 
       - name: Restart server remotely
         run: |
           ssh $SSH_USER@$SSH_HOST "
-            pkill -f 'java.*Servidor-multijugador.jar' || true
+            pkill -f 'java.*servidor-multijugador*.jar' || true
             nohup java -jar $SERVER_JAR_PATH > servidor.log 2>&1 &
           "

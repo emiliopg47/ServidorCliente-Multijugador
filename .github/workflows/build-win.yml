@@ -62,8 +62,6 @@ jobs:
           --input empaquetado `
           --main-jar ClienteApp.jar `
           --main-class MainApp `
-          --win-shortcut `
-          --win-menu `
           --icon empaquetado\icon.ico `
           --dest dist `
           --app-version 1.0

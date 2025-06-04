@@ -174,14 +174,25 @@ public class PongController extends Controller {
 
             // Actualizar foto de perfil del jugador 1
             if (player1.getFotoPerfil() != null) {
-                fotoPerfilJ1.setFill(new ImagePattern(
-                        new Image(new ByteArrayInputStream(player1.getFotoPerfil()))));
+                        try {
+                            fotoPerfilJ1.setFill(new ImagePattern(
+                                        new Image(new ByteArrayInputStream(player1.getFotoPerfil()))));
+                        } catch (Exception e) {
+                            fotoPerfilJ1.setFill(new ImagePattern(
+                                    new Image(getClass().getResourceAsStream("/images/fotoPerfilGenerica.png"))));
+                        }
+
             }
 
             // Actualizar foto de perfil del jugador 2
             if (player2.getFotoPerfil() != null) {
-                fotoPerfilJ2.setFill(new ImagePattern(
-                        new Image(new ByteArrayInputStream(player2.getFotoPerfil()))));
+                try {
+                    fotoPerfilJ2.setFill(new ImagePattern(
+                            new Image(new ByteArrayInputStream(player2.getFotoPerfil()))));
+                } catch (Exception e) {
+                    fotoPerfilJ2.setFill(new ImagePattern(
+                            new Image(getClass().getResourceAsStream("/images/fotoPerfilGenerica.png"))));
+                }
             }
         }
     }

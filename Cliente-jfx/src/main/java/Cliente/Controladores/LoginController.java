@@ -52,6 +52,7 @@ public class LoginController extends Controller {
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PrincipalApp.fxml"));
                 Parent root = loader.load();
+
                 Stage stage = getStage(loader, user, root);
 
                 stage.show();

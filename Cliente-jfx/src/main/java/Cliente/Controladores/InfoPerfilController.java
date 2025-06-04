@@ -80,7 +80,7 @@ public class InfoPerfilController extends Controller{
             imgViewPerfil.setImage(imagenPerfil);
         } else {
             // Si no hay imagen, se puede establecer una imagen por defecto
-            imgViewPerfil.setImage(new Image("default_profile_image.png"));
+            imgViewPerfil.setImage(UsuarioLogeado.getFxImage());
         }
         puntuacionLabel.setText(String.valueOf(UsuarioLogeado.elo));
 

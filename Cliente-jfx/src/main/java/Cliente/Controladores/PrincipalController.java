@@ -86,21 +86,18 @@ public class PrincipalController extends Controller {
     @FXML
     public void initialize() {
         //Cargar los datos del usuario logueado
+
+        javafx.application.Platform.runLater(() -> {
+            Stage stage = (Stage) panelJugar.getScene().getWindow();
+            stage.setOnCloseRequest(event -> cerrarChat());
+        });
         lblNombreCentro.setText(UsuarioLogeado.nick);
 
         // Cargar la imagen de perfil del usuario logueado
 
-        if (UsuarioLogeado.imagenPerfil != null) {
-            Image imagenPerfil = new Image(new ByteArrayInputStream(UsuarioLogeado.imagenPerfil));
-
-            circleInfPerfil.setFill(new ImagePattern(imagenPerfil));
-            circleSupPerfil.setFill(new ImagePattern(imagenPerfil));
-        } else {
-            // Si no hay imagen, se puede establecer una imagen por defecto
-            Image imagenPorDefecto = new Image(getClass().getResourceAsStream("/images/fotoPerfilGenerica.png"));
-            circleInfPerfil.setFill(new ImagePattern(imagenPorDefecto));
-            circleSupPerfil.setFill(new ImagePattern(imagenPorDefecto));
-        }
+        Image imagenPerfil = UsuarioLogeado.getFxImage();
+        circleInfPerfil.setFill(new ImagePattern(imagenPerfil));
+        circleSupPerfil.setFill(new ImagePattern(imagenPerfil));
 
         lblRangoCentro.setText("Puntos: " + UsuarioLogeado.elo);
 

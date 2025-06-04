@@ -127,6 +127,7 @@ public class PrincipalController extends Controller {
             currentStage.setTitle("Pong");
             currentStage.setResizable(false);
 
+            cerrarChat();
 
             currentStage.show();
 

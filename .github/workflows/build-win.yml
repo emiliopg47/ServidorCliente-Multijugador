@@ -26,11 +26,12 @@ jobs:
 
       - name: DEBUG - Verificar que config.properties existe
         run: |
-          if exist Cliente-jfx\src\main\resources\config.properties (
-            echo "✅ config.properties existe"
-          ) else (
-            echo "❌ config.properties NO existe"
-          )
+          if (Test-Path "Cliente-jfx\src\main\resources\config.properties") {
+            Write-Host "✅ config.properties existe"
+            Get-Content "Cliente-jfx\src\main\resources\config.properties"
+          } else {
+            Write-Host "❌ config.properties NO existe"
+          }
 
       - name: Build with Gradle (cliente)
         run: |

@@ -1,0 +1,50 @@
+name: Build and Package ClienteApp (Portable - Windows)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-portable-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup JDK 21
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Create config.properties
+        run: |
+          echo server.ip=${{ secrets.SERVER_IP }} > Cliente-jfx\src\main\resources\config.properties
+
+      - name: Build with Gradle (cliente)
+        run: |
+          cd Cliente-jfx
+          ./gradlew.bat clean fatJar
+
+      - name: Prepare packaging folder
+        run: |
+          mkdir empaquetado
+          copy Cliente-jfx\build\libs\*.jar empaquetado\ClienteApp.jar
+          copy Cliente-jfx\src\main\resources\images\logoApp.ico empaquetado\icon.ico
+
+      - name: Package app (AppImage-style for Windows)
+        shell: pwsh
+        run: |
+          jpackage `
+          --type app-image `
+          --name ClienteApp `
+          --input empaquetado `
+          --main-jar ClienteApp.jar `
+          --main-class MainApp `
+          --icon empaquetado\icon.ico `
+          --dest dist `
+          --app-version 1.0
+
+      - name: Upload portable artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: clienteapp-portable
+          path: dist\ClienteApp

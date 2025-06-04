@@ -1,21 +1,13 @@
-name: Deploy en el servidor google cloud de la nueva version
+name: Build and Package ClienteApp (Windows)
 
 on:
-  push:
-    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    env:
-      SSH_HOST: ${{ secrets.SSH_HOST }}
-      SSH_USER: ${{ secrets.SSH_USER }}
-      SERVER_JAR_PATH: ${{ secrets.SERVER_JAR_PATH }}
-      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-
+  build-windows:
+    runs-on: windows-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Setup JDK 21
         uses: actions/setup-java@v3
@@ -23,27 +15,60 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - name: Build server with Maven
-        run: |
-          cd Servidor-multijugador
-          mvn clean package -DskipTests
+      - name: DEBUG - Mostrar contenido antes de crear config.properties
+        run: dir Cliente-jfx\src\main\resources
 
-      - name: Setup SSH key
-        uses: webfactory/ssh-agent@v0.9.0
+      - name: Create config.properties
+        run: |
+          echo server.ip=${{ secrets.SERVER_IP }} > Cliente-jfx\src\main\resources\config.properties
+          echo "Contenido generado:"
+          type Cliente-jfx\src\main\resources\config.properties
+
+      - name: DEBUG - Verificar que config.properties existe
+        run: |
+          if exist Cliente-jfx\src\main\resources\config.properties (
+            echo "✅ config.properties existe"
+          ) else (
+            echo "❌ config.properties NO existe"
+          )
+
+      - name: Build with Gradle (cliente)
+        run: |
+          cd Cliente-jfx
+          ./gradlew.bat clean fatJar
+
+      - name: Prepare packaging folder
+        run: |
+          mkdir empaquetado
+          copy Cliente-jfx\build\libs\*.jar empaquetado\ClienteApp.jar
+          copy Cliente-jfx\src\main\resources\images\logoApp.ico empaquetado\icon.ico
+
+      - name: DEBUG - Inspeccionar contenido del JAR
+        run: |
+          mkdir inspeccion
+          cd inspeccion
+          jar xf ..\empaquetado\ClienteApp.jar
+          dir
+          echo "✅ Archivo config.properties incluido:"
+          type config.properties || echo "❌ config.properties NO se encuentra en el JAR"
+
+      - name: Package app (.exe)
+        shell: pwsh
+        run: |
+          jpackage `
+          --type exe `
+          --name ClienteApp `
+          --input empaquetado `
+          --main-jar ClienteApp.jar `
+          --main-class MainApp `
+          --win-shortcut `
+          --win-menu `
+          --icon empaquetado\icon.ico `
+          --dest dist `
+          --app-version 1.0
+
+      - name: Upload .exe artifact
+        uses: actions/upload-artifact@v4
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Add server to known_hosts
-        run: |
-          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts    
-
-      - name: Copy jar to server
-        run: |
-          scp Servidor-multijugador/target/*.jar $SSH_USER@$SSH_HOST:$SERVER_JAR_PATH/servidor.jar
-
-      - name: Restart server remotely
-        run: |
-          ssh $SSH_USER@$SSH_HOST "
-            pkill -f 'java -jar $SERVER_JAR_PATH/servidor.jar' || true
-            nohup java -jar $SERVER_JAR_PATH/servidor.jar > servidor.log 2>&1 &
-          "
+          name: clienteapp-exe
+          path: dist\*.exe

@@ -39,11 +39,11 @@ jobs:
 
       - name: Copy jar to server
         run: |
-          scp Servidor-multijugador/target/*.jar $SSH_USER@$SSH_HOST:$SERVER_JAR_PATH
+          scp Servidor-multijugador/target/*.jar $SSH_USER@$SSH_HOST:$SERVER_JAR_PATH/servidor.jar
 
       - name: Restart server remotely
         run: |
           ssh $SSH_USER@$SSH_HOST "
-            pkill -f 'java\ -jar' || true
-            nohup java -jar $SERVER_JAR_PATH > servidor.log 2>&1 &
+            pkill -f 'java -jar $SERVER_JAR_PATH/servidor.jar' || true
+            nohup java -jar $SERVER_JAR_PATH/servidor.jar > servidor.log 2>&1 &
           "

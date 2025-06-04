@@ -110,3 +110,12 @@
   }
 }
 ```
+
+## Bugs
+
+- [x] Cuando un jugador busca su segunda partida no puede controlar la pala.
+- [x] Los jugadores activos no se controlan bien cuando se abre una partida y se cierra.
+
+## Server
+
+- [x] El servidor cierra el proceso cuando pasa un tiempo.

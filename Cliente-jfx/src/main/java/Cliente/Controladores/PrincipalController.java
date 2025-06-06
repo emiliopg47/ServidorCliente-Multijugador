@@ -18,6 +18,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -29,6 +30,8 @@ import java.io.IOException;
 
 
 public class PrincipalController extends Controller {
+    public Circle circleRanking;
+    public Label lblJugadoresActivos;
 
     // CABECERA
 
@@ -101,6 +104,7 @@ public class PrincipalController extends Controller {
 
         lblRangoCentro.setText("Puntos: " + UsuarioLogeado.elo);
 
+        txtEnviarMensaje.setOnAction(event -> enviarMensaje());
         iniciarChat();
     }
 
@@ -141,16 +145,17 @@ public class PrincipalController extends Controller {
 
     @FXML
     public void handleViewGitHub() {
-        /*String url = "https://github.com/emiliopg47/ServidorCliente-Multijugador";
+        String url = "https://github.com/emiliopg47/ServidorCliente-Multijugador";
 
         try {
+            /*
             if (java.awt.Desktop.isDesktopSupported()) {
                 java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
                 if (desktop.isSupported(java.awt.Desktop.Action.BROWSE)) {
                     desktop.browse(java.net.URI.create(url));
                     return;
                 }
-            }
+            }*/
 
             // Alternativas según sistema operativo
             String os = System.getProperty("os.name").toLowerCase();
@@ -165,7 +170,7 @@ public class PrincipalController extends Controller {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }
     }
 
     @FXML
@@ -251,13 +256,28 @@ public class PrincipalController extends Controller {
     }
 
     public void actualizarNumeroJugadores(int numeroJugadores) {
-        lblJugadores.setText("Jugadores Activos: " + numeroJugadores);
+        lblJugadoresActivos.setText(String.valueOf(numeroJugadores));
     }
 
 
     public void cerrarChat() {
         if (chatClient != null) {
             chatClient.close();
+        }
+    }
+
+    public void handleOpenRanking(MouseEvent mouseEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Ranking.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Ranking");
+            stage.setScene(new Scene(root));
+            stage.sizeToScene();
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

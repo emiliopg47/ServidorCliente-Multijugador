@@ -4,6 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
@@ -11,13 +12,29 @@
 
     <!-- CABECERA -->
     <top>
-        <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-background-color: #2c3e50;">
+        <HBox alignment="CENTER" spacing="20" style="-fx-background-color: #2c3e50;">
             <padding>
                 <Insets bottom="10" left="10" right="10" top="10" />
             </padding>
-         <Circle fx:id="circleSupPerfil" onMouseClicked="#handleViewProfile" radius="47.0" stroke="BLACK" strokeType="INSIDE" />
-            <Button fx:id="btnCerrarSesion" onAction="#handleLogout" style="-fx-background-color: #c0392b; -fx-text-fill: white;" text="Cerrar Sesión" />
-            <Label fx:id="lblJugadores" style="-fx-text-fill: white; -fx-font-size: 14px;" text="Jugadores logeados: 0" />
+
+            <!-- Foto de perfil (izquierda) -->
+            <Circle fx:id="circleSupPerfil" onMouseClicked="#handleViewProfile" radius="47.0" stroke="BLACK" strokeType="INSIDE" />
+
+            <!-- Etiqueta centrada -->
+            <Region HBox.hgrow="ALWAYS" />
+            <Label style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" text="CLIENTE DE JUEGOS MULTIJUGADOR" />
+            <Region HBox.hgrow="ALWAYS" />
+
+            <!-- Icono ranking (derecha) -->
+            <Circle fx:id="circleRanking" onMouseClicked="#handleOpenRanking" radius="46.0" stroke="WHITE" strokeType="INSIDE">
+                <fill>
+                    <ImagePattern>
+                        <image>
+                            <Image url="@/images/ranking.png" />
+                        </image>
+                    </ImagePattern>
+                </fill>
+            </Circle>
         </HBox>
     </top>
 
@@ -27,26 +44,20 @@
 
             <!-- PANEL JUGAR -->
             <StackPane fx:id="panelJugar" style="-fx-background-color: #d6eaf8;" HBox.hgrow="ALWAYS">
-
-                <!-- Fondo de imagen -->
-
-
-                <!-- Contenido centrado -->
-                <!-- VBox con imagen de fondo y padding para que nada toque los bordes -->
                 <VBox alignment="CENTER" spacing="20" style="-fx-background-image: url('/images/fondoCuadroCentral.jpg'); -fx-background-size: cover;">
                     <padding>
                         <Insets bottom="30" left="30" right="30" top="30" />
                     </padding>
 
-                    <!-- Caja contenedora de datos (imagen, nombre, rango) -->
-                    <VBox alignment="CENTER" maxWidth="220.0" prefHeight="427.0" prefWidth="220.0" spacing="10" style="-fx-background-color: rgb(61,131,173); -fx-background-radius: 10; -fx-padding: 15; ">
-                  <Circle fx:id="circleInfPerfil" fill="#182c3e" radius="73.0" stroke="BLACK" strokeType="INSIDE" />
+                    <!-- Caja contenedora de datos -->
+                    <VBox alignment="CENTER" maxWidth="220.0" prefHeight="427.0" prefWidth="220.0" spacing="10" style="-fx-background-color: rgb(61,131,173); -fx-background-radius: 10; -fx-padding: 15;">
+                        <Circle fx:id="circleInfPerfil" fill="#182c3e" radius="73.0" stroke="BLACK" strokeType="INSIDE" />
                         <Label fx:id="lblNombreCentro" style="-fx-font-size: 18px;" text="Nombre" />
                         <Label fx:id="lblRangoCentro" style="-fx-font-size: 14px;" text="Rango" />
                     </VBox>
 
-                    <!-- Botón Buscar dentro de caja azul claro -->
-                    <StackPane prefHeight="80" prefWidth="180" style="-fx-background-color: transparent; -fx-background-radius: 8;">
+                    <!-- Botón Buscar Partida -->
+                    <StackPane prefHeight="80" prefWidth="180" style="-fx-background-color: transparent;">
                         <Button fx:id="btnBuscar" onAction="#handleSearchGame" prefHeight="56.0" prefWidth="302.0" style="-fx-background-color: #1c8d00; -fx-text-fill: white;" text="Buscar Partida">
                             <font>
                                 <Font size="25.0" />
@@ -54,15 +65,29 @@
                         </Button>
                     </StackPane>
                 </VBox>
-
-
             </StackPane>
 
             <!-- PANEL CHAT -->
             <VBox prefWidth="300" style="-fx-background-color: white;">
+
+                <!-- Jugadores activos -->
+                <!-- Jugadores activos -->
+                <HBox alignment="CENTER_LEFT" spacing="8">
+                    <padding>
+                        <Insets bottom="10" left="10" right="10" top="10" />
+                    </padding>
+                    <Label style="-fx-font-size: 14px;" text="Jugadores Activos:" />
+                    <Circle fill="green" radius="6" />
+                    <Label fx:id="lblJugadoresActivos" style="-fx-font-size: 14px;" text="0" />
+                </HBox>
+
+
+                <!-- Área de texto del chat -->
                 <VBox VBox.vgrow="ALWAYS">
                     <TextArea fx:id="txtAreaChat" editable="false" prefWidth="300" style="-fx-font-family: 'Consolas'; -fx-control-inner-background: #72a7c4;" wrapText="true" VBox.vgrow="ALWAYS" />
                 </VBox>
+
+                <!-- Enviar mensaje -->
                 <HBox spacing="5" style="-fx-background-color: #4d6b8a">
                     <padding>
                         <Insets bottom="10" left="10" right="10" top="10" />
@@ -76,16 +101,32 @@
 
     <!-- PIE -->
     <bottom>
-        <HBox alignment="CENTER" spacing="20" style="-fx-background-color: #2c3e50;">
+        <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-background-color: #2c3e50;">
             <padding>
                 <Insets bottom="10" left="10" right="10" top="10" />
             </padding>
 
-            <Label style="-fx-text-fill: white;" text="Desarrollado por Emilio" />
-            <Button fx:id="btnInfo" onAction="#handleInfoGames" style="-fx-background-color: #34495e; -fx-text-fill: white;" text="Información de Juegos" />
-            <ImageView fx:id="imgGitHub" fitHeight="24" fitWidth="24" onMouseClicked="#handleViewGitHub" pickOnBounds="true" preserveRatio="true">
-                <Image url="@/images/github.png" />
-            </ImageView>
+            <!-- Izquierda: botón cerrar sesión -->
+            <Button fx:id="btnCerrarSesion" onAction="#handleLogout" style="-fx-background-color: #c0392b; -fx-text-fill: white;" text="Cerrar Sesión" />
+
+            <!-- Región izquierda para centrar el contenido -->
+            <Region prefHeight="26.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
+
+            <!-- Centro: info desarrollador, botón info y GitHub -->
+            <HBox alignment="CENTER" spacing="20">
+                <Label style="-fx-text-fill: white;" text="Desarrollado por Emilio" />
+                <Button fx:id="btnInfo" onAction="#handleInfoGames" style="-fx-background-color: #34495e; -fx-text-fill: white;" text="Información de Juegos" />
+                <ImageView fx:id="imgGitHub" fitHeight="24" fitWidth="24" onMouseClicked="#handleViewGitHub" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@/images/github.png" />
+                    </image>
+                </ImageView>
+            </HBox>
+
+            <!-- Región derecha para centrar el contenido -->
+            <Region prefHeight="26.0" prefWidth="174.0" HBox.hgrow="ALWAYS" />
         </HBox>
     </bottom>
+
+
 </BorderPane>

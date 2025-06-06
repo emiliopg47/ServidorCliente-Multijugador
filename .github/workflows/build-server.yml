@@ -1,8 +1,7 @@
 name: Deploy en el servidor google cloud de la nueva version
 
 on:
-  push:
-    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   deploy:

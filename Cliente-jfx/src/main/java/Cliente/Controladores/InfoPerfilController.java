@@ -68,8 +68,22 @@ public class InfoPerfilController extends Controller{
         recuperarInformacionPerfil();
         gameComboBox.getItems().addAll(APP_VARIABLES.listaJuegos);
         cargarHistorial();
+        actualizarWL();
     }
 
+    public void actualizarWL(){
+        int ganadas = 0;
+        int perdidas = 0;
+
+        for (String item : historialListView.getItems()) {
+            if (item.contains("Win")) {
+                ganadas++;
+            } else if (item.contains("Lose")) {
+                perdidas++;
+            }
+        }
+        historialWLLabel.setText("Ganadas: " + ganadas + " | Perdidas: " + perdidas);
+    }
 
     public void recuperarInformacionPerfil(){
         nombreLabel.setText(UsuarioLogeado.nick);

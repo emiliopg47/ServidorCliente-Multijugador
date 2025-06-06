@@ -1,4 +1,4 @@
-package com.emilio.servidor_multijugador.web.apirest;
+package com.emilio.servidor_multijugador.web.apirest.response;
 
 import com.emilio.servidor_multijugador.persistencia.modelos.TopRanking;
 

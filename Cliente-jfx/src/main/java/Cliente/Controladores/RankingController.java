@@ -73,27 +73,37 @@ public class RankingController extends Controller {
             for (TopRanking ranking: rankingList){
                 switch (ranking.getPosicionRanking()){
                     case 1 -> {
-                        imagenJ1.setFill(new ImagePattern(Funciones.fromByteArrayToImage(ranking.getImagen())));
+                        if (ranking.getImagen() != null){
+                            imagenJ1.setFill(new ImagePattern(Funciones.fromByteArrayToImage(ranking.getImagen())));
+                        }
                         nombreJ1.setText(ranking.getNick());
                         puntosJ1.setText(String.valueOf(ranking.getPuntos()));
                     }
                     case 2 -> {
-                        imagenJ2.setFill(new ImagePattern(Funciones.fromByteArrayToImage(ranking.getImagen())));
+                        if (ranking.getImagen() != null){
+                            imagenJ2.setFill(new ImagePattern(Funciones.fromByteArrayToImage(ranking.getImagen())));
+                        }
                         nombreJ2.setText(ranking.getNick());
                         puntosJ2.setText(String.valueOf(ranking.getPuntos()));
                     }
                     case 3 -> {
-                        imagenJ3.setFill(new ImagePattern(Funciones.fromByteArrayToImage(ranking.getImagen())));
+                        if (ranking.getImagen() != null){
+                            imagenJ3.setFill(new ImagePattern(Funciones.fromByteArrayToImage(ranking.getImagen())));
+                        }
                         nombreJ3.setText(ranking.getNick());
                         puntosJ3.setText(String.valueOf(ranking.getPuntos()));
                     }
                     case 4 -> {
-                        imagenJ4.setFill(new ImagePattern(Funciones.fromByteArrayToImage(ranking.getImagen())));
+                        if (ranking.getImagen() != null){
+                            imagenJ4.setFill(new ImagePattern(Funciones.fromByteArrayToImage(ranking.getImagen())));
+                        }
                         nombreJ4.setText(ranking.getNick());
                         puntosJ4.setText(String.valueOf(ranking.getPuntos()));
                     }
                     case 5 -> {
-                        imagenJ5.setFill(new ImagePattern(Funciones.fromByteArrayToImage(ranking.getImagen())));
+                        if (ranking.getImagen() != null){
+                            imagenJ5.setFill(new ImagePattern(Funciones.fromByteArrayToImage(ranking.getImagen())));
+                        }
                         nombreJ5.setText(ranking.getNick());
                         puntosJ5.setText(String.valueOf(ranking.getPuntos()));
                     }

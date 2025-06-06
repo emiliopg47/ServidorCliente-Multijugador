@@ -165,13 +165,20 @@ public class RestControler{
 
     private void setRankingNuevoUser(Usuario usuario) {
         // Metodo para crear un ranking de un nuevo usuario
-        for (Juego juego : serviceJuego.findAll()) {
-            Ranking ranking = new Ranking();
-            ranking.setIdJuego(juego);
-            ranking.setIdUsuario(usuario);
-            ranking.setPuntos(100);
-            serviceRanking.create(ranking);
-        }
+        Juego juego = serviceJuego.findByNombre("Pong");
+        Ranking ranking = new Ranking();
+
+        RankingId rankingId = new RankingId();
+        rankingId.setIdUsuario(usuario.getId());
+        rankingId.setIdJuego(juego.getId());
+
+        ranking.setId(rankingId);
+        ranking.setIdUsuario(usuario);
+        ranking.setIdJuego(juego);
+        ranking.setPuntos(100);
+
+// Guarda el ranking
+        serviceRanking.create(ranking);
     }
 
 }

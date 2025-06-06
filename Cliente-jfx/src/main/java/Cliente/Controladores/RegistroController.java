@@ -3,10 +3,13 @@ package Cliente.Controladores;
 import Cliente.Mensajes.RegistroMensaje;
 import Config.APIREQUEST;
 import Util.JsonUtils;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -14,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import org.json.JSONObject;
 
+import java.lang.management.PlatformLoggingMXBean;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -35,8 +39,19 @@ public class RegistroController extends  Controller{
     private DatePicker fechaNac;
 
     @FXML
+    private Button btnRegistro;
+
+    @FXML
     public void initialize() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        // Añadir metodo volverVentanaLogin()  al close de la ventana
+        Platform.runLater(() -> {
+            Stage stage = (Stage) btnRegistro.getScene().getWindow();
+            stage.setOnCloseRequest(event -> volverVentanaLogin());
+        });
+        
+
         fechaNac.setConverter(new StringConverter<LocalDate>() {
             @Override
             public String toString(LocalDate date) {
@@ -48,15 +63,18 @@ public class RegistroController extends  Controller{
                 return (string != null && !string.isEmpty()) ? LocalDate.parse(string, formatter) : null;
             }
         });
-
     }
     @FXML
     public void handleRegistro() {
-         //Comprobar que los campos no están vacíos
+
+        btnRegistro.setDisable(true);
+
+        //Comprobar que los campos no están vacíos
         if (nombreUser.getText().isEmpty() || email.getText().isEmpty() || passwordField.getText().isEmpty() || confirmPasswordField.getText().isEmpty()) {
             showError("Error de registro.", "Por favor, completa todos los campos.");
             return;
         }
+
 
         RegistroMensaje registroMensaje = new RegistroMensaje();
         registroMensaje.setNick(nombreUser.getText());
@@ -74,15 +92,16 @@ public class RegistroController extends  Controller{
         boolean success = respuesta.getBoolean("success");
 
         if (success) {
-            showConfirmation("",respuesta.getString("message") + ". Redirigiendo a la pantalla de inicio de sesión.");
-            registroExitoso();
+            volverVentanaLogin();
         } else {
             showError("Error de registro.", respuesta.getString("message"));
         }
 
+        btnRegistro.setDisable(false);
+
     }
 
-    public void registroExitoso(){
+    public void volverVentanaLogin(){
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Login.fxml"));
             Parent root = loader.load();
@@ -92,5 +111,9 @@ public class RegistroController extends  Controller{
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void handleVolver(ActionEvent actionEvent) {
+        volverVentanaLogin();
     }
 }

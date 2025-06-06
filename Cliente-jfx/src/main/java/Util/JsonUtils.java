@@ -3,6 +3,7 @@ package Util;
 import Cliente.Mensajes.MensajeGeneral;
 import Cliente.Mensajes.PlayerMensaje;
 import Cliente.Respuestas.modelos.HistorialGameDTO;
+import Cliente.Respuestas.modelos.TopRanking;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
@@ -48,6 +49,14 @@ public class JsonUtils {
         try {
             return mapper.readValue(dataString, mapper.getTypeFactory().constructCollectionType(List.class, historialGameDTOClass));
         } catch (Exception e) {
+            throw new RuntimeException("Error parsing JSON list", e);
+        }
+    }
+
+    public  static  List<TopRanking> fromJsonListRanking(String dataString, Class<TopRanking> rankingClass) {
+        try {
+            return mapper.readValue(dataString, mapper.getTypeFactory().constructCollectionType(List.class, rankingClass));
+        } catch (JsonProcessingException e) {
             throw new RuntimeException("Error parsing JSON list", e);
         }
     }

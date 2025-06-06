@@ -14,4 +14,8 @@ public class Mensajes {
     public static final String JUEGO_NO_ENCONTRADO = "El juego no existe";
     public static final String CAMBIO_FOTO_PERFIL_EXITOSO = "Cambio de foto de perfil exitoso";
     public static final String ERROR_AL_CAMBIAR_IMAGEN = "Error al cambiar la imagen";
+
+    public static final String HISTORIAL_NO_ENCONTRADO = "No se ha encontrado el historial de juegos";
+
+
 }

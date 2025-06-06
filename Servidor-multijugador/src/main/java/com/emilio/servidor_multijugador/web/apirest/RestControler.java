@@ -103,6 +103,19 @@ public class RestControler{
         }
     }
 
+    @GetMapping("/ranking/{juego}")
+    public ResponseEntity<RankingResponse> topRanking(@PathVariable String juego) {
+        RankingResponse  rankingResponse= new RankingResponse();
+        List<TopRanking> topRanking = serviceRanking.getTopRanking(juego);
+        if (topRanking.isEmpty()) {
+            return ResponseEntity.badRequest().body(new RankingResponse(false, Mensajes.RANKING_NO_ENCONTRADO, null));
+        }
+       rankingResponse.setRanking(topRanking);
+       rankingResponse.setSuccess(true);
+
+        return ResponseEntity.ok(rankingResponse);
+    }
+
     private EloResponse comprobarRanking(String nick, String juego) {
         Long elo = serviceUsuario.findPuntosByNickAndJuego(nick, juego);
         if (elo == null) {

@@ -1,12 +1,11 @@
 package com.emilio.servidor_multijugador.persistencia.servicios;
 
-import com.emilio.servidor_multijugador.persistencia.modelos.Juego;
-import com.emilio.servidor_multijugador.persistencia.modelos.Ranking;
-import com.emilio.servidor_multijugador.persistencia.modelos.RankingId;
-import com.emilio.servidor_multijugador.persistencia.modelos.Usuario;
+import com.emilio.servidor_multijugador.persistencia.modelos.*;
 import com.emilio.servidor_multijugador.persistencia.repository.RankingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ServiceRanking {
@@ -53,6 +52,20 @@ public class ServiceRanking {
             ranking.setPuntos(nuevoElo);
             dao.save(ranking);
         }
+    }
+
+    public List<TopRanking> getTopRanking(String juego) {
+        Juego j = serviceJuego.findByNombre(juego);
+        List<Ranking> rankings = dao.findTop5ByIdJuegoOrderByPuntosDesc(j);
+
+        List<TopRanking> topRankings = rankings.stream()
+                .map(r -> new TopRanking(
+                        rankings.indexOf(r) + 1, // Posición en el ranking
+                        r.getIdUsuario().getNick(),
+                        r.getPuntos(),
+                        r.getIdUsuario().getImagen()))
+                .toList();
+        return topRankings;
     }
 
 }

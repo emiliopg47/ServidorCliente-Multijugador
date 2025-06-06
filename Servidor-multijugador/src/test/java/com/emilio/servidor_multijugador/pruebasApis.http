@@ -32,3 +32,6 @@ GET http://localhost:8080/api/elo/{{nick}}/{{juego}}
 
 ###
 GET http://localhost:8080/api/historial/{{nick}}
+
+###
+GET http://localhost:8080/api/ranking/Pong

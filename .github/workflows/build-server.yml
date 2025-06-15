@@ -43,6 +43,6 @@ jobs:
       - name: Restart server remotely
         run: |
           ssh $SSH_USER@$SSH_HOST "
-             pkill -f 'java -jar $SERVER_JAR_PATH/servidor.jar' || true
+             pkill -f 'java -jar servidor' || true
              nohup java -jar $SERVER_JAR_PATH/servidor.jar > servidor.log 2>&1 &
            "

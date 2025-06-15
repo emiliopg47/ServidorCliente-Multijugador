@@ -127,19 +127,7 @@ public class PongController extends Controller {
 
     public void mostrarFinJuego(GameEndMensaje gameEndMensaje) {
         // Mostrar caja de mensaje con el resultado
-        String mensaje = "Fin del juego\n";
-        mensaje += "Marcador final:\n";
-        if (gameEndMensaje.getGanador().equals("IZQUIERDA")){
-            mensaje += "Ganador: Jugador 1\n";
-            mensaje += "Jugador1: " + gameEndMensaje.getPuntosJugadorIzquierda() + "\n";
-            mensaje += "Jugador2: " + gameEndMensaje.getPuntosJugadorDerecha() + "\n";
-        }
-        if (gameEndMensaje.getGanador().equals("DERECHA")){
-            mensaje += "Ganador: Jugador 2\n";
-            mensaje += "Jugador1: " + gameEndMensaje.getPuntosJugadorIzquierda() + "\n";
-            mensaje += "Jugador2: " + gameEndMensaje.getPuntosJugadorDerecha() + "\n";
-        }
-        showInformation("FIN DEL JUEGO", mensaje);
+        showInformation("FIN DEL JUEGO", gameEndMensaje.getGanador());
         // Cerrar el cliente de Pong
         if (pongClient != null) {
             pongClient.close();

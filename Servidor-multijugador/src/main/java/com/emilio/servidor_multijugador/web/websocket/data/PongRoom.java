@@ -84,7 +84,7 @@ public class PongRoom extends Room {
     public void loop() {
         if (estado.comprobarColisiones()) {
             resetGame();
-            estado.iniciarPausa(1000); // pausar 1 segundo sin bloquear el hilo
+            estado.iniciarPausa(1000);
         }
 
         estado.actualizar();
@@ -96,7 +96,7 @@ public class PongRoom extends Room {
         //Comprobar ganador
         if (estado.getMarcadorIzq() == APP_VARIABLES.puntosNecesariosParaGanar){
             GameEndMensaje mensajeGanador = new GameEndMensaje();
-            mensajeGanador.setGanador("IZQUIERDA");
+            mensajeGanador.setGanador("Ganador Player 1: " + getPlayers().get(1).getNick());
             mensajeGanador.setPuntosJugadorDerecha(-10);
             mensajeGanador.setPuntosJugadorIzquierda(10);
             ganador = 1;
@@ -107,7 +107,7 @@ public class PongRoom extends Room {
 
         if (estado.getMarcadorDrch() == APP_VARIABLES.puntosNecesariosParaGanar){
             GameEndMensaje mensajeGanador = new GameEndMensaje();
-            mensajeGanador.setGanador("DERECHA");
+            mensajeGanador.setGanador("Ganador Player 2: " + getPlayers().get(1).getNick());
             mensajeGanador.setPuntosJugadorDerecha(10);
             mensajeGanador.setPuntosJugadorIzquierda(-10);
             mandarMensajeBroadcast(new MensajeGeneral("FIN",mensajeGanador));

@@ -92,6 +92,7 @@ public class RegistroController extends  Controller{
         boolean success = respuesta.getBoolean("success");
 
         if (success) {
+            showInformation("Registro exitoso", "Usuario registrado correctamente.");
             volverVentanaLogin();
         } else {
             showError("Error de registro.", respuesta.getString("message"));

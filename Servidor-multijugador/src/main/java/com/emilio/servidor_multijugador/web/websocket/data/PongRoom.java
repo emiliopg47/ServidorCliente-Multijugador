@@ -96,7 +96,7 @@ public class PongRoom extends Room {
         //Comprobar ganador
         if (estado.getMarcadorIzq() == APP_VARIABLES.puntosNecesariosParaGanar){
             GameEndMensaje mensajeGanador = new GameEndMensaje();
-            mensajeGanador.setGanador("Ganador Player 1: " + getPlayers().get(1).getNick());
+            mensajeGanador.setGanador("Ganador Player 1: " + getPlayers().get(0).getNick());
             mensajeGanador.setPuntosJugadorDerecha(-10);
             mensajeGanador.setPuntosJugadorIzquierda(10);
             ganador = 1;

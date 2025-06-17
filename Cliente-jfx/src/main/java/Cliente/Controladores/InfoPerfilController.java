@@ -43,9 +43,6 @@ public class InfoPerfilController extends Controller{
     private Label fechaNacimientoLabel;
 
     @FXML
-    private ComboBox<String> gameComboBox;
-
-    @FXML
     private Label puntuacionLabel;
 
     @FXML
@@ -66,7 +63,6 @@ public class InfoPerfilController extends Controller{
     @FXML
     public void initialize() {
         recuperarInformacionPerfil();
-        gameComboBox.getItems().addAll(APP_VARIABLES.listaJuegos);
         cargarHistorial();
         actualizarWL();
     }

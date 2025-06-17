@@ -60,6 +60,8 @@ public class InfoPerfilController extends Controller{
         this.nick = nick;
     }
 
+    public PrincipalController principalController;
+
     @FXML
     public void initialize() {
         recuperarInformacionPerfil();
@@ -89,7 +91,6 @@ public class InfoPerfilController extends Controller{
             imagenPerfil = new Image(new ByteArrayInputStream(UsuarioLogeado.imagenPerfil));
             imgViewPerfil.setImage(imagenPerfil);
         } else {
-            // Si no hay imagen, se puede establecer una imagen por defecto
             imgViewPerfil.setImage(UsuarioLogeado.getFxImage());
         }
         puntuacionLabel.setText(String.valueOf(UsuarioLogeado.elo));
@@ -124,9 +125,10 @@ public class InfoPerfilController extends Controller{
                 if (resp.isSuccess()) {
                     // Actualizar la imagen de perfil en la interfaz
                     byte[] foto = resp.getNuevaFotoPerfil();
-                    UsuarioLogeado.imagenPerfil = foto;
                     if (foto != null) {
-                        imagenPerfil = new Image(new ByteArrayInputStream(foto));
+                        UsuarioLogeado.imagenPerfil = foto;
+                        imgViewPerfil.setImage(UsuarioLogeado.getFxImage());
+                        principalController.actualizarImagenes();
                     } else {
                         showError("Error: ", "No se pudo cargar la imagen.");
                     }
@@ -207,7 +209,9 @@ public class InfoPerfilController extends Controller{
             e.printStackTrace();
             return null;
         }
-
     }
 
+    public void setPrincipalController(PrincipalController principalController) {
+        this.principalController = principalController;
+    }
 }

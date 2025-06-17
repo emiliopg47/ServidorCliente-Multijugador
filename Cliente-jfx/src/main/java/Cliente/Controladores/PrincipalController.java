@@ -184,6 +184,8 @@ public class PrincipalController extends Controller {
             stage.sizeToScene();
             stage.setResizable(false);
             stage.show();
+            InfoPerfilController controller = loader.getController();
+            controller.setPrincipalController(this);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -212,9 +214,7 @@ public class PrincipalController extends Controller {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Login.fxml"));
             Parent root = loader.load();
-
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("Login");
@@ -279,6 +279,14 @@ public class PrincipalController extends Controller {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void actualizarImagenes(){
+        // Actualizar la imagen de perfil en los círculos
+        Image imagenPerfil = UsuarioLogeado.getFxImage();
+        circleInfPerfil.setFill(new ImagePattern(imagenPerfil));
+        circleSupPerfil.setFill(new ImagePattern(imagenPerfil));
+
     }
 }
 
